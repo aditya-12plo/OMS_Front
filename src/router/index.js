@@ -7,11 +7,17 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
+    meta: {
+      title: "Order Management System | TokoPusat"
+    },
     name: "Home",
     component: Home
   },
   {
     path: "/about",
+    meta: {
+      title: "About"
+    },
     name: "About",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -22,8 +28,15 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   routes
 });
+
+// This callback runs before every route change, including on page load.
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next();
+});
+
 
 export default router;
