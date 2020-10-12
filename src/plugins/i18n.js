@@ -16,6 +16,8 @@ const messages = {
         areYouSure: "Are you sure ?",
         yourData: "Submit data.",
         companyId: "Company Code",
+        collapseSidebar: "Collapse Sidebar",
+        welcomeBack: "Welcome back",
     },
     "id": {
         loginMsg: "Selamat datang kembali, silahkan login terlebih dahulu",
@@ -29,6 +31,8 @@ const messages = {
         areYouSure: "Apakah Anda Sudah Yakin ?",
         yourData: "Data yang dikirim.",
         companyId: "Kode Perusahaan",
+        collapseSidebar: "Ciutkan  Sidebar",
+        welcomeBack: "Selamat Datang Kembali",
     }
 };
 

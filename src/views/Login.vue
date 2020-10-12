@@ -1,6 +1,8 @@
 <template>
   <div class="home">
     
+    <div v-if="isLoading" class="se-pre-con"></div>
+    
   <section>
 
     <!-- content -->
@@ -72,6 +74,7 @@ export default {
         maxToasts: 100,
         position: 'up right',
         closeBtn: true,  
+        isLoading: false,  
         errors: [],
         langs: ['id', 'en'],
         forms: {company_id:'', email:'', password: ''},
@@ -91,7 +94,9 @@ export default {
         confirmButtonText: 'Yes!'
       }).then((result) => {
         if (result.value) {
-
+          
+          this.fade(true);
+          
           if (this.forms.email.trim() && this.forms.password.trim() && this.forms.company_id.trim()) {
             let formData = new FormData();
             formData.append("company_id", this.forms.company_id.trim());
@@ -102,6 +107,7 @@ export default {
             
             this.$http.post(baseURI,formData)
               .then((response) => {
+                this.loading();
                 if(response.data.status === 200) {
                   setAuthToken(response.data.datas.token);
                   this.$router.push('/dashboard');
@@ -109,6 +115,7 @@ export default {
                   this.error(response.data.errors.message);
                 }
             }).catch(error => {
+              this.loading();
               if (error.response) {
                 if(error.response.status === 422) {
                   this.error(error.response.data.errors.message);
@@ -171,6 +178,16 @@ export default {
       })
    
     },
+ 
+    fade(sType){  	
+      this.isLoading = sType;
+    },
+
+    loading(){
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 1000); // hide the message after 3 seconds
+    },
 
     fetchIt() {
 
@@ -184,13 +201,12 @@ export default {
     
   },
 	mounted() {
-
+    this.fade(true);
+    this.loading();
   }
 
 }
 </script>
 <style scoped>
-  @import '../assets/css/style-starter.css';
-  @import '//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap';
 
 </style>

@@ -13,6 +13,8 @@
     "core-js": "^3.6.5",
     "es6-promise": "^4.2.8",
     "hashids": "^2.2.1",
+    "html-webpack-plugin": "^4.5.0",
+    "jquery": "^3.5.1",
     "jwt-decode": "^3.0.0",
     "moment": "^2.29.1",
     "vue": "^2.6.11",
@@ -21,6 +23,7 @@
     "vue-events": "^3.1.0",
     "vue-good-table": "^2.21.0",
     "vue-i18n": "^8.22.0",
+    "vue-jquery": "^1.0.6",
     "vue-router": "^3.2.0",
     "vue-sweetalert2": "^3.0.8",
     "vuex": "^3.4.0"

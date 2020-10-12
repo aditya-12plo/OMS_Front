@@ -6,6 +6,7 @@ import Login from "../views/Login.vue";
 import PageNotFound from "../views/Page404.vue";
 import ServerErrorPage from "../views/Page500.vue";
 import Dashboard from "../views/Dashboard.vue";
+import FulfillmentList from "../views/Fulfillment/Index.vue";
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,7 @@ const routes = [
   {
     path: "/",
     meta: {
-      title: "Order Management System | TokoPusat",
+      title: "Order Management System | JualPraktis",
       allowAnonymous: true
     },
     name: "Login",
@@ -22,7 +23,7 @@ const routes = [
   {
     path:'/server-error', 
     meta: {
-      title: "Order Management System | TokoPusat",
+      title: "Order Management System | JualPraktis",
       allowAnonymous: true
     },
     name: "ServerErrorPage",
@@ -31,7 +32,7 @@ const routes = [
   {
     path:'/page-not-found', 
     meta: {
-      title: "Order Management System | TokoPusat",
+      title: "Order Management System | JualPraktis",
       allowAnonymous: true
     },
     name: "PageNotFound",
@@ -40,7 +41,7 @@ const routes = [
   {
     path:'*', 
     meta: {
-      title: "Order Management System | TokoPusat"
+      title: "Order Management System | JualPraktis"
     },
     name: "PageNotFoundArea",
     component: PageNotFound
@@ -48,10 +49,18 @@ const routes = [
   {
     path:'/dashboard', 
     meta: {
-      title: "Order Management System | TokoPusat"
+      title: "Order Management System | JualPraktis"
     },
     name: "Dashboard",
     component: Dashboard
+  }, 
+  {
+    path:'/fulfillment-center/list', 
+    meta: {
+      title: "Fulfillment | JualPraktis"
+    },
+    name: "FulfillmentList",
+    component: FulfillmentList
   }, 
   {
     path: "/about",
