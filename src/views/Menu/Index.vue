@@ -34,14 +34,6 @@
           </ul>
         </li>
         <li class="menu-list">
-          <a href="#"><i class="fas fa-warehouse"></i>
-            <span>Fulfillment Center<i class="lnr lnr-chevron-right"></i></span></a>
-          <ul class="sub-menu-list">
-            <li><a href="/fulfillment-center/create">Create New</a> </li>
-            <li><a href="/fulfillment-center/list">List</a> </li>
-          </ul>
-        </li>
-        <li class="menu-list">
           <a href="#"><i class="fas fa-barcode"></i>
             <span>Products <i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
@@ -76,6 +68,18 @@
             <li><a href="/marketplace/update-stock">Update Stock</a> </li>
             <li><a href="/marketplace/get-orders">Get Orders</a> </li>
             <li><a href="/marketplace/sync-products">Sync Products</a></li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="/fulfillment-center/list"><i class="fas fa-warehouse"></i>
+            <span>Fulfillment Center</span></a>
+        </li>
+        <li class="menu-list">
+          <a href="#"><i class="fas fa-language"></i>
+            <span>Language / Bahasa<i class="lnr lnr-chevron-right"></i></span></a>
+          <ul class="sub-menu-list">
+            <li><a @click.prevent="toEN">EN</a> </li>
+            <li><a @click.prevent="toID">ID</a> </li>
           </ul>
         </li>
  
@@ -241,6 +245,21 @@ export default {
 
     },
     methods: { 	
+      
+      toEN(){
+        return this.$i18n.locale = 'en';
+      },
+
+      toID(){
+        return this.$i18n.locale = 'id';
+      },
+
+
+      logout(){
+        this.$logoutUser();
+        window.location.href = '/';
+      },
+
       fetchIt() {
         const userDatas = this.$getUserInfo();
         this.name = userDatas.sub.name;

@@ -110,7 +110,8 @@ export default {
                 this.loading();
                 if(response.data.status === 200) {
                   setAuthToken(response.data.datas.token);
-                  this.$router.push('/dashboard');
+                  // this.$router.push('/dashboard');
+                  window.location.href = '/dashboard';
                 }else{
                   this.error(response.data.errors.message);
                 }

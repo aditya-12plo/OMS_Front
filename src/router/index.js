@@ -2,11 +2,13 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import { isLoggedIn } from '@/config/auth'
 
-import Login from "../views/Login.vue";
-import PageNotFound from "../views/Page404.vue";
-import ServerErrorPage from "../views/Page500.vue";
-import Dashboard from "../views/Dashboard.vue";
-import FulfillmentList from "../views/Fulfillment/Index.vue";
+import Login from "@/views/Login.vue";
+import PageNotFound from "@/views/Page404.vue";
+import ServerErrorPage from "@/views/Page500.vue";
+import Dashboard from "@/views/Dashboard.vue";
+import FulfillmentList from "@/views/Fulfillment/Index.vue";
+import FulfillmentDetail from "@/views/Fulfillment/Detail.vue";
+import FulfillmentCreate from "@/views/Fulfillment/Create.vue";
 
 Vue.use(VueRouter);
 
@@ -53,6 +55,23 @@ const routes = [
     },
     name: "Dashboard",
     component: Dashboard
+  }, 
+  {
+    path:'/fulfillment-center/detail/:id', 
+    meta: {
+      title: "Fulfillment Detail | JualPraktis"
+    },
+    name: "FulfillmentDetail",
+    component: FulfillmentDetail,
+    props: true
+  }, 
+  {
+    path:'/fulfillment-center/create', 
+    meta: {
+      title: "Fulfillment Create | JualPraktis"
+    },
+    name: "FulfillmentCreate",
+    component: FulfillmentCreate
   }, 
   {
     path:'/fulfillment-center/list', 
