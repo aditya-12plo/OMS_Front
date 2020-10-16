@@ -11,6 +11,7 @@ import store from "./store";
 import i18n from "@/plugins/i18n";
 import {onRandom,onBehind} from "@/plugins/hadish";
 import settings from '@/config/app';
+import addFunction from '@/config/addFunction';
 import {getAuthToken,getUserInfo,logoutUser,setAuthToken} from '@/config/auth';
 
 
@@ -25,6 +26,7 @@ Vue.use(VueGoodTablePlugin);
 // global variable
 Vue.prototype.$http = Axios;
 Vue.prototype.$settings = settings;
+Vue.prototype.$addFunction = addFunction;
 Vue.prototype.$getAuthToken = getAuthToken;
 Vue.prototype.$getUserInfo = getUserInfo;
 Vue.prototype.$logoutUser = logoutUser;

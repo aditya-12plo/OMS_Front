@@ -6,6 +6,7 @@ Vue.use(VueI18n);
 const messages = {
     "en": {
         loginMsg: "Welcome back, login to continue",
+        selectOne: "Choose One",
         loginBtn: "Login Now",
         loginPassword: "Password",
         page404: "Page not found",
@@ -34,9 +35,12 @@ const messages = {
         postalCode:"Postal Code",
         remarks:"Remarks",
         name:"Name",
+        phone:"Phone",
+        handphone:"Handphone",
     },
     "id": {
         loginMsg: "Selamat datang kembali, silahkan login terlebih dahulu",
+        selectOne: "Pilih Salah Satu",
         loginBtn: "Masuk",
         loginPassword: "Kata Sandi",
         page404: "Halaman Tidak Ditemukan",
@@ -65,6 +69,8 @@ const messages = {
         postalCode:"Kode Pos",
         remarks:"Catatan",
         name:"Nama",
+        phone:"Telepon",
+        handphone:"Telepon Seluler",
     }
 };
 

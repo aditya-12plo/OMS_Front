@@ -20,19 +20,30 @@
                 <div class="col-lg-6">
                     <h3 class="block__title mb-lg-4">{{$t('location')}}</h3>
 
+
                         <div class="form-group col-md-12">
                             <label for="companyName" class="input__label">{{$t('companyName')}}</label>
-                            <v-select v-model="company_id" placeholder="Choose a Company" label="name" :options="options" @search="searchCompany" :required="!company_id" autocomplete></v-select>
+                            <v-select :options="options" label="name" placeholder="Choose a Company" v-model="forms.company" @search="searchCompany" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.company"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="fulfillmentCode" class="input__label">{{$t('fulfillmentCode')}}</label>
-                            <input type="text" v-model="forms.fulfillment_code" class="form-control input-style" id="fulfillmentCode" placeholder="Fulfillment Code" required="">
+                            <input type="text" v-model="forms.fulfillment_code" class="form-control input-style" id="fulfillmentCode" @keydown="removeSpecial($event)" placeholder="Fulfillment Code" required="" maxlength="255" @input="forms.fulfillment_code = $event.target.value.toUpperCase()">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="fulfillmentName" class="input__label">{{$t('fulfillmentName')}}</label>
-                            <input type="text" v-model="forms.fulfillment_name" class="form-control input-style" id="fulfillmentName" placeholder="Fulfillment Name" required="">
+                            <input type="text" v-model="forms.fulfillment_name" class="form-control input-style" id="fulfillmentName" placeholder="Fulfillment Name" required="" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
@@ -46,51 +57,112 @@
                         </div>
  
                         <div class="form-group col-md-12">
+                            <label for="country" class="input__label">{{$t('country')}}</label>
+                             <v-select :options="optionsCountry" label="name" placeholder="Choose a Country" v-model="forms.country" @search="searchCountry" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.country"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+                        </div>
+ 
+                        <div class="form-group col-md-12">
                             <label for="province" class="input__label">{{$t('province')}}</label>
-                            <input type="text" v-model="forms.province" class="form-control input-style" id="province" placeholder="Province" required="">
+                            <input type="text" v-model="forms.province" class="form-control input-style" id="province" placeholder="Province" required="" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="city" class="input__label">{{$t('city')}}</label>
-                            <input type="text" v-model="forms.city" class="form-control input-style" id="city" placeholder="City" required="">
+                            <input type="text" v-model="forms.city" class="form-control input-style" id="city" placeholder="City" required="" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="area" class="input__label">Area</label>
-                            <input type="text" v-model="forms.area" class="form-control input-style" id="area" placeholder="Area">
+                            <input type="text" v-model="forms.area" class="form-control input-style" id="area" placeholder="Area" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="subArea" class="input__label">Sub Area</label>
-                            <input type="text" v-model="forms.sub_area" class="form-control input-style" id="subArea" placeholder="Sub Area">
+                            <input type="text" v-model="forms.sub_area" class="form-control input-style" id="subArea" placeholder="Sub Area" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="village" class="input__label">{{$t('village')}}</label>
-                            <input type="text" v-model="forms.village" class="form-control input-style" id="village" placeholder="Village">
+                            <input type="text" v-model="forms.village" class="form-control input-style" id="village" placeholder="Village" maxlength="255">
                         </div>
  
                         <div class="form-group col-md-12">
                             <label for="postalCode" class="input__label">{{$t('postalCode')}}</label>
-                            <input type="text" v-model="forms.postal_code" class="form-control input-style" id="postalCode" placeholder="Postal Code">
+                            <input type="text" v-model="forms.postal_code" class="form-control input-style" id="postalCode" placeholder="Postal Code" required="" maxlength="6" @keydown.space="(event) => event.preventDefault()">
                         </div>
  
+                        <div class="form-group col-md-12">
+                            <label for="longitude" class="input__label">Longitude</label>
+                            <input type="text" v-model="forms.longitude" class="form-control input-style" id="Longitude" placeholder="Longitude" maxlength="255" @keydown.space="(event) => event.preventDefault()">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="latitude" class="input__label">Latitude</label>
+                            <input type="text" v-model="forms.latitude" class="form-control input-style" id="latitude" placeholder="Latitude" maxlength="255" @keydown.space="(event) => event.preventDefault()">
+                        </div>
+
                         <div class="form-group col-md-12">
                             <label for="remarks" class="input__label">{{$t('remarks')}}</label>
                             <textarea v-model="forms.remarks" class="form-control input-style" id="remarks" placeholder="Remarks"></textarea>
                         </div>
+
+
+                        <div class="form-group col-md-12">
+                            <label for="companyName" class="input__label">Status</label>
+                            <v-select :options="statuses" placeholder="Choose a Status" v-model="forms.status">
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.status"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+                        </div>
+ 
 
                         
 
                 </div>
                 <div class="col-lg-6">
                    <h3 class="block__title mb-lg-4">PIC</h3>
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">{{$t('name')}}</label>
-                        <div class="col-sm-8">
-                            
+                    
+                    
+                    
+                        <div class="form-group col-md-12">
+                            <label for="name" class="input__label">{{$t('name')}}</label>
+                            <input type="text" v-model="forms.pic_name" class="form-control input-style" id="name" placeholder="PIC Name" required="" maxlength="255">
                         </div>
-                    </div>
+                    
+                        <div class="form-group col-md-12">
+                            <label for="phone" class="input__label">{{$t('phone')}}</label>
+                            <input type="text" v-model="forms.pic_phone" class="form-control input-style" id="phone" placeholder="PIC Phone" required="" maxlength="10">
+                        </div>
+                    
+                        <div class="form-group col-md-12">
+                            <label for="handphone" class="input__label">{{$t('handphone')}}</label>
+                            <input type="text" v-model="forms.pic_mobile" class="form-control input-style" id="pic_mobile" placeholder="PIC Mobile" maxlength="12">
+                        </div>
+                    
+                        <div class="form-group col-md-12">
+                            <label for="Faximile" class="input__label">Faximile</label>
+                            <input type="text" v-model="forms.pic_faximile" class="form-control input-style" id="Faximile" placeholder="PIC Faximile" maxlength="12">
+                        </div>
+                    
+                        <div class="form-group col-md-12">
+                            <label for="Email" class="input__label">Email</label>
+                            <input type="email" v-model="forms.pic_email" class="form-control input-style" id="Email" placeholder="PIC Email" maxlength="255">
+                        </div>
                     
 
                 </div>
@@ -138,7 +210,14 @@ export default {
     },
     data () {
         return {
+            selected:'',
+            books:['asd','cvb'],
+            companyIdRules:[
+                (v) => !!v || 'Name is required',
+                (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
+            ],
             options: [],
+            optionsCountry: [],
             company_id:'',
             maxToasts: 100,
             isLoading: false,  
@@ -146,9 +225,11 @@ export default {
             closeBtn: true,  
             errors: [],
             langs: ['id', 'en'],
+            statuses: ['ACTIVATE','DEACTIVATE'],
             forms: {fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
-                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: ''
+                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_faximile: '', pic_email: '', status: ''
+                    ,longitude:'', latitude:''
             },
         }
     },
@@ -156,10 +237,98 @@ export default {
 
     },
     methods: {
-        submitData(){
-            console.log(this.forms)
+        submitData() {
+            this.$swal({
+                title: this.$t('areYouSure'),
+                text: this.$t('yourData'),
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.value) {
+                
+                this.fade(true);
+                
+                if (this.forms.fulfillment_code.trim() && this.forms.postal_code.trim()) {
+                    let formData = new FormData();
+                    formData.append("fulfillment_code", this.forms.fulfillment_code.trim());
+                    formData.append("postal_code", this.forms.postal_code.trim());
+                    formData.append("address", this.forms.address);
+                    formData.append("address2", this.forms.address2);
+                    formData.append("area", this.forms.area);
+                    formData.append("city", this.forms.city);
+                    formData.append("company", this.forms.company.company_id);
+                    formData.append("country", this.forms.country.name);
+                    formData.append("fulfillment_name", this.forms.fulfillment_name);
+                    formData.append("latitude", this.forms.latitude);
+                    formData.append("longitude", this.forms.longitude);
+                    formData.append("pic_email", this.forms.pic_email);
+                    formData.append("pic_faximile", this.forms.pic_faximile);
+                    formData.append("pic_mobile", this.forms.pic_mobile);
+                    formData.append("pic_name", this.forms.pic_name);
+                    formData.append("pic_phone", this.forms.pic_phone);
+                    formData.append("postal_code", this.forms.postal_code);
+                    formData.append("province", this.forms.province);
+                    formData.append("remarks", this.forms.remarks);
+                    formData.append("status", this.forms.status);
+                    formData.append("sub_area", this.forms.sub_area);
+                    formData.append("village", this.forms.village);
+                    
+                    const baseURI  =  this.$settings.endPoint+"/fulfillment/add";
+                    
+                    this.$http.post(baseURI,formData)
+                    .then((response) => {
+                        this.loading();
+                        if(response.data.status === 200) {
+                            window.location.href = '/fulfillment/index';
+                        }else{
+                            this.resultError(response.data.errors);
+                        }
+                    }).catch(error => {
+                    this.loading();
+                    if (error.response) {
+                        if(error.response.status === 422) {
+                            this.resultError(error.response.data.errors);
+                        }else if (error.response.status === 500) {
+                            this.$router.push('/server-error');
+                        }else{
+                            this.$router.push('/page-not-found');
+                        }
+                    }
+                    });
+                }
+                }
+            })            
+            },
+        
+        removeSpecial(e) {
+            if (/^\W$/.test(e.key)) {
+                e.preventDefault();
+            }
         },
 
+
+        getCountry(){
+            const baseURI  =  this.$settings.endPoint+"/country/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsCountry = response.data.data
+            })
+        },
+        
+        getCompany(){
+            const baseURI  =  this.$settings.endPoint+"/company/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.options = response.data.data
+            })
+        },
+
+        searchCountry(val){
+            const baseURI  =  this.$settings.endPoint+"/country/index";
+            return this.$http.get(baseURI+`?name=${val}`).then((response) => {
+                this.optionsCountry = response.data.data
+            })
+        },
 
         searchCompany(val){
             const baseURI  =  this.$settings.endPoint+"/company/index";
@@ -241,6 +410,8 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.getCompany();
+        this.getCountry();
     }
 
 }
