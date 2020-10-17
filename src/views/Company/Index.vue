@@ -28,7 +28,6 @@
                   <div class="collapse show">
                     <div class="card-body para__style">
                      
-                     
 <vue-good-table
     title="Company-center"
     mode="remote"
@@ -186,12 +185,16 @@ export default {
         });     
       },
 
+      createData(){
+          this.$router.push({name:'CompanyCreate'});       
+      },
+
       detailData(index , row){
-          this.$router.push({name:'CompanyDetail', params: {id: this.$onRandom(row.company_id),datasCompanyDetail:row }});       
+          this.$router.push({name:'CompanyDetail', params: {id: this.$onRandom(index),datasCompanyDetail:row }});       
       },
 
       editData(index , row){
-          this.$router.push({name:'CompanyEdit', params: {id: this.$onRandom(row.company_id),datasCompanyEdit:row }});       
+          this.$router.push({name:'CompanyEdit', params: {id: this.$onRandom(index),datasCompanyEdit:row }});       
       },
 
       // load items is what brings back the rows from server

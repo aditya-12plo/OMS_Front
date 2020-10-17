@@ -215,7 +215,7 @@
                     
                         <div class="form-group col-md-12">
                             <label for="phone" class="input__label">{{$t('phone')}}</label>
-                            <input type="text" v-model="forms.pic_phone" class="form-control input-style" id="phone" placeholder="PIC Phone" required="" maxlength="10">
+                            <input type="text" v-model="forms.pic_phone" class="form-control input-style" id="phone" placeholder="PIC Phone" required="" maxlength="10" @keydown.space="(event) => event.preventDefault()" @keypress="isNumber($event)">
                         
                             <div v-if="errors.pic_phone">
                                 <div class="invalid-feedback" v-for="error in errors.pic_phone" :key="error">{{error}}</div>
@@ -224,7 +224,7 @@
                     
                         <div class="form-group col-md-12">
                             <label for="handphone" class="input__label">{{$t('handphone')}}</label>
-                            <input type="text" v-model="forms.pic_mobile" class="form-control input-style" id="pic_mobile" placeholder="PIC Mobile" maxlength="12">
+                            <input type="text" v-model="forms.pic_mobile" class="form-control input-style" id="pic_mobile" placeholder="PIC Mobile" maxlength="12" @keydown.space="(event) => event.preventDefault()" @keypress="isNumber($event)">
                         
                             <div v-if="errors.pic_mobile">
                                 <div class="invalid-feedback" v-for="error in errors.pic_mobile" :key="error">{{error}}</div>
@@ -232,11 +232,11 @@
                         </div>
                     
                         <div class="form-group col-md-12">
-                            <label for="Faximile" class="input__label">Faximile</label>
-                            <input type="text" v-model="forms.pic_faximile" class="form-control input-style" id="Faximile" placeholder="PIC Faximile" maxlength="12">
+                            <label for="Fax" class="input__label">Fax</label>
+                            <input type="text" v-model="forms.pic_fax" class="form-control input-style" id="Fax" placeholder="PIC Fax" maxlength="12" @keydown.space="(event) => event.preventDefault()" @keypress="isNumber($event)">
                         
-                            <div v-if="errors.pic_faximile">
-                                <div class="invalid-feedback" v-for="error in errors.pic_faximile" :key="error">{{error}}</div>
+                            <div v-if="errors.pic_fax">
+                                <div class="invalid-feedback" v-for="error in errors.pic_fax" :key="error">{{error}}</div>
                             </div>
                         </div>
                     
@@ -313,7 +313,7 @@ export default {
             statuses: ['ACTIVATE','DEACTIVATE'],
             forms: {fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
-                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_faximile: '', pic_email: '', status: ''
+                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: ''
                     ,longitude:'', latitude:''
             },
         }
@@ -359,7 +359,7 @@ export default {
                     formData.append("latitude", this.forms.latitude);
                     formData.append("longitude", this.forms.longitude);
                     formData.append("pic_email", this.forms.pic_email);
-                    formData.append("pic_faximile", this.forms.pic_faximile);
+                    formData.append("pic_fax", this.forms.pic_fax);
                     formData.append("pic_mobile", this.forms.pic_mobile);
                     formData.append("pic_name", this.forms.pic_name);
                     formData.append("pic_phone", this.forms.pic_phone);

@@ -9,7 +9,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import i18n from "@/plugins/i18n";
-import {onRandom,onBehind} from "@/plugins/hadish";
+import {onRandom,onBehind,onRandomString,onBehindString} from "@/plugins/hadish";
 import settings from '@/config/app';
 import addFunction from '@/config/addFunction';
 import {getAuthToken,getUserInfo,logoutUser,setAuthToken} from '@/config/auth';
@@ -33,6 +33,8 @@ Vue.prototype.$logoutUser = logoutUser;
 Vue.prototype.$setAuthToken = setAuthToken;
 Vue.prototype.$onRandom = onRandom;
 Vue.prototype.$onBehind = onBehind;
+Vue.prototype.$onRandomString = onRandomString;
+Vue.prototype.$onBehindString = onBehindString;
 
 
 const token = getAuthToken();

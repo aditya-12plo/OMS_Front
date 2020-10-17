@@ -18,7 +18,7 @@
             <div class="card-body py-3 p-0">
                 <div class="row">
                 <div class="col-lg-6">
-                    <h3 class="block__title mb-lg-4">{{$t('location')}}</h3>
+                    <h3 class="block__title mb-lg-4">Fulfillment</h3>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentCode')}}</label>
@@ -163,7 +163,7 @@
 import menuComponent from '@/views/Menu/Index'
 
 export default {
-  name: 'FulfillmentList',
+  name: 'FulfillmentDetail',
     props: {
       datasFulfillmentDetail: {
         type: Object,

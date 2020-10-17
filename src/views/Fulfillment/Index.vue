@@ -208,6 +208,10 @@ export default {
         });     
       },
 
+      createData(){
+          this.$router.push({name:'FulfillmentCreate'});       
+      },
+
       detailData(index , row){
           this.$router.push({name:'FulfillmentDetail', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentDetail:row }});       
       },
