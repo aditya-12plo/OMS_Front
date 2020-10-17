@@ -74,6 +74,10 @@
           <a href="/fulfillment-center/list"><i class="fas fa-warehouse"></i>
             <span>Fulfillment Center</span></a>
         </li>
+        <li class="">
+          <a href="/company/list"><i class="fas fa-building"></i>
+            <span>Company</span></a>
+        </li>
         <li class="menu-list">
           <a href="#"><i class="fas fa-language"></i>
             <span>Language / Bahasa<i class="lnr lnr-chevron-right"></i></span></a>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="Fulfillment"></menu-component>
+      <menu-component classMenu="Company"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,13 +16,13 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-header chart-grid__header">
-              <i class="fas fa-warehouse"></i> Fulfillment Center
+              <i class="fas fa-warehouse"></i> Company Center
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-header bg-white p-0" id="headingOne">
-                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('fulfillmentCreate')}} </button>
+                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('companyCreate')}} </button>
                   </div>
 
                   <div class="collapse show">
@@ -30,7 +30,7 @@
                      
                      
 <vue-good-table
-    title="fulfillment-center"
+    title="Company-center"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -90,7 +90,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import menuComponent from '@/views/Menu/Index'
 
 export default {
-  name: 'FulfillmentList',
+  name: 'CompanyList',
   components: {
     'menu-component':menuComponent,
   },
@@ -126,32 +126,10 @@ export default {
         },
         {
           label: 'Company Name',
-          field: 'company.name',
-          filterOptions: {
-            enabled: false, // enable filter for this column
-            placeholder: "Filter By Company Code", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
-        {
-          label: 'Fulfillment Code',
-          field: 'code',
-          filterOptions: {
-            enabled: true, // enable filter for this column
-            placeholder: "Filter By Fulfillment Code", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
-        {
-          label: 'Fulfillment Name',
           field: 'name',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Fulfillment Name", // placeholder for filter input
+            placeholder: "Filter By Company Name", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
@@ -184,7 +162,7 @@ export default {
  
       deleteData(index , row, status){
         var formData = {status  : status}
-        const baseURI  =  this.$settings.endPoint+"/fulfillment/update-status/"+row.fulfillment_center_id;
+        const baseURI  =  this.$settings.endPoint+"/company/update-status/"+row.company_id;
         this.$http.put(baseURI,formData).then((response) => {
           this.loading();
           if(response.data.status === 200) {
@@ -209,18 +187,18 @@ export default {
       },
 
       detailData(index , row){
-          this.$router.push({name:'FulfillmentDetail', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentDetail:row }});       
+          this.$router.push({name:'CompanyDetail', params: {id: this.$onRandom(row.company_id),datasCompanyDetail:row }});       
       },
 
       editData(index , row){
-          this.$router.push({name:'FulfillmentEdit', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentEdit:row }});       
+          this.$router.push({name:'CompanyEdit', params: {id: this.$onRandom(row.company_id),datasCompanyEdit:row }});       
       },
 
       // load items is what brings back the rows from server
       loadItems() {
-        const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
+        const baseURI  =  this.$settings.endPoint+"/company/index";
         
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&status=${this.serverParams.columnFilters.status}`).then((response) => {
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&company_id=${this.serverParams.columnFilters.company_id}&name=${this.serverParams.columnFilters.name}&status=${this.serverParams.columnFilters.status}`).then((response) => {
           this.rows = response.data.data
           this.totalRecords  = response.data.total
         })

@@ -9,6 +9,11 @@ import Dashboard from "@/views/Dashboard.vue";
 import FulfillmentList from "@/views/Fulfillment/Index.vue";
 import FulfillmentDetail from "@/views/Fulfillment/Detail.vue";
 import FulfillmentCreate from "@/views/Fulfillment/Create.vue";
+import FulfillmentEdit from "@/views/Fulfillment/Edit.vue";
+import CompanyList from "@/views/Company/Index.vue";
+import CompanyDetail from "@/views/Company/Detail.vue";
+import CompanyCreate from "@/views/Company/Create.vue";
+import CompanyEdit from "@/views/Company/Edit.vue";
 
 Vue.use(VueRouter);
 
@@ -56,6 +61,10 @@ const routes = [
     name: "Dashboard",
     component: Dashboard
   }, 
+
+  /**
+   * Fulfillment
+   */
   {
     path:'/fulfillment-center/detail/:id', 
     meta: {
@@ -81,6 +90,56 @@ const routes = [
     name: "FulfillmentList",
     component: FulfillmentList
   }, 
+  {
+    path:'/fulfillment-center/edit/:id', 
+    meta: {
+      title: "Fulfillment Edit | JualPraktis"
+    },
+    name: "FulfillmentEdit",
+    component: FulfillmentEdit,
+    props: true
+  }, 
+
+  
+  /**
+   * Company
+   */
+  {
+    path:'/company/detail/:id', 
+    meta: {
+      title: "Company Detail | JualPraktis"
+    },
+    name: "CompanyDetail",
+    component: CompanyDetail,
+    props: true
+  }, 
+  {
+    path:'/company/create', 
+    meta: {
+      title: "Company Create | JualPraktis"
+    },
+    name: "CompanyCreate",
+    component: CompanyCreate
+  }, 
+  {
+    path:'/company/list', 
+    meta: {
+      title: "Company | JualPraktis"
+    },
+    name: "CompanyList",
+    component: CompanyList
+  }, 
+  {
+    path:'/company/edit/:id', 
+    meta: {
+      title: "Company Edit | JualPraktis"
+    },
+    name: "CompanyEdit",
+    component: CompanyEdit,
+    props: true
+  }, 
+
+
   {
     path: "/about",
     meta: {

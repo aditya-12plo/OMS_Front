@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-warehouse"></i> {{$t('fulfillmentCreate')}}</h3>
+            <h3><i class="fas fa-warehouse"></i> {{$t('fulfillmentEdit')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">
@@ -284,9 +284,12 @@ import menuComponent from '@/views/Menu/Index'
 import 'vue-select/dist/vue-select.css'
 
 export default {
-  name: 'FulfillmentCreate',
+  name: 'FulfillmentEdit',
     props: {
-        
+      datasFulfillmentEdit: {
+        type: Object,
+        required: true
+      }
     },
     components: {
         'menu-component':menuComponent,
@@ -311,7 +314,7 @@ export default {
             errors: [],
             langs: ['id', 'en'],
             statuses: ['ACTIVATE','DEACTIVATE'],
-            forms: {fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
+            forms: {fulfillment_center_id:'',fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
                     , pic_name: '', pic_phone: '', pic_mobile: '', pic_faximile: '', pic_email: '', status: ''
                     ,longitude:'', latitude:''
@@ -322,6 +325,32 @@ export default {
 
     },
     methods: {
+        fetchForm(){
+            this.forms.fulfillment_center_id    = this.datasFulfillmentEdit.fulfillment_center_id
+            this.forms.fulfillment_code         = this.datasFulfillmentEdit.code
+            this.forms.company                  = this.datasFulfillmentEdit.company
+            this.forms.fulfillment_name         = this.datasFulfillmentEdit.name
+            this.forms.address                  = this.datasFulfillmentEdit.address
+            this.forms.address2                 = this.datasFulfillmentEdit.address2
+            this.forms.province                 = this.datasFulfillmentEdit.province
+            this.forms.city                     = this.datasFulfillmentEdit.city
+            this.forms.area                     = this.datasFulfillmentEdit.area
+            this.forms.sub_area                 = this.datasFulfillmentEdit.sub_area
+            this.forms.village                  = this.datasFulfillmentEdit.village
+            this.forms.postal_code              = this.datasFulfillmentEdit.postal_code
+            this.forms.country                  = this.datasFulfillmentEdit.country
+            this.forms.remarks                  = this.datasFulfillmentEdit.remarks
+            this.forms.pic_name                 = this.datasFulfillmentEdit.pic
+            this.forms.pic_phone                = this.datasFulfillmentEdit.phone
+            this.forms.pic_mobile               = this.datasFulfillmentEdit.mobile
+            this.forms.pic_faximile             = this.datasFulfillmentEdit.fax
+            this.forms.pic_email                = this.datasFulfillmentEdit.email
+            this.forms.status                   = this.datasFulfillmentEdit.status
+            this.forms.longitude                = this.datasFulfillmentEdit.longitude
+            this.forms.latitude                 = this.datasFulfillmentEdit.latitude
+        },
+
+
         isNumber: function(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -343,58 +372,65 @@ export default {
             }).then((result) => {
                 if (result.value) {
                 
-                this.fade(true);
-                
-                if (this.forms.fulfillment_code.trim() && this.forms.postal_code.trim()) {
-                    let formData = new FormData();
-                    formData.append("fulfillment_code", this.forms.fulfillment_code.trim());
-                    formData.append("postal_code", this.forms.postal_code.trim());
-                    formData.append("address", this.forms.address);
-                    formData.append("address2", this.forms.address2);
-                    formData.append("area", this.forms.area);
-                    formData.append("city", this.forms.city);
-                    formData.append("company", this.forms.company.company_id);
-                    formData.append("country", this.forms.country.name);
-                    formData.append("fulfillment_name", this.forms.fulfillment_name);
-                    formData.append("latitude", this.forms.latitude);
-                    formData.append("longitude", this.forms.longitude);
-                    formData.append("pic_email", this.forms.pic_email);
-                    formData.append("pic_faximile", this.forms.pic_faximile);
-                    formData.append("pic_mobile", this.forms.pic_mobile);
-                    formData.append("pic_name", this.forms.pic_name);
-                    formData.append("pic_phone", this.forms.pic_phone);
-                    formData.append("province", this.forms.province);
-                    formData.append("remarks", this.forms.remarks);
-                    formData.append("status", this.forms.status);
-                    formData.append("sub_area", this.forms.sub_area);
-                    formData.append("village", this.forms.village);
+                    this.fade(true);
                     
-                    const baseURI  =  this.$settings.endPoint+"/fulfillment/add";
-                    
-                    this.$http.post(baseURI,formData)
-                    .then((response) => {
+                    if (this.forms.fulfillment_code.trim() && this.forms.postal_code.trim()) {
+                        var country = this.forms.country.name;
+                        if(!country){
+                            country = this.forms.country;
+                        }
+
+                        
+                        var formData = {
+                            fulfillment_code    : this.forms.fulfillment_code.trim(),
+                            postal_code         : this.forms.postal_code.trim(),
+                            address             : this.forms.address,
+                            address2            : this.forms.address2,
+                            area                : this.forms.area,
+                            city                : this.forms.city,
+                            company             : this.forms.company.company_id,
+                            country             : country,
+                            fulfillment_name    : this.forms.fulfillment_name,
+                            latitude            : this.forms.latitude,
+                        	longitude           : this.forms.longitude,
+                            pic_email           : this.forms.pic_email,
+                            pic_faximile        : this.forms.pic_faximile,
+                            pic_mobile          : this.forms.pic_mobile,
+                            pic_name            : this.forms.pic_name,
+                            pic_phone           : this.forms.pic_phone,
+                            province            : this.forms.province,
+                            remarks             : this.forms.remarks,
+                            status              : this.forms.status,
+                            sub_area            : this.forms.sub_area,
+                            village             : this.forms.village
+                        };
+                        
+                        const baseURI  =  this.$settings.endPoint+"/fulfillment/update/"+this.forms.fulfillment_center_id;
+                        
+                        this.$http.put(baseURI,formData)
+                        .then((response) => {
+                            this.loading();
+                            if(response.data.status === 200) {
+                                this.success(response.data.datas.message);
+                            }else{
+                                this.errors = response.data.errors.message;
+                                this.resultError(response.data.errors.message);
+                            }
+                        }).catch(error => {
                         this.loading();
-                        if(response.data.status === 200) {
-                            this.success(response.data.datas.message);
-                            window.location.href = '/fulfillment-center/list';
-                        }else{
-                            this.errors = response.data.errors.message;
-                            this.resultError(response.data.errors.message);
+                        if (error.response) {
+                            if(error.response.status === 422) {
+                                this.errors = error.response.data.errors.message;
+                                this.resultError(error.response.data.errors.message);
+                            }else if (error.response.status === 500) {
+                                this.$router.push('/server-error');
+                            }else{
+                                this.$router.push('/page-not-found');
+                            }
                         }
-                    }).catch(error => {
-                    this.loading();
-                    if (error.response) {
-                        if(error.response.status === 422) {
-                            this.errors = error.response.data.errors.message;
-                            this.resultError(error.response.data.errors.message);
-                        }else if (error.response.status === 500) {
-                            this.$router.push('/server-error');
-                        }else{
-                            this.$router.push('/page-not-found');
-                        }
+                        });
+                        
                     }
-                    });
-                }
                 }
             })            
             },
@@ -509,6 +545,7 @@ export default {
         document.body.classList.add("sidebar-menu-collapsed");
         this.getCompany();
         this.getCountry();
+        this.fetchForm();
     }
 
 }

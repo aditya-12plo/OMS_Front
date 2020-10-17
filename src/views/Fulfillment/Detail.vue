@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3>Detail Fulfillment Center</h3>
+            <h3><i class="fas fa-warehouse"></i> Detail Fulfillment Center</h3>
         </div>
 
 
@@ -23,79 +23,79 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentCode')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.code}}</b>
+                            <b>{{this.datasFulfillmentDetail.code}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentName')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.name}}</b>
+                            <b>{{this.datasFulfillmentDetail.name}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentAddress')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.address}}</b>
+                            <b>{{this.datasFulfillmentDetail.address}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentAddress2')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.address2}}</b>
+                            <b>{{this.datasFulfillmentDetail.address2}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('country')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.country}}</b>
+                            <b>{{this.datasFulfillmentDetail.country}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('province')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.province}}</b>
+                            <b>{{this.datasFulfillmentDetail.province}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('city')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.city}}</b>
+                            <b>{{this.datasFulfillmentDetail.city}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Area</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.area}}</b>
+                            <b>{{this.datasFulfillmentDetail.area}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Sub Area</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.sub_area}}</b>
+                            <b>{{this.datasFulfillmentDetail.sub_area}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('village')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.village}}</b>
+                            <b>{{this.datasFulfillmentDetail.village}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('postalCode')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.postal_code}}</b>
+                            <b>{{this.datasFulfillmentDetail.postal_code}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('remarks')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.remarks}}</b>
+                            <b>{{this.datasFulfillmentDetail.remarks}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Status</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.status}}</b>
+                            <b>{{this.datasFulfillmentDetail.status}}</b>
                         </div>
                     </div>
 
@@ -105,31 +105,31 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('name')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.pic}}</b>
+                            <b>{{this.datasFulfillmentDetail.pic}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Email</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.email}}</b>
+                            <b>{{this.datasFulfillmentDetail.email}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Phone</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.phone}}</b>
+                            <b>{{this.datasFulfillmentDetail.phone}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Mobile</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.mobile}}</b>
+                            <b>{{this.datasFulfillmentDetail.mobile}}</b>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Fax</label>
                         <div class="col-sm-8">
-                            <b>{{this.datas.fax}}</b>
+                            <b>{{this.datasFulfillmentDetail.fax}}</b>
                         </div>
                     </div>
 
@@ -165,7 +165,7 @@ import menuComponent from '@/views/Menu/Index'
 export default {
   name: 'FulfillmentList',
     props: {
-      datas: {
+      datasFulfillmentDetail: {
         type: Object,
         required: true
       }

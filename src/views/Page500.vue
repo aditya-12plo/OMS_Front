@@ -57,7 +57,5 @@ export default {
 }
 </script>
 <style scoped>
-  @import '../assets/css/style-starter.css';
-  @import '//fonts.googleapis.com/css?family=Nunito:300,400,600,700,800,900&display=swap';
 
 </style>
