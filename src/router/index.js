@@ -14,6 +14,10 @@ import CompanyList from "@/views/Company/Index.vue";
 import CompanyDetail from "@/views/Company/Detail.vue";
 import CompanyCreate from "@/views/Company/Create.vue";
 import CompanyEdit from "@/views/Company/Edit.vue";
+import ProductsNormal from "@/views/Products/Normal/Index.vue";
+import ProductNormalDetail from "@/views/Products/Normal/Detail.vue";
+import ProductNormalEdit from "@/views/Products/Normal/Edit.vue";
+import ProductNormalCreate from "@/views/Products/Normal/Create.vue";
 
 Vue.use(VueRouter);
 
@@ -138,6 +142,50 @@ const routes = [
     component: CompanyEdit,
     props: true
   }, 
+
+
+  
+  /**
+   * Products
+   */
+
+  {
+    path:'/products/normal', 
+    meta: {
+      title: "Normal Products | JualPraktis"
+    },
+    name: "ProductsNormal",
+    component: ProductsNormal
+  }, 
+  {
+    path:'/products/normal/detail/:id', 
+    meta: {
+      title: "Product Detail | JualPraktis"
+    },
+    name: "ProductNormalDetail",
+    component: ProductNormalDetail,
+    props: true
+  }, 
+  {
+    path:'/products/normal/edit/:id', 
+    meta: {
+      title: "Product Edit | JualPraktis"
+    },
+    name: "ProductNormalEdit",
+    component: ProductNormalEdit,
+    props: true
+  }, 
+  {
+    path:'/products/normal/create', 
+    meta: {
+      title: "Product Create | JualPraktis"
+    },
+    name: "ProductNormalCreate",
+    component: ProductNormalCreate
+  }, 
+
+
+
 
 
   {

@@ -3,7 +3,10 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import Axios from 'axios';
 import vueJquery from 'vue-jquery';
 import VueEvents from 'vue-events';
+import accounting from 'accounting';
 import VueGoodTablePlugin from 'vue-good-table';
+import moment from 'moment';
+import money from 'v-money';
 
 import App from "./App.vue";
 import router from "./router";
@@ -21,10 +24,12 @@ Vue.use(VueSweetalert2);
 Vue.use(vueJquery);
 Vue.use(VueEvents);
 Vue.use(VueGoodTablePlugin);
-
+Vue.use(money, {precision: 4});
 
 // global variable
 Vue.prototype.$http = Axios;
+Vue.prototype.$accounting = accounting;
+Vue.prototype.$moment = moment;
 Vue.prototype.$settings = settings;
 Vue.prototype.$addFunction = addFunction;
 Vue.prototype.$getAuthToken = getAuthToken;

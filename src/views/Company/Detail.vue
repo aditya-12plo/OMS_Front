@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="Fulfillment"></menu-component>
+      <menu-component classMenu="Company"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
