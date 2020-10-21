@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-warehouse"></i> {{$t('companyCreate')}}</h3>
+            <h3><i class="fas fa-building"></i> {{$t('companyCreate')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">
@@ -380,7 +380,7 @@ export default {
 
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/company/list';
         } ,
 
         resultError(data) {  

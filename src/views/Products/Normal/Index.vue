@@ -208,16 +208,25 @@ export default {
             return  value.uom_code+' ( '+value.uom_description+' )';
         },
 
+      uploadData(){
+          window.location.href = '/products/normal/upload';    
+      },
+
       createData(){
-          this.$router.push({name:'ProductNormalCreate'});       
+          window.location.href = '/products/normal/create';
+          // this.$router.push({name:'ProductNormalCreate'});       
       },
 
       detailData(index , row){
-          this.$router.push({name:'ProductNormalDetail', params: {id: this.$onRandom(row.product_id),datasProductNormalDetail:row }});       
+        var params  = this.$onRandom(row.product_id);
+        window.location.href = '/products/normal/detail/'+params;
+        // this.$router.push({name:'ProductNormalDetail', params: {id: this.$onRandom(row.product_id),datasProductNormalDetail:row }});       
       },
 
       editData(index , row){
-          this.$router.push({name:'ProductNormalEdit', params: {id: this.$onRandom(row.product_id),datasProductNormalEdit:row }});       
+          var params  = this.$onRandom(row.product_id);
+          window.location.href = '/products/normal/edit/'+params;
+          // this.$router.push({name:'ProductNormalEdit', params: {id: this.$onRandom(row.product_id),datasProductNormalEdit:row }});       
       },
 
       // load items is what brings back the rows from server
@@ -330,7 +339,6 @@ export default {
     },
 	mounted() {
       document.body.classList.add("sidebar-menu-collapsed");
-      this.fetchIt();
     }
 
 }

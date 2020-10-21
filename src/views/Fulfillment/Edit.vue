@@ -20,25 +20,6 @@
                 <div class="col-lg-6">
                     <h3 class="block__title mb-lg-4">Fulfillment</h3>
                     
-                    
-
-                        <div class="form-group col-md-12">
-                            <label for="companyName" class="input__label">{{$t('companyName')}}</label>
-                            <v-select :options="options" label="name" placeholder="Choose a Company" v-model="forms.company" @search="searchCompany" autocomplete>
-                            <template #search="{attributes, events}">
-                                <input
-                                class="vs__search"
-                                :required="!forms.company"
-                                v-bind="attributes"
-                                v-on="events"
-                                />
-                            </template>
-                            </v-select>
-                            
-                            <div v-if="errors.company">
-                                <div class="invalid-feedback" v-for="error in errors.company" :key="error">{{error}}</div>
-                            </div>
-                        </div>
  
                         <div class="form-group col-md-12">
                             <label for="fulfillmentCode" class="input__label">{{$t('fulfillmentCode')}}</label>
@@ -94,10 +75,19 @@
                             </div>
                         </div>
  
+                        
                         <div class="form-group col-md-12">
                             <label for="province" class="input__label">{{$t('province')}}</label>
-                            <input type="text" v-model="forms.province" class="form-control input-style" id="province" placeholder="Province" required="" maxlength="255">
-                        
+                            <v-select :options="optionsProvince" label="province" placeholder="Choose a Province" v-model="forms.province" @search="searchProvince" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.province"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             
                             <div v-if="errors.province">
                                 <div class="invalid-feedback" v-for="error in errors.province" :key="error">{{error}}</div>
@@ -106,8 +96,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="city" class="input__label">{{$t('city')}}</label>
-                            <input type="text" v-model="forms.city" class="form-control input-style" id="city" placeholder="City" required="" maxlength="255">
-                        
+                            <v-select :options="optionsCity" label="city" placeholder="Choose a City" v-model="forms.city" @search="searchCity" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.city"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                             <div v-if="errors.city">
                                 <div class="invalid-feedback" v-for="error in errors.city" :key="error">{{error}}</div>
                             </div>
@@ -178,7 +177,7 @@
 
 
                         <div class="form-group col-md-12">
-                            <label for="companyName" class="input__label">Status</label>
+                            <label for="status" class="input__label">Status</label>
                             <v-select :options="statuses" placeholder="Choose a Status" v-model="forms.status">
                             <template #search="{attributes, events}">
                                 <input
@@ -285,12 +284,7 @@ import 'vue-select/dist/vue-select.css'
 
 export default {
   name: 'FulfillmentEdit',
-    props: {
-      datasFulfillmentEdit: {
-        type: Object,
-        required: true
-      }
-    },
+    props: {},
     components: {
         'menu-component':menuComponent,
         'v-select':vSelect,
@@ -300,13 +294,10 @@ export default {
         return {
             selected:'',
             books:['asd','cvb'],
-            companyIdRules:[
-                (v) => !!v || 'Name is required',
-                (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
-            ],
             options: [],
             optionsCountry: [],
-            company_id:'',
+            optionsProvince: [],
+            optionsCity: [],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -314,7 +305,7 @@ export default {
             errors: [],
             langs: ['id', 'en'],
             statuses: ['ACTIVATE','DEACTIVATE'],
-            forms: {fulfillment_center_id:'',fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
+            forms: {fulfillment_center_id:'',fulfillment_code:'', fulfillment_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
                     , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: ''
                     ,longitude:'', latitude:''
@@ -325,31 +316,6 @@ export default {
 
     },
     methods: {
-        fetchForm(){
-            this.forms.fulfillment_center_id    = this.datasFulfillmentEdit.fulfillment_center_id
-            this.forms.fulfillment_code         = this.datasFulfillmentEdit.code
-            this.forms.company                  = this.datasFulfillmentEdit.company
-            this.forms.fulfillment_name         = this.datasFulfillmentEdit.name
-            this.forms.address                  = this.datasFulfillmentEdit.address
-            this.forms.address2                 = this.datasFulfillmentEdit.address2
-            this.forms.province                 = this.datasFulfillmentEdit.province
-            this.forms.city                     = this.datasFulfillmentEdit.city
-            this.forms.area                     = this.datasFulfillmentEdit.area
-            this.forms.sub_area                 = this.datasFulfillmentEdit.sub_area
-            this.forms.village                  = this.datasFulfillmentEdit.village
-            this.forms.postal_code              = this.datasFulfillmentEdit.postal_code
-            this.forms.country                  = this.datasFulfillmentEdit.country
-            this.forms.remarks                  = this.datasFulfillmentEdit.remarks
-            this.forms.pic_name                 = this.datasFulfillmentEdit.pic
-            this.forms.pic_phone                = this.datasFulfillmentEdit.phone
-            this.forms.pic_mobile               = this.datasFulfillmentEdit.mobile
-            this.forms.pic_fax                  = this.datasFulfillmentEdit.fax
-            this.forms.pic_email                = this.datasFulfillmentEdit.email
-            this.forms.status                   = this.datasFulfillmentEdit.status
-            this.forms.longitude                = this.datasFulfillmentEdit.longitude
-            this.forms.latitude                 = this.datasFulfillmentEdit.latitude
-        },
-
 
         isNumber: function(evt) {
             evt = (evt) ? evt : window.event;
@@ -375,9 +341,17 @@ export default {
                     this.fade(true);
                     
                     if (this.forms.fulfillment_code.trim() && this.forms.postal_code.trim()) {
-                        var country = this.forms.country.name;
+                        var country     = this.forms.country.name;
+                        var province    = this.forms.province.province;
+                        var city        = this.forms.city.city;
                         if(!country){
                             country = this.forms.country;
+                        }
+                        if(!province){
+                            province = this.forms.province;
+                        }
+                        if(!city){
+                            city = this.forms.city;
                         }
 
                         
@@ -387,8 +361,7 @@ export default {
                             address             : this.forms.address,
                             address2            : this.forms.address2,
                             area                : this.forms.area,
-                            city                : this.forms.city,
-                            company             : this.forms.company.company_id,
+                            city                : city,
                             country             : country,
                             fulfillment_name    : this.forms.fulfillment_name,
                             latitude            : this.forms.latitude,
@@ -398,7 +371,7 @@ export default {
                             pic_mobile          : this.forms.pic_mobile,
                             pic_name            : this.forms.pic_name,
                             pic_phone           : this.forms.pic_phone,
-                            province            : this.forms.province,
+                            province            : province,
                             remarks             : this.forms.remarks,
                             status              : this.forms.status,
                             sub_area            : this.forms.sub_area,
@@ -449,12 +422,6 @@ export default {
             })
         },
         
-        getCompany(){
-            const baseURI  =  this.$settings.endPoint+"/company/index";
-            return this.$http.get(baseURI).then((response) => {
-                this.options = response.data.data
-            })
-        },
 
         searchCountry(val){
             const baseURI  =  this.$settings.endPoint+"/country/index";
@@ -463,15 +430,55 @@ export default {
             })
         },
 
-        searchCompany(val){
-            const baseURI  =  this.$settings.endPoint+"/company/index";
-            return this.$http.get(baseURI+`?name=${val}`).then((response) => {
-                this.options = response.data.data
+
+        getProvince(){
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+        
+
+        searchProvince(val){
+            var country     = this.forms.country.name;
+            if(!country){
+                country = this.forms.country;
+            }
+                        
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI+`?country=${country}&province=${val}`).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+
+
+        getCity(){
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsCity = response.data.data
+            })
+        },
+        
+
+        searchCity(val){
+            
+            var country     = this.forms.country.name;
+            var province    = this.forms.province.province;
+            if(!country){
+                country = this.forms.country;
+            }
+            if(!province){
+                province = this.forms.province;
+            }
+
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI+`?country=${country}&province=${province}&city=${val}`).then((response) => {
+                this.optionsCity = response.data.data
             })
         },
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/fulfillment-center/list';
         } ,
 
         resultError(data) {  
@@ -532,7 +539,44 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
+        fetchForm(){
+            var id  = this.$onBehind(this.$route.params.id);
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/detail/"+id;
+            
+            return this.$http.get(baseURI).then((response) => {
+            this.forms.fulfillment_center_id    = response.data.datas.fulfillment_center_id
+            this.forms.fulfillment_code         = response.data.datas.code
+            this.forms.fulfillment_name         = response.data.datas.name
+            this.forms.address                  = response.data.datas.address
+            this.forms.address2                 = response.data.datas.address2
+            this.forms.province                 = response.data.datas.province
+            this.forms.city                     = response.data.datas.city
+            this.forms.area                     = response.data.datas.area
+            this.forms.sub_area                 = response.data.datas.sub_area
+            this.forms.village                  = response.data.datas.village
+            this.forms.postal_code              = response.data.datas.postal_code
+            this.forms.country                  = response.data.datas.country
+            this.forms.remarks                  = response.data.datas.remarks
+            this.forms.pic_name                 = response.data.datas.pic
+            this.forms.pic_phone                = response.data.datas.phone
+            this.forms.pic_mobile               = response.data.datas.mobile
+            this.forms.pic_fax                  = response.data.datas.fax
+            this.forms.pic_email                = response.data.datas.email
+            this.forms.status                   = response.data.datas.status
+            this.forms.longitude                = response.data.datas.longitude
+            this.forms.latitude                 = response.data.datas.latitude
+            })
+        },
 
+      fetchIt() {
+        const datasUser = this.$getUserInfo();
+        var userDatas = datasUser.sub;
+        if(userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'){
+            console.log('ok');
+        }else{
+            this.backLink();
+        }
+      }
 
     },
     events: {
@@ -543,9 +587,11 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
-        this.getCompany();
         this.getCountry();
+        this.getProvince();
+        this.getCity();
         this.fetchForm();
+        this.fetchIt();
     }
 
 }

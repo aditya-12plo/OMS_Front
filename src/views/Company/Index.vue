@@ -16,7 +16,7 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-header chart-grid__header">
-              <i class="fas fa-warehouse"></i> Company Center
+              <i class="fas fa-building"></i> Company Center
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
@@ -186,15 +186,20 @@ export default {
       },
 
       createData(){
-          this.$router.push({name:'CompanyCreate'});       
+          window.location.href = '/company/create';
+          // this.$router.push({name:'CompanyCreate'});       
       },
 
       detailData(index , row){
-          this.$router.push({name:'CompanyDetail', params: {id: this.$onRandom(index),datasCompanyDetail:row }});       
+        var params  = row.company_id;
+        window.location.href = '/company/detail/'+params;
+          // this.$router.push({name:'CompanyDetail', params: {id: this.$onRandom(index),datasCompanyDetail:row }});       
       },
 
       editData(index , row){
-          this.$router.push({name:'CompanyEdit', params: {id: this.$onRandom(index),datasCompanyEdit:row }});       
+        var params  = row.company_id;
+        window.location.href = '/company/edit/'+params;
+          // this.$router.push({name:'CompanyEdit', params: {id: this.$onRandom(index),datasCompanyEdit:row }});       
       },
 
       // load items is what brings back the rows from server

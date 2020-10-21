@@ -385,7 +385,7 @@ export default {
         },
 
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/products/normal';
         } ,
 
         resultError(data) {  

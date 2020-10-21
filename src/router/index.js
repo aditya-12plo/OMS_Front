@@ -18,6 +18,7 @@ import ProductsNormal from "@/views/Products/Normal/Index.vue";
 import ProductNormalDetail from "@/views/Products/Normal/Detail.vue";
 import ProductNormalEdit from "@/views/Products/Normal/Edit.vue";
 import ProductNormalCreate from "@/views/Products/Normal/Create.vue";
+import ProductNormalUpload from "@/views/Products/Normal/Upload.vue";
 
 Vue.use(VueRouter);
 
@@ -164,7 +165,7 @@ const routes = [
     },
     name: "ProductNormalDetail",
     component: ProductNormalDetail,
-    props: true
+    props: false
   }, 
   {
     path:'/products/normal/edit/:id', 
@@ -173,7 +174,7 @@ const routes = [
     },
     name: "ProductNormalEdit",
     component: ProductNormalEdit,
-    props: true
+    props: false
   }, 
   {
     path:'/products/normal/create', 
@@ -182,6 +183,14 @@ const routes = [
     },
     name: "ProductNormalCreate",
     component: ProductNormalCreate
+  }, 
+  {
+    path:'/products/normal/upload', 
+    meta: {
+      title: "Product Upload | JualPraktis"
+    },
+    name: "ProductNormalUpload",
+    component: ProductNormalUpload
   }, 
 
 

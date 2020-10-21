@@ -21,7 +21,7 @@
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
-                  <div class="card-header bg-white p-0" id="headingOne">
+                  <div class="card-header bg-white p-0" id="headingOne" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'">
                     <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('fulfillmentCreate')}} </button>
                   </div>
 
@@ -47,9 +47,9 @@
           <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
-          <button class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
-          <button v-if="props.row.status === 'DEACTIVATE'" class="btn btn-success" @click.prevent="deleteData(props.index , props.row, 'ACTIVATE')">Activate</button>
-          <button v-if="props.row.status === 'ACTIVATE'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row, 'DEACTIVATE')">Deactivate</button>
+          <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
+          <button v-if="props.row.status === 'DEACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-success" @click.prevent="deleteData(props.index , props.row, 'ACTIVATE')">Activate</button>
+          <button v-if="props.row.status === 'ACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row, 'DEACTIVATE')">Deactivate</button>
         </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -95,7 +95,8 @@ export default {
     'menu-component':menuComponent,
   },
   data () {
-    return {  
+    return {
+      userDatas:[],
       maxToasts: 100,
       isLoading: false,  
       position: 'up right',
@@ -113,28 +114,6 @@ export default {
         per_page: 10
       },
       columns: [
-        {
-          label: 'Company Code',
-          field: 'company_id',
-          filterOptions: {
-            enabled: true, // enable filter for this column
-            placeholder: "Filter By Company Code", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
-        {
-          label: 'Company Name',
-          field: 'company.name',
-          filterOptions: {
-            enabled: false, // enable filter for this column
-            placeholder: "Filter By Company Code", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
         {
           label: 'Fulfillment Code',
           field: 'code',
@@ -209,22 +188,27 @@ export default {
       },
 
       createData(){
-          this.$router.push({name:'FulfillmentCreate'});       
+          window.location.href = '/fulfillment-center/create';
+          // this.$router.push({name:'FulfillmentCreate'});       
       },
 
       detailData(index , row){
-          this.$router.push({name:'FulfillmentDetail', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentDetail:row }});       
+        var params  = this.$onRandom(row.fulfillment_center_id);
+        window.location.href = '/fulfillment-center/detail/'+params;
+          // this.$router.push({name:'FulfillmentDetail', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentDetail:row }});       
       },
 
       editData(index , row){
-          this.$router.push({name:'FulfillmentEdit', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentEdit:row }});       
+          var params  = this.$onRandom(row.fulfillment_center_id);
+          window.location.href = '/fulfillment-center/edit/'+params;
+          // this.$router.push({name:'FulfillmentEdit', params: {id: this.$onRandom(row.fulfillment_center_id),datasFulfillmentEdit:row }});       
       },
 
       // load items is what brings back the rows from server
       loadItems() {
         const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
         
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&status=${this.serverParams.columnFilters.status}`).then((response) => {
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&status=${this.serverParams.columnFilters.status}`).then((response) => {
           this.rows = response.data.data
           this.totalRecords  = response.data.total
         })
@@ -316,9 +300,8 @@ export default {
       },
 
       fetchIt() {
-        const userDatas = this.$getUserInfo();
-        this.name = userDatas.sub.name;
-        
+        const datasUser = this.$getUserInfo();
+        this.userDatas = datasUser.sub;
       },
 
     },

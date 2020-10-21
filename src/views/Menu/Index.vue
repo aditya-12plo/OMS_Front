@@ -25,12 +25,10 @@
           <a href="#"><i class="fas fa-box"></i>
             <span>Orders <i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
-            <li><a href="/order/pending">Pending</a> </li>
-            <li><a href="/order/confirmation">Confirmation</a> </li>
-            <li><a href="/order/packing">Packing</a></li>
-            <li><a href="/order/packing-complete">Packing Complete</a></li>
-            <li><a href="/order/shipped">Shipped</a></li>
-            <li><a href="/order/delivered">Delivered</a></li>
+            <li><a href="/order/all">All Orders</a> </li>
+            <li><a href="/order/hold">Hold Orders</a> </li>
+            <li><a href="/order/create">Create Orders</a></li>
+            <li><a href="/order/upload">Upload Orders</a></li>
           </ul>
         </li>
         <li class="menu-list">
@@ -39,14 +37,6 @@
           <ul class="sub-menu-list">
             <li><a href="/products/normal">Normal</a> </li>
             <li><a href="/products/kit">Bundle / Kit</a></li>
-          </ul>
-        </li>
-        <li class="menu-list">
-          <a href="#"><i class="fas fa-boxes"></i>
-            <span>Rack<i class="lnr lnr-chevron-right"></i></span></a>
-          <ul class="sub-menu-list">
-            <li><a href="/rack/create">Create New</a> </li>
-            <li><a href="/rack/list">List</a> </li>
           </ul>
         </li>
         <li class="menu-list">

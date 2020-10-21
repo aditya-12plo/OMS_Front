@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         backLink() {
-			this.$router.go(-1);
+            window.location.href = '/';
         } ,
     },
     events: {

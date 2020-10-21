@@ -20,26 +20,7 @@
                 <div class="col-lg-6">
                     <h3 class="block__title mb-lg-4">{{$t('location')}}</h3>
                     
-                    
-
-                        <div class="form-group col-md-12">
-                            <label for="companyName" class="input__label">{{$t('companyName')}}</label>
-                            <v-select :options="options" label="name" placeholder="Choose a Company" v-model="forms.company" @search="searchCompany" autocomplete>
-                            <template #search="{attributes, events}">
-                                <input
-                                class="vs__search"
-                                :required="!forms.company"
-                                v-bind="attributes"
-                                v-on="events"
-                                />
-                            </template>
-                            </v-select>
-                            
-                            <div v-if="errors.company">
-                                <div class="invalid-feedback" v-for="error in errors.company" :key="error">{{error}}</div>
-                            </div>
-                        </div>
- 
+                     
                         <div class="form-group col-md-12">
                             <label for="fulfillmentCode" class="input__label">{{$t('fulfillmentCode')}}</label>
                             <input type="text" v-model="forms.fulfillment_code" class="form-control input-style" id="fulfillmentCode" @keydown="removeSpecial($event)" placeholder="Fulfillment Code" required="" maxlength="255" @input="forms.fulfillment_code = $event.target.value.toUpperCase()">
@@ -96,8 +77,16 @@
  
                         <div class="form-group col-md-12">
                             <label for="province" class="input__label">{{$t('province')}}</label>
-                            <input type="text" v-model="forms.province" class="form-control input-style" id="province" placeholder="Province" required="" maxlength="255">
-                        
+                            <v-select :options="optionsProvince" label="province" placeholder="Choose a Province" v-model="forms.province" @search="searchProvince" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.province"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             
                             <div v-if="errors.province">
                                 <div class="invalid-feedback" v-for="error in errors.province" :key="error">{{error}}</div>
@@ -106,8 +95,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="city" class="input__label">{{$t('city')}}</label>
-                            <input type="text" v-model="forms.city" class="form-control input-style" id="city" placeholder="City" required="" maxlength="255">
-                        
+                            <v-select :options="optionsCity" label="city" placeholder="Choose a City" v-model="forms.city" @search="searchCity" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.city"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                             <div v-if="errors.city">
                                 <div class="invalid-feedback" v-for="error in errors.city" :key="error">{{error}}</div>
                             </div>
@@ -178,7 +176,7 @@
 
 
                         <div class="form-group col-md-12">
-                            <label for="companyName" class="input__label">Status</label>
+                            <label for="status" class="input__label">Status</label>
                             <v-select :options="statuses" placeholder="Choose a Status" v-model="forms.status">
                             <template #search="{attributes, events}">
                                 <input
@@ -297,13 +295,10 @@ export default {
         return {
             selected:'',
             books:['asd','cvb'],
-            companyIdRules:[
-                (v) => !!v || 'Name is required',
-                (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
-            ],
             options: [],
             optionsCountry: [],
-            company_id:'',
+            optionsProvince: [],
+            optionsCity: [],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -311,7 +306,7 @@ export default {
             errors: [],
             langs: ['id', 'en'],
             statuses: ['ACTIVATE','DEACTIVATE'],
-            forms: {fulfillment_code:'', company:'', fulfillment_name: '', address: '', address2: '', province: ''
+            forms: {fulfillment_code:'', fulfillment_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
                     , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: ''
                     ,longitude:'', latitude:''
@@ -352,8 +347,7 @@ export default {
                     formData.append("address", this.forms.address);
                     formData.append("address2", this.forms.address2);
                     formData.append("area", this.forms.area);
-                    formData.append("city", this.forms.city);
-                    formData.append("company", this.forms.company.company_id);
+                    formData.append("city", this.forms.city.city);
                     formData.append("country", this.forms.country.name);
                     formData.append("fulfillment_name", this.forms.fulfillment_name);
                     formData.append("latitude", this.forms.latitude);
@@ -363,7 +357,7 @@ export default {
                     formData.append("pic_mobile", this.forms.pic_mobile);
                     formData.append("pic_name", this.forms.pic_name);
                     formData.append("pic_phone", this.forms.pic_phone);
-                    formData.append("province", this.forms.province);
+                    formData.append("province", this.forms.province.province);
                     formData.append("remarks", this.forms.remarks);
                     formData.append("status", this.forms.status);
                     formData.append("sub_area", this.forms.sub_area);
@@ -413,12 +407,6 @@ export default {
             })
         },
         
-        getCompany(){
-            const baseURI  =  this.$settings.endPoint+"/company/index";
-            return this.$http.get(baseURI).then((response) => {
-                this.options = response.data.data
-            })
-        },
 
         searchCountry(val){
             const baseURI  =  this.$settings.endPoint+"/country/index";
@@ -427,15 +415,41 @@ export default {
             })
         },
 
-        searchCompany(val){
-            const baseURI  =  this.$settings.endPoint+"/company/index";
-            return this.$http.get(baseURI+`?name=${val}`).then((response) => {
-                this.options = response.data.data
+
+        getProvince(){
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+        
+
+        searchProvince(val){
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${val}`).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+
+
+        getCity(){
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsCity = response.data.data
+            })
+        },
+        
+
+        searchCity(val){
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${val}`).then((response) => {
+                this.optionsCity = response.data.data
             })
         },
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/fulfillment-center/list';
+            // this.$router.go(-1);
         } ,
 
         resultError(data) {  
@@ -496,6 +510,15 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
+      fetchIt() {
+        const datasUser = this.$getUserInfo();
+        var userDatas = datasUser.sub;
+        if(userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'){
+            console.log('ok');
+        }else{
+            this.backLink();
+        }
+      }
 
 
     },
@@ -507,8 +530,10 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
-        this.getCompany();
         this.getCountry();
+        this.getProvince();
+        this.getCity();
+        this.fetchIt();
     }
 
 }

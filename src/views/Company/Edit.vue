@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-warehouse"></i> {{$t('CompanytEdit')}}</h3>
+            <h3><i class="fas fa-building"></i> {{$t('CompanytEdit')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">
@@ -276,27 +276,6 @@ export default {
 
     },
     methods: {
-        fetchForm(){
-            this.forms.company_id               = this.datasCompanyEdit.company_id
-            this.forms.company_name             = this.datasCompanyEdit.name
-            this.forms.address                  = this.datasCompanyEdit.address
-            this.forms.address2                 = this.datasCompanyEdit.address2
-            this.forms.province                 = this.datasCompanyEdit.province
-            this.forms.city                     = this.datasCompanyEdit.city
-            this.forms.area                     = this.datasCompanyEdit.area
-            this.forms.sub_area                 = this.datasCompanyEdit.sub_area
-            this.forms.village                  = this.datasCompanyEdit.village
-            this.forms.postal_code              = this.datasCompanyEdit.postal_code
-            this.forms.country                  = this.datasCompanyEdit.country
-            this.forms.remarks                  = this.datasCompanyEdit.remarks
-            this.forms.pic_name                 = this.datasCompanyEdit.pic
-            this.forms.pic_phone                = this.datasCompanyEdit.phone
-            this.forms.pic_mobile               = this.datasCompanyEdit.mobile
-            this.forms.pic_fax                  = this.datasCompanyEdit.fax
-            this.forms.pic_email                = this.datasCompanyEdit.email
-            this.forms.status                   = this.datasCompanyEdit.status
-        },
-
 
         isNumber: function(evt) {
             evt = (evt) ? evt : window.event;
@@ -402,7 +381,7 @@ export default {
  
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/company/list';
         } ,
 
         resultError(data) {  
@@ -463,6 +442,31 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
+        fetchIt() {
+            const baseURI  =  this.$settings.endPoint+"/company/detail/"+this.$route.params.id;
+            
+            return this.$http.get(baseURI).then((response) => {
+                this.forms.company_id               = response.data.datas.company_id
+                this.forms.company_name             = response.data.datas.name
+                this.forms.address                  = response.data.datas.address
+                this.forms.address2                 = response.data.datas.address2
+                this.forms.province                 = response.data.datas.province
+                this.forms.city                     = response.data.datas.city
+                this.forms.area                     = response.data.datas.area
+                this.forms.sub_area                 = response.data.datas.sub_area
+                this.forms.village                  = response.data.datas.village
+                this.forms.postal_code              = response.data.datas.postal_code
+                this.forms.country                  = response.data.datas.country
+                this.forms.remarks                  = response.data.datas.remarks
+                this.forms.pic_name                 = response.data.datas.pic
+                this.forms.pic_phone                = response.data.datas.phone
+                this.forms.pic_mobile               = response.data.datas.mobile
+                this.forms.pic_fax                  = response.data.datas.fax
+                this.forms.pic_email                = response.data.datas.email
+                this.forms.status                   = response.data.datas.status
+            })
+            
+        },
 
 
     },
@@ -475,7 +479,7 @@ export default {
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
         this.getCountry();
-        this.fetchForm();
+        this.fetchIt();
     }
 
 }

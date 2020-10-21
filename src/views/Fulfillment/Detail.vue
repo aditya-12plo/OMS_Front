@@ -164,17 +164,13 @@ import menuComponent from '@/views/Menu/Index'
 
 export default {
   name: 'FulfillmentDetail',
-    props: {
-      datasFulfillmentDetail: {
-        type: Object,
-        required: true
-      }
-    },
+    props: {},
     components: {
         'menu-component':menuComponent,
     },
     data () {
-        return {  
+        return {
+        datasFulfillmentDetail:[],
         maxToasts: 100,
         isLoading: false,  
         position: 'up right',
@@ -189,7 +185,7 @@ export default {
     methods: {
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/fulfillment-center/list';
         } ,
 
         resultError(data) {  
@@ -250,7 +246,14 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
-
+        fetchIt(){
+            var id  = this.$onBehind(this.$route.params.id);
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/detail/"+id;
+            
+            return this.$http.get(baseURI).then((response) => {
+                this.datasFulfillmentDetail = response.data.datas
+            })
+        }
 
     },
     events: {
@@ -261,6 +264,7 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.fetchIt();
     }
 
 }

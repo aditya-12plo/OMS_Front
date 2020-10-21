@@ -212,17 +212,13 @@ import menuComponent from '@/views/Menu/Index'
 
 export default {
   name: 'ProductsNormalDetail',
-    props: {
-      datasProductNormalDetail: {
-        type: Object,
-        required: true
-      }
-    },
+    props: {},
     components: {
         'menu-component':menuComponent,
     },
     data () {
         return {  
+        datasProductNormalDetail:[],
         maxToasts: 100,
         isLoading: false,  
         position: 'up right',
@@ -235,6 +231,18 @@ export default {
 
     },
     methods: {
+        
+        fetchIt() {
+            
+            var id  = this.$onBehind(this.$route.params.id);
+            const baseURI  =  this.$settings.endPoint+"/products/normal/detail/"+id;
+            
+            return this.$http.get(baseURI).then((response) => {
+                this.datasProductNormalDetail = response.data.datas
+            })
+            
+        },
+
         formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
             return (value == null) ? '' : this.$moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
         },
@@ -252,7 +260,8 @@ export default {
         },
 
         backLink() {
-            this.$router.go(-1);
+            // this.$router.go(-1);
+            window.location.href = '/products/normal';
         } ,
 
         resultError(data) {  
@@ -324,6 +333,7 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.fetchIt();
     }
 
 }

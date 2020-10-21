@@ -271,18 +271,20 @@ import 'vue-select/dist/vue-select.css'
 
 export default {
   name: 'ProductsNormalDetail',
-    props: {
-      datasProductNormalEdit: {
-        type: Object,
-        required: true
-      }
-    },
+  props:{},
+    // props: {
+    //   datasProductNormalEdit: {
+    //     type: Object,
+    //     required: true
+    //   }
+    // },
     components: {
         'menu-component':menuComponent,
         'v-select':vSelect,
     },
     data () {
-        return {  
+        return {
+            datasProductNormalEdit:[],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -373,28 +375,6 @@ export default {
             })
         },
 
-
-        fetchForm(){
-            this.forms.product_id               = this.datasProductNormalEdit.product_id
-            this.forms.product_code             = this.datasProductNormalEdit.product_code
-            this.forms.company                  = this.datasProductNormalEdit.company
-            this.forms.product_name             = this.datasProductNormalEdit.product_description
-            this.forms.uom_code                 = this.datasProductNormalEdit.uom_description
-            this.forms.price                    = this.datasProductNormalEdit.price
-            this.forms.width                    = this.datasProductNormalEdit.width
-            this.forms.height                   = this.datasProductNormalEdit.height
-            this.forms.weight                   = this.datasProductNormalEdit.weight
-            this.forms.net_weight               = this.datasProductNormalEdit.net_weight
-            this.forms.gross_weight             = this.datasProductNormalEdit.gross_weight
-            this.forms.qty_per_carton           = this.datasProductNormalEdit.qty_per_carton
-            this.forms.carton_per_pallet        = this.datasProductNormalEdit.carton_per_pallet
-            this.forms.cube                     = this.datasProductNormalEdit.cube
-            this.forms.currency                 = this.datasProductNormalEdit.currency
-            this.forms.barcode                  = this.datasProductNormalEdit.barcode
-            this.forms.time_to_live             = this.datasProductNormalEdit.time_to_live
-            this.forms.type                     = this.datasProductNormalEdit.type
-        },
-
         isNumberPrice: function(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -463,7 +443,7 @@ export default {
         },
 
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/products/normal';
         } ,
 
         resultError(data) {  
@@ -525,6 +505,34 @@ export default {
         },
 
 
+        fetchIt() {
+            
+            var id  = this.$onBehind(this.$route.params.id);
+            const baseURI  =  this.$settings.endPoint+"/products/normal/detail/"+id;
+            
+            return this.$http.get(baseURI).then((response) => {
+            this.datasProductNormalEdit         = response.data.datas;
+            this.forms.product_id               = response.data.datas.product_id
+            this.forms.product_code             = response.data.datas.product_code
+            this.forms.company                  = response.data.datas.company
+            this.forms.product_name             = response.data.datas.product_description
+            this.forms.uom_code                 = response.data.datas.uom_description
+            this.forms.price                    = response.data.datas.price
+            this.forms.width                    = response.data.datas.width
+            this.forms.height                   = response.data.datas.height
+            this.forms.weight                   = response.data.datas.weight
+            this.forms.net_weight               = response.data.datas.net_weight
+            this.forms.gross_weight             = response.data.datas.gross_weight
+            this.forms.qty_per_carton           = response.data.datas.qty_per_carton
+            this.forms.carton_per_pallet        = response.data.datas.carton_per_pallet
+            this.forms.cube                     = response.data.datas.cube
+            this.forms.currency                 = response.data.datas.currency
+            this.forms.barcode                  = response.data.datas.barcode
+            this.forms.time_to_live             = response.data.datas.time_to_live
+            this.forms.type                     = response.data.datas.type
+            })
+            
+        },
 
     },
     events: {
@@ -535,9 +543,9 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.fetchIt();
         this.getUom();
         this.getCompany();
-        this.fetchForm();
     }
 
 }

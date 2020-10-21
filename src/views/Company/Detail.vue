@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-warehouse"></i> Detail Company</h3>
+            <h3><i class="fas fa-building"></i> Detail Company</h3>
         </div>
 
 
@@ -18,7 +18,7 @@
             <div class="card-body py-3 p-0">
                 <div class="row">
                 <div class="col-lg-6">
-                    <h3 class="block__title mb-lg-4">{{$t('fulfillmentCode')}}</h3>
+                    <h3 class="block__title mb-lg-4">{{$t('company')}}</h3>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('companyCode')}}</label>
@@ -164,23 +164,19 @@ import menuComponent from '@/views/Menu/Index'
 
 export default {
   name: 'CompanyDetail',
-    props: {
-      datasCompanyDetail: {
-        type: Object,
-        required: true
-      }
-    },
+    props: {},
     components: {
         'menu-component':menuComponent,
     },
     data () {
-        return {  
-        maxToasts: 100,
-        isLoading: false,  
-        position: 'up right',
-        closeBtn: true,  
-        errors: [],
-        langs: ['id', 'en'],
+        return {
+            datasCompanyDetail:[],
+            maxToasts: 100,
+            isLoading: false,  
+            position: 'up right',
+            closeBtn: true,  
+            errors: [],
+            langs: ['id', 'en'],
         }
     },
     watch: { 
@@ -189,7 +185,7 @@ export default {
     methods: {
   
         backLink() {
-            this.$router.go(-1);
+            window.location.href = '/company/list';
         } ,
 
         resultError(data) {  
@@ -251,6 +247,14 @@ export default {
         },
 
 
+        fetchIt() {
+            const baseURI  =  this.$settings.endPoint+"/company/detail/"+this.$route.params.id;
+            
+            return this.$http.get(baseURI).then((response) => {
+                this.datasCompanyDetail = response.data.datas
+            })
+            
+        },
 
     },
     events: {
@@ -261,6 +265,7 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.fetchIt();
     }
 
 }
