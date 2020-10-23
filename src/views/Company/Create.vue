@@ -75,10 +75,19 @@
                             </div>
                         </div>
  
+                        
                         <div class="form-group col-md-12">
                             <label for="province" class="input__label">{{$t('province')}}</label>
-                            <input type="text" v-model="forms.province" class="form-control input-style" id="province" placeholder="Province" required="" maxlength="255">
-                        
+                            <v-select :options="optionsProvince" label="province" placeholder="Choose a Province" v-model="forms.province" @search="searchProvince" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.province"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             
                             <div v-if="errors.province">
                                 <div class="invalid-feedback" v-for="error in errors.province" :key="error">{{error}}</div>
@@ -87,8 +96,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="city" class="input__label">{{$t('city')}}</label>
-                            <input type="text" v-model="forms.city" class="form-control input-style" id="city" placeholder="City" required="" maxlength="255">
-                        
+                            <v-select :options="optionsCity" label="city" placeholder="Choose a City" v-model="forms.city" @search="searchCity" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.city"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                             <div v-if="errors.city">
                                 <div class="invalid-feedback" v-for="error in errors.city" :key="error">{{error}}</div>
                             </div>
@@ -96,8 +114,18 @@
  
                         <div class="form-group col-md-12">
                             <label for="area" class="input__label">Area</label>
-                            <input type="text" v-model="forms.area" class="form-control input-style" id="area" placeholder="Area" maxlength="255">
-                        
+                            
+                            <v-select :options="optionsArea" label="area" placeholder="Choose a Area" v-model="forms.area" @search="searchArea" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.area"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                             <div v-if="errors.area">
                                 <div class="invalid-feedback" v-for="error in errors.area" :key="error">{{error}}</div>
                             </div>
@@ -105,8 +133,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="subArea" class="input__label">Sub Area</label>
-                            <input type="text" v-model="forms.sub_area" class="form-control input-style" id="subArea" placeholder="Sub Area" maxlength="255">
-                        
+                            
+                            <v-select :options="optionsSubArea" label="sub_area" placeholder="Choose a Sub Area" v-model="forms.sub_area" @search="searchSubArea" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.sub_area"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             <div v-if="errors.sub_area">
                                 <div class="invalid-feedback" v-for="error in errors.sub_area" :key="error">{{error}}</div>
                             </div>
@@ -123,8 +160,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="postalCode" class="input__label">{{$t('postalCode')}}</label>
-                            <input type="text" v-model="forms.postal_code" class="form-control input-style" id="postalCode" placeholder="Postal Code" required="" maxlength="6" @keydown.space="(event) => event.preventDefault()" @keypress="isNumber($event)">
-                        
+                            
+                            <v-select :options="optionsPostalCode" label="postal_code" placeholder="Choose a Postal Code" v-model="forms.postal_code" @search="searchPostalCode" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.postal_code"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             <div v-if="errors.postal_code">
                                 <div class="invalid-feedback" v-for="error in errors.postal_code" :key="error">{{error}}</div>
                             </div>
@@ -211,6 +257,26 @@
                                 <div class="invalid-feedback" v-for="error in errors.pic_email" :key="error">{{error}}</div>
                             </div>
                         </div>
+
+
+                        
+                   <h3 class="block__title mb-lg-4">Fulfillment</h3>
+ 
+                        <div class="form-group col-md-12">
+                            <v-select :options="optionsFulfillment" label="name" placeholder="Choose a Fulfillment" multiple v-model="forms.fulfillment" @search="searchFulfillment" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.fulfillment"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+                            <div v-if="errors.fulfillment">
+                                <div class="invalid-feedback" v-for="error in errors.fulfillment" :key="error">{{error}}</div>
+                            </div>
+                        </div>
                     
 
                 </div>
@@ -259,13 +325,14 @@ export default {
     data () {
         return {
             selected:'',
-            books:['asd','cvb'],
-            companyIdRules:[
-                (v) => !!v || 'Name is required',
-                (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
-            ],
             options: [],
             optionsCountry: [],
+            optionsProvince: [],
+            optionsCity: [],
+            optionsArea: [],
+            optionsSubArea: [],
+            optionsPostalCode: [],
+            optionsFulfillment: [],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -275,7 +342,8 @@ export default {
             statuses: ['ACTIVATE','DEACTIVATE'],
             forms: {company_code:'', company_name: '', address: '', address2: '', province: ''
                     , city: '', area: '', sub_area: '', village: '', postal_code: '', country: '', remarks: ''
-                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: ''
+                    , pic_name: '', pic_phone: '', pic_mobile: '', pic_fax: '', pic_email: '', status: '',
+                    fulfillment:''
             },
         }
     },
@@ -309,11 +377,11 @@ export default {
                 if (this.forms.company_code.trim() && this.forms.postal_code.trim()) {
                     let formData = new FormData();
                     formData.append("company_code", this.forms.company_code.trim());
-                    formData.append("postal_code", this.forms.postal_code.trim());
+                    formData.append("postal_code", this.forms.postal_code.postal_code.trim());
                     formData.append("address", this.forms.address);
                     formData.append("address2", this.forms.address2);
-                    formData.append("area", this.forms.area);
-                    formData.append("city", this.forms.city);
+                    formData.append("area", this.forms.area.area);
+                    formData.append("city", this.forms.city.city);
                     formData.append("country", this.forms.country.name);
                     formData.append("company_name", this.forms.company_name);
                     formData.append("pic_email", this.forms.pic_email);
@@ -321,11 +389,12 @@ export default {
                     formData.append("pic_mobile", this.forms.pic_mobile);
                     formData.append("pic_name", this.forms.pic_name);
                     formData.append("pic_phone", this.forms.pic_phone);
-                    formData.append("province", this.forms.province);
+                    formData.append("province", this.forms.province.province);
                     formData.append("remarks", this.forms.remarks);
                     formData.append("status", this.forms.status);
-                    formData.append("sub_area", this.forms.sub_area);
+                    formData.append("sub_area", this.forms.sub_area.sub_area);
                     formData.append("village", this.forms.village);
+                    formData.append("fulfillments", JSON.stringify(this.forms.fulfillment));
                     
                     const baseURI  =  this.$settings.endPoint+"/company/add";
                     
@@ -354,8 +423,8 @@ export default {
                     });
                 }
                 }
-            })            
-            },
+            })
+        },
         
         removeSpecial(e) {
             if (/^\W$/.test(e.key)) {
@@ -375,6 +444,99 @@ export default {
             const baseURI  =  this.$settings.endPoint+"/country/index";
             return this.$http.get(baseURI+`?name=${val}`).then((response) => {
                 this.optionsCountry = response.data.data
+            })
+        },
+
+        getProvince(){
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+        
+
+        searchProvince(val){
+            const baseURI  =  this.$settings.endPoint+"/province/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${val}`).then((response) => {
+                this.optionsProvince = response.data.data
+            })
+        },
+
+
+        getCity(){
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsCity = response.data.data
+            })
+        },
+        
+
+        searchCity(val){
+            const baseURI  =  this.$settings.endPoint+"/city/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${val}`).then((response) => {
+                this.optionsCity = response.data.data
+            })
+        },
+
+
+        getArea(){
+            const baseURI  =  this.$settings.endPoint+"/area/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsArea = response.data.data
+            })
+        },
+        
+
+        searchArea(val){
+            const baseURI  =  this.$settings.endPoint+"/area/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${val}`).then((response) => {
+                this.optionsArea = response.data.data
+            })
+        },
+
+        getSubArea(){
+            const baseURI  =  this.$settings.endPoint+"/sub-area/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsSubArea = response.data.data
+            })
+        },
+        
+
+        searchSubArea(val){
+            const baseURI  =  this.$settings.endPoint+"/sub-area/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${this.forms.area.area}&sub_area=${val}`).then((response) => {
+                this.optionsSubArea = response.data.data
+            })
+        },
+
+        getPostalCode(){
+            const baseURI  =  this.$settings.endPoint+"/postal-code/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsPostalCode = response.data.data
+            })
+        },
+        
+
+        searchPostalCode(val){
+            
+            const baseURI  =  this.$settings.endPoint+"/postal-code/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${this.forms.area.area}&sub_area=${this.forms.sub_area.sub_area}&postal_code=${val}`).then((response) => {
+                this.optionsPostalCode = response.data.data
+            })
+        },
+
+        getFulfillment(){
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsFulfillment = response.data.data
+            })
+        },
+        
+
+        searchFulfillment(val){
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
+            return this.$http.get(baseURI+`?name=${val}`).then((response) => {
+                this.optionsFulfillment = response.data.data
             })
         },
 
@@ -453,6 +615,12 @@ export default {
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
         this.getCountry();
+        this.getProvince();
+        this.getCity();
+        this.getArea();
+        this.getSubArea();
+        this.getPostalCode();
+        this.getFulfillment();
     }
 
 }

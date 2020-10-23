@@ -73,6 +73,7 @@ const messages = {
         stock_hold:"Stock Hold",
         stock_booked:"Stock Booked",
         updated_at:"Updated Time",
+        closeBtn:"Close",
     },
     "id": {
         loginMsg: "Selamat datang kembali, silahkan login terlebih dahulu",
@@ -143,6 +144,7 @@ const messages = {
         stock_hold:"Stok tertahan",
         stock_booked:"Stok Terjual",
         updated_at:"Diperbarui Pada",
+        closeBtn:"Tutup",
     }
 };
 

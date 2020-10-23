@@ -7,6 +7,7 @@ import accounting from 'accounting';
 import VueGoodTablePlugin from 'vue-good-table';
 import moment from 'moment';
 import money from 'v-money';
+import VModal from 'vue-js-modal';
 
 import App from "./App.vue";
 import router from "./router";
@@ -25,6 +26,7 @@ Vue.use(vueJquery);
 Vue.use(VueEvents);
 Vue.use(VueGoodTablePlugin);
 Vue.use(money, {precision: 4});
+Vue.use(VModal);
 
 // global variable
 Vue.prototype.$http = Axios;

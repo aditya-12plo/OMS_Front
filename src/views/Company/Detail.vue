@@ -133,6 +133,33 @@
                         </div>
                     </div>
 
+                    <br>
+                    <br>
+                   <h3 class="block__title mb-lg-4">Fulfillment</h3>
+                    
+                    <div v-if="fulfillments.length > 0" >
+                        <div v-for="fulfil in fulfillments" :key="fulfil.company_fulfillment_id">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentCode')}}</label>
+                                <div class="col-sm-8">
+                                    <b>{{fulfil.fulfillment.code}}</b>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentName')}}</label>
+                                <div class="col-sm-8">
+                                    <b>{{fulfil.fulfillment.name}}</b>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <button type="button" @click="show(fulfil.fulfillment)" class="btn btn-primary btn-style mt-4">Detail Fulfillment {{fulfil.fulfillment.code}}</button>
+                            </div>
+
+                            <hr>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <button type="button" @click="backLink()" class="btn btn-primary btn-style mt-4">{{$t('backMsg')}}</button>
@@ -157,6 +184,129 @@
     </section>
 
 
+<modal name="detail-fulfillment" :min-width="200" :min-height="200" :scrollable="true" :resizable="true" height="auto">
+     <div slot="top-right">
+      <button @click="$modal.hide('detail-fulfillment')">
+        ❌
+      </button>
+    </div>
+
+<div class="size-modal-content">
+    <div class="col-lg-12">
+       <h3 class="block__title mb-lg-12" style="margin-bottom: 1.5rem !important;text-align:center;">Fulfillment</h3>
+
+<table class="table inbox-messages">
+    <tbody>
+        <tr>
+            <td>{{$t('fulfillmentCode')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.code}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('fulfillmentName')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.name}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('fulfillmentAddress')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.address}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('fulfillmentAddress2')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.address2}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('country')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.country}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('province')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.province}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('city')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.city}}</td>
+        </tr>
+        <tr>
+            <td>Area</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.area}}</td>
+        </tr>
+        <tr>
+            <td>Sub Area</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.sub_area}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('village')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.village}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('postalCode')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.postal_code}}</td>
+        </tr>
+        <tr>
+            <td>Longitude / Latitude</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.longitude+' / '+this.detailFulfillment.latitude}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('remarks')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.remarks}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+       <h3 class="block__title mb-lg-12" style="margin-bottom: 1.5rem !important;text-align:center;">PIC Fulfillment</h3>
+
+<table class="table inbox-messages">
+    <tbody>
+        <tr>
+            <td>{{$t('name')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.pic}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('phone')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.phone}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('handphone')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.mobile}}</td>
+        </tr>
+        <tr>
+            <td>Fax.</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.fax}}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.email}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+    </div>
+</div>
+<div class="vue-dialog-buttons"><button type="button" @click="$modal.hide('detail-fulfillment')" class="vue-dialog-button" style="flex: 1 1 100%;color: #fff;background-color: #4755AB;border-color: #4755AB;">CLOSE</button></div>
+
+</modal>
+
+
+
   </div>
 </template>
 <script>
@@ -170,7 +320,9 @@ export default {
     },
     data () {
         return {
+            detailFulfillment:'',
             datasCompanyDetail:[],
+            fulfillments:[],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -246,12 +398,29 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
+        
+        show(datas) {
+            this.detailFulfillment  = '';
+            this.detailFulfillment  = datas;
+            this.$modal.show('detail-fulfillment', {
+                dynamicDefaults: {
+                    draggable: true,
+                    resizable: true,
+                    height: 'auto'
+                }
+            });
+        },
+        hide () {
+            this.detailFulfillment  = ''
+            this.$modal.hide('detail-fulfillment');
+        },
 
         fetchIt() {
             const baseURI  =  this.$settings.endPoint+"/company/detail/"+this.$route.params.id;
             
             return this.$http.get(baseURI).then((response) => {
                 this.datasCompanyDetail = response.data.datas
+                this.fulfillments       = response.data.datas.fulfillments
             })
             
         },
@@ -271,5 +440,16 @@ export default {
 }
 </script>
 <style scoped>
- 
+ .size-modal-content {
+  padding: 10px;
+  font-style: 13px;
+}
+.v--modal-overlay[data-modal='size-modal'] {
+  background: rgba(0, 0, 0, 0.5);
+}
+.demo-modal-class {
+  border-radius: 5px;
+  background: #f7f7f7;
+  box-shadow: 5px 5px 30px 0px rgba(46, 61, 73, 0.6);
+}
 </style>

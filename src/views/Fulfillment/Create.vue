@@ -113,8 +113,18 @@
  
                         <div class="form-group col-md-12">
                             <label for="area" class="input__label">Area</label>
-                            <input type="text" v-model="forms.area" class="form-control input-style" id="area" placeholder="Area" maxlength="255">
-                        
+                            
+                            <v-select :options="optionsArea" label="area" placeholder="Choose a Area" v-model="forms.area" @search="searchArea" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.area"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+
                             <div v-if="errors.area">
                                 <div class="invalid-feedback" v-for="error in errors.area" :key="error">{{error}}</div>
                             </div>
@@ -122,8 +132,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="subArea" class="input__label">Sub Area</label>
-                            <input type="text" v-model="forms.sub_area" class="form-control input-style" id="subArea" placeholder="Sub Area" maxlength="255">
-                        
+                            
+                            <v-select :options="optionsSubArea" label="sub_area" placeholder="Choose a Sub Area" v-model="forms.sub_area" @search="searchSubArea" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.sub_area"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             <div v-if="errors.sub_area">
                                 <div class="invalid-feedback" v-for="error in errors.sub_area" :key="error">{{error}}</div>
                             </div>
@@ -140,8 +159,17 @@
  
                         <div class="form-group col-md-12">
                             <label for="postalCode" class="input__label">{{$t('postalCode')}}</label>
-                            <input type="text" v-model="forms.postal_code" class="form-control input-style" id="postalCode" placeholder="Postal Code" required="" maxlength="6" @keydown.space="(event) => event.preventDefault()" @keypress="isNumber($event)">
-                        
+                            
+                            <v-select :options="optionsPostalCode" label="postal_code" placeholder="Choose a Postal Code" v-model="forms.postal_code" @search="searchPostalCode" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.postal_code"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
                             <div v-if="errors.postal_code">
                                 <div class="invalid-feedback" v-for="error in errors.postal_code" :key="error">{{error}}</div>
                             </div>
@@ -299,6 +327,9 @@ export default {
             optionsCountry: [],
             optionsProvince: [],
             optionsCity: [],
+            optionsArea: [],
+            optionsSubArea: [],
+            optionsPostalCode: [],
             maxToasts: 100,
             isLoading: false,  
             position: 'up right',
@@ -340,13 +371,13 @@ export default {
                 
                 this.fade(true);
                 
-                if (this.forms.fulfillment_code.trim() && this.forms.postal_code.trim()) {
+                if (this.forms.fulfillment_code.trim()) {
                     let formData = new FormData();
                     formData.append("fulfillment_code", this.forms.fulfillment_code.trim());
-                    formData.append("postal_code", this.forms.postal_code.trim());
+                    formData.append("postal_code", this.forms.postal_code.postal_code.trim());
                     formData.append("address", this.forms.address);
                     formData.append("address2", this.forms.address2);
-                    formData.append("area", this.forms.area);
+                    formData.append("area", this.forms.area.area);
                     formData.append("city", this.forms.city.city);
                     formData.append("country", this.forms.country.name);
                     formData.append("fulfillment_name", this.forms.fulfillment_name);
@@ -360,7 +391,7 @@ export default {
                     formData.append("province", this.forms.province.province);
                     formData.append("remarks", this.forms.remarks);
                     formData.append("status", this.forms.status);
-                    formData.append("sub_area", this.forms.sub_area);
+                    formData.append("sub_area", this.forms.sub_area.sub_area);
                     formData.append("village", this.forms.village);
                     
                     const baseURI  =  this.$settings.endPoint+"/fulfillment/add";
@@ -447,6 +478,52 @@ export default {
             })
         },
   
+        getArea(){
+            const baseURI  =  this.$settings.endPoint+"/area/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsArea = response.data.data
+            })
+        },
+        
+
+        searchArea(val){
+            const baseURI  =  this.$settings.endPoint+"/area/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${val}`).then((response) => {
+                this.optionsArea = response.data.data
+            })
+        },
+
+        getSubArea(){
+            const baseURI  =  this.$settings.endPoint+"/sub-area/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsSubArea = response.data.data
+            })
+        },
+
+        getPostalCode(){
+            const baseURI  =  this.$settings.endPoint+"/postal-code/index";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsPostalCode = response.data.data
+            })
+        },
+        
+
+        searchPostalCode(val){
+            
+            const baseURI  =  this.$settings.endPoint+"/postal-code/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${this.forms.area.area}&sub_area=${this.forms.sub_area.sub_area}&postal_code=${val}`).then((response) => {
+                this.optionsPostalCode = response.data.data
+            })
+        },
+        
+
+        searchSubArea(val){
+            const baseURI  =  this.$settings.endPoint+"/sub-area/index";
+            return this.$http.get(baseURI+`?country=${this.forms.country.name}&province=${this.forms.province.province}&city=${this.forms.city.city}&area=${this.forms.area.area}&sub_area=${val}`).then((response) => {
+                this.optionsSubArea = response.data.data
+            })
+        },
+
         backLink() {
             window.location.href = '/fulfillment-center/list';
             // this.$router.go(-1);
@@ -533,6 +610,9 @@ export default {
         this.getCountry();
         this.getProvince();
         this.getCity();
+        this.getArea();
+        this.getSubArea();
+        this.getPostalCode();
         this.fetchIt();
     }
 

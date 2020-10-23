@@ -22,7 +22,7 @@
               <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-header bg-white p-0" id="headingOne">
-                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('companyCreate')}} </button>
+                    <button class="btn btn-primary m-1" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('companyCreate')}} </button>
                   </div>
 
                   <div class="collapse show">
@@ -46,9 +46,9 @@
           <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
-          <button class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
-          <button v-if="props.row.status === 'DEACTIVATE'" class="btn btn-success" @click.prevent="deleteData(props.index , props.row, 'ACTIVATE')">Activate</button>
-          <button v-if="props.row.status === 'ACTIVATE'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row, 'DEACTIVATE')">Deactivate</button>
+          <button class="btn btn-warning" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
+          <button v-if="props.row.status === 'DEACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-success" @click.prevent="deleteData(props.index , props.row, 'ACTIVATE')">Activate</button>
+          <button v-if="props.row.status === 'ACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row, 'DEACTIVATE')">Deactivate</button>
         </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -94,7 +94,8 @@ export default {
     'menu-component':menuComponent,
   },
   data () {
-    return {  
+    return {
+      userDatas:[],  
       maxToasts: 100,
       isLoading: false,  
       position: 'up right',
@@ -298,8 +299,8 @@ export default {
       },
 
       fetchIt() {
-        const userDatas = this.$getUserInfo();
-        this.name = userDatas.sub.name;
+        const datasUser = this.$getUserInfo();
+        this.userDatas = datasUser.sub;
         
       },
 
