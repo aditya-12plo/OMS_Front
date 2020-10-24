@@ -46,8 +46,21 @@
         enabled: true,
     }"
   :rows="rows"
-  :columns="columns">
-          <template slot="table-row" slot-scope="props">
+  :columns="columns">      
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field == 'stocks'">
+          <table class="table">
+            <tr>
+              <th scope="row">Fulfillment</th>
+              <td>Stock Available</td>
+            </tr>
+            <tr v-for="invt in props.row.inventory" :key="invt.inventory_id">
+              <th scope="row">{{invt.fulfillment.name}}<br> ( {{invt.fulfillment.code}} )</th>
+              <td>{{invt.stock_available}}</td>
+            </tr>
+          </table>
+        </span>
+
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
@@ -183,6 +196,11 @@ export default {
             formatFn: this.formatUom
         },
         {
+          label: 'Stock',
+          field: 'stocks',
+          sortable: false,
+        },
+        {
           label: 'Action',
           field: 'actions',
           sortable: false,
@@ -195,6 +213,47 @@ export default {
 
     },
     methods: {
+        downloadData(){
+            this.fade(true);
+            var baseURI     =  this.$settings.endPoint+'/products/normal/download';
+            // var CurrentDate = this.$moment().format('DD_MM_YYYY_HH_mm_ss');
+            var sendData    = {
+                  company_id:this.serverParams.columnFilters.company_id,
+                  product_code:this.serverParams.columnFilters.product_code,
+                  product_description:this.serverParams.columnFilters.product_description,
+                  file_name:'download_25_10_2020_00_26_47.xlsx'
+                };	
+            this.$http({
+                url: baseURI,
+                method: 'POST',
+                data: sendData,
+                responseType: 'blob',
+            }).then((response) => {
+                this.errors     = [];
+                var filename    = sendData.file_name;
+
+                var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                var fileLink = document.createElement('a');
+
+                fileLink.href = fileURL;
+                fileLink.setAttribute('download', filename);
+                document.body.appendChild(fileLink);
+                fileLink.click();
+                this.fade(false);
+            }).catch(error => {
+                if (error.response) {
+                    if(error.response.status === 422) {
+                        this.errors =  {"message": ["File Not Found"]};
+                        this.error("File Not Found");
+                    }else if (error.response.status === 500) {
+                        this.$router.push('/server-error');
+                    }else{
+                        this.$router.push('/page-not-found');
+                    }
+                }
+            });
+        },
+
 
         formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
             return (value == null) ? '' : this.$moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
@@ -219,14 +278,12 @@ export default {
 
       detailData(index , row){
         var params  = this.$onRandom(row.product_id);
-        window.location.href = '/products/normal/detail/'+params;
-        // this.$router.push({name:'ProductNormalDetail', params: {id: this.$onRandom(row.product_id),datasProductNormalDetail:row }});       
+        window.location.href = '/products/normal/detail/'+params;      
       },
 
       editData(index , row){
           var params  = this.$onRandom(row.product_id);
-          window.location.href = '/products/normal/edit/'+params;
-          // this.$router.push({name:'ProductNormalEdit', params: {id: this.$onRandom(row.product_id),datasProductNormalEdit:row }});       
+          window.location.href = '/products/normal/edit/'+params;     
       },
 
       // load items is what brings back the rows from server

@@ -18,6 +18,7 @@ import settings from '@/config/app';
 import addFunction from '@/config/addFunction';
 import {getAuthToken,getUserInfo,logoutUser,setAuthToken} from '@/config/auth';
 
+moment.locale('id');
 
 require('es6-promise').polyfill();
 Vue.config.productionTip = false;

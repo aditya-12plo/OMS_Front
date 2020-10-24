@@ -65,7 +65,7 @@
                     <h3 class="block__title mb-lg-4">{{$t('downloadTemplateNormalProducts')}}</h3>
 
                         <div class="form-group col-md-12">
-                            <label for="xlsx" class="input__label"><button type="button" @click="downloadTemplate('xlsx1')" class="btn btn-primary btn-style mt-4" style="margin-right:15px;">XLSX</button></label>
+                            <label for="xlsx" class="input__label"><button type="button" @click="downloadTemplate('xlsx')" class="btn btn-primary btn-style mt-4" style="margin-right:15px;">XLSX</button></label>
                             <label for="csv" class="input__label"><button type="button" @click="downloadTemplate('csv')" class="btn btn-success btn-style mt-4">CSV</button></label>
                             
                         </div>
