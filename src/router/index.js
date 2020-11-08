@@ -19,6 +19,11 @@ import ProductNormalDetail from "@/views/Products/Normal/Detail.vue";
 import ProductNormalEdit from "@/views/Products/Normal/Edit.vue";
 import ProductNormalCreate from "@/views/Products/Normal/Create.vue";
 import ProductNormalUpload from "@/views/Products/Normal/Upload.vue";
+import ProductsBundle from "@/views/Products/Bundle/Index.vue";
+import ProductBundleDetail from "@/views/Products/Bundle/Detail.vue";
+import ProductBundleEdit from "@/views/Products/Bundle/Edit.vue";
+import ProductBundleCreate from "@/views/Products/Bundle/Create.vue";
+import ProductBundleUpload from "@/views/Products/Bundle/Upload.vue";
 
 Vue.use(VueRouter);
 
@@ -194,6 +199,48 @@ const routes = [
   }, 
 
 
+  {
+    path:'/products/bundle', 
+    meta: {
+      title: "Bundle Products | JualPraktis"
+    },
+    name: "ProductsBundle",
+    component: ProductsBundle
+  }, 
+  {
+    path:'/products/bundle/detail/:id', 
+    meta: {
+      title: "Product Bundle Detail | JualPraktis"
+    },
+    name: "ProductBundleDetail",
+    component: ProductBundleDetail,
+    props: false
+  }, 
+  {
+    path:'/products/bundle/edit/:id', 
+    meta: {
+      title: "Product Bundle Edit | JualPraktis"
+    },
+    name: "ProductBundleEdit",
+    component: ProductBundleEdit,
+    props: false
+  }, 
+  {
+    path:'/products/bundle/create', 
+    meta: {
+      title: "Product Bundle Create | JualPraktis"
+    },
+    name: "ProductBundleCreate",
+    component: ProductBundleCreate
+  }, 
+  {
+    path:'/products/bundle/upload', 
+    meta: {
+      title: "Product Bundle Upload | JualPraktis"
+    },
+    name: "ProductBundleUpload",
+    component: ProductBundleUpload
+  }, 
 
 
 

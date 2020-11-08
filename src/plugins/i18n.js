@@ -1,7 +1,7 @@
-import Vue from "vue";
-import VueI18n from "vue-i18n";
+// import Vue from "vue";
+// import VueI18n from "vue-i18n";
 
-Vue.use(VueI18n);
+// Vue.use(VueI18n);
 
 const messages = {
     "en": {
@@ -44,6 +44,7 @@ const messages = {
         name:"Name",
         phone:"Phone",
         handphone:"Handphone",
+        bundleProducts:"Bundle / KIT Products",
         normalProducts:"Normal Products",
         createProducts:"Create New Product",
         uploadProducts:"Upload New Product",
@@ -52,6 +53,7 @@ const messages = {
         editProducts:"Edit Produk",
         product:"Product",
         sku:"Product Code / SKU",
+        productComponents:"Product Components",
         productName:"Product Name",
         uom:"UOM (Unit Of Measure)",
         currency:"Currency",
@@ -115,6 +117,7 @@ const messages = {
         name:"Nama",
         phone:"Telepon",
         handphone:"Telepon Seluler",
+        bundleProducts:"Produk Gabungan",
         normalProducts:"Produk Normal",
         createProducts:"Buat Produk Baru",
         uploadProducts:"Upload Produk Baru",
@@ -124,6 +127,7 @@ const messages = {
         product:"Produk",
         sku:"Kode Produk / SKU",
         productName:"Nama Produk",
+        productComponents:"Komponen Produk",
         uom:"UOM (Satuan Ukuran)",
         currency:"Mata Uang",
         priceProduct:"Harga",
@@ -148,12 +152,13 @@ const messages = {
     }
 };
 
-const i18n = new VueI18n({
-    locale: "id",
-    fallbackLocale: 'en',
-    localeDir: 'locales',
-    enableInSFC: true,
-    messages,
-});
+// const i18n = new VueI18n({
+//     locale: "id",
+//     fallbackLocale: 'en',
+//     localeDir: 'locales',
+//     enableInSFC: true,
+//     messages,
+// });
 
-export default i18n;
+export default messages;
+// export default i18n;

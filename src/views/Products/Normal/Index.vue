@@ -48,7 +48,7 @@
   :rows="rows"
   :columns="columns">      
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'stocks'">
+        <span v-if="props.column.field == 'stocks_available'">
           <table class="table">
             <tr>
               <th scope="row">Fulfillment</th>
@@ -184,20 +184,8 @@ export default {
             formatFn: this.formatMoney
         },
         {
-            label: 'UOM',
-            field: 'uom_description',
-            filterOptions: {
-                enabled: false, // enable filter for this column
-                placeholder: "Filter By Price", // placeholder for filter input
-                filterValue: "", // initial populated value for this filter
-                filterDropdownItems: [], // dropdown (with selected values) instead of text input
-                trigger: "enter", //only trigger on enter not on keyup
-            },
-            formatFn: this.formatUom
-        },
-        {
-          label: 'Stock',
-          field: 'stocks',
+          label: 'Stock Available',
+          field: 'stocks_available',
           sortable: false,
         },
         {

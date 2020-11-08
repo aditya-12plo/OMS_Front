@@ -22,7 +22,7 @@
                         <div class="form-group">
                             <label for="Language" class="input__label">Language / Bahasa</label>
                             
-                              <select v-model="$i18n.locale" class="form-control input-style">
+                              <select v-model="locale" @change="langChanged($i18n.locale)" class="form-control input-style">
                                 <option>Language / Bahasa</option>
                                 <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
                               </select>
@@ -71,6 +71,7 @@ export default {
   },
   data () {
     return {
+        locale:'',
         maxToasts: 100,
         position: 'up right',
         closeBtn: true,  
@@ -179,6 +180,15 @@ export default {
       })
    
     },
+
+    langChanged(lang){
+      if(this.locale == ''){
+        this.locale = lang;
+      }else{
+        this.$i18n.locale = this.locale;
+        localStorage.Lang = this.locale;
+      }
+    },
  
     fade(sType){  	
       this.isLoading = sType;
@@ -204,6 +214,7 @@ export default {
 	mounted() {
     this.fade(true);
     this.loading();
+    this.langChanged(this.$i18n.locale);
   }
 
 }

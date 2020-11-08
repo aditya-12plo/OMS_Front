@@ -95,7 +95,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="width" class="input__label">{{$t('width')}}</label>
-                            <money v-model="forms.width" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.width" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.width">
                                 <div class="invalid-feedback" v-for="error in errors.width" :key="error">{{error}}</div>
                             </div>
@@ -103,7 +103,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="height" class="input__label">{{$t('height')}}</label>
-                            <money v-model="forms.height" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.height" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.height">
                                 <div class="invalid-feedback" v-for="error in errors.height" :key="error">{{error}}</div>
                             </div>
@@ -113,7 +113,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="weight" class="input__label">{{$t('weight')}}</label>
-                            <money v-model="forms.weight" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.weight" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.weight">
                                 <div class="invalid-feedback" v-for="error in errors.weight" :key="error">{{error}}</div>
                             </div>
@@ -122,7 +122,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="net_weight" class="input__label">{{$t('net_weight')}}</label>
-                            <money v-model="forms.net_weight" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.net_weight" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.net_weight">
                                 <div class="invalid-feedback" v-for="error in errors.net_weight" :key="error">{{error}}</div>
                             </div>
@@ -131,7 +131,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="gross_weight" class="input__label">{{$t('gross_weight')}}</label>
-                            <money v-model="forms.gross_weight" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.gross_weight" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.gross_weight">
                                 <div class="invalid-feedback" v-for="error in errors.gross_weight" :key="error">{{error}}</div>
                             </div>
@@ -155,7 +155,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="cube" class="input__label">{{$t('cube')}}</label>
-                            <money v-model="forms.cube" v-bind="money" class="form-control input-style" required=""></money>
+                            <money v-model="forms.cube" v-bind="size" class="form-control input-style" required=""></money>
                             <div v-if="errors.cube">
                                 <div class="invalid-feedback" v-for="error in errors.cube" :key="error">{{error}}</div>
                             </div>
@@ -242,6 +242,14 @@ export default {
                 thousands: '.',
                 prefix: '',
                 suffix: '',
+                precision: 2,
+                masked: false
+            },
+            size: {
+                decimal: ',',
+                thousands: '.',
+                prefix: '',
+                suffix: ' CM',
                 precision: 2,
                 masked: false
             }

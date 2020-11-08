@@ -36,7 +36,8 @@
             <span>Products <i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
             <li><a href="/products/normal">Normal</a> </li>
-            <li><a href="/products/kit">Bundle / Kit</a></li>
+            <li><a href="/products/bundle">Bundle / Kit</a></li>
+            <li><a href="/products/damage">Damage</a></li>
           </ul>
         </li>
         <li class="menu-list">
@@ -228,6 +229,7 @@ export default {
   },
   data () {
     return {  
+      locale:'',
       name:"",
       company:"",
       company_id:"",
@@ -239,12 +241,22 @@ export default {
     },
     methods: { 	
       
+      langChanged(lang){
+        if(this.locale == ''){
+          this.locale = lang;
+        }else{
+          this.$i18n.locale = this.locale;
+          localStorage.Lang = this.locale;
+        }
+      },
       toEN(){
-        return this.$i18n.locale = 'en';
+        this.$i18n.locale = 'en';
+         localStorage.Lang = 'en';
       },
 
       toID(){
-        return this.$i18n.locale = 'id';
+        this.$i18n.locale = 'id';
+         localStorage.Lang = 'id';
       },
 
 
@@ -269,6 +281,7 @@ export default {
     },
 	mounted() {
       this.fetchIt();
+      this.langChanged(this.$i18n.locale);
         
     }
 

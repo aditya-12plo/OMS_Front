@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="Fulfillment"></menu-component>
+      <menu-component classMenu="ProductsNormalDetail"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -23,7 +23,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('company')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasProductNormalDetail.company.name+' ( '+this.datasProductNormalDetail.company.company_id+' )'}}</b>
+                            <b>{{this.datasProductNormalCompany.name+' ( '+this.datasProductNormalDetail.company_id+' )'}}</b>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('uom')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasProductNormalDetail.uom_description.uom_code + ' ( ' +this.datasProductNormalDetail.uom_description.uom_description+' )'}}</b>
+                            <b>{{this.datasProductNormalDetail.uom_code + ' ( ' +this.datasProductNormalUom.uom_description+' )'}}</b>
                         </div>
                     </div>
 
@@ -219,6 +219,8 @@ export default {
     data () {
         return {  
         datasProductNormalDetail:[],
+        datasProductNormalCompany:[],
+        datasProductNormalUom:[],
         maxToasts: 100,
         isLoading: false,  
         position: 'up right',
@@ -238,7 +240,9 @@ export default {
             const baseURI  =  this.$settings.endPoint+"/products/normal/detail/"+id;
             
             return this.$http.get(baseURI).then((response) => {
-                this.datasProductNormalDetail = response.data.datas
+                this.datasProductNormalDetail   = response.data.datas
+                this.datasProductNormalCompany  = response.data.datas.company
+                this.datasProductNormalUom      = response.data.datas.uom_description
             })
             
         },

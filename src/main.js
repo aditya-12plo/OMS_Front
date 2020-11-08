@@ -12,7 +12,8 @@ import VModal from 'vue-js-modal';
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import i18n from "@/plugins/i18n";
+import messages from "@/plugins/i18n";
+import VueI18n from "vue-i18n";
 import {onRandom,onBehind} from "@/plugins/hadish";
 import settings from '@/config/app';
 import addFunction from '@/config/addFunction';
@@ -28,12 +29,14 @@ Vue.use(VueEvents);
 Vue.use(VueGoodTablePlugin);
 Vue.use(money, {precision: 4});
 Vue.use(VModal);
+Vue.use(VueI18n);
 
 // global variable
 Vue.prototype.$http = Axios;
 Vue.prototype.$accounting = accounting;
 Vue.prototype.$moment = moment;
 Vue.prototype.$settings = settings;
+// Vue.prototype.$i18n = i18n;
 Vue.prototype.$addFunction = addFunction;
 Vue.prototype.$getAuthToken = getAuthToken;
 Vue.prototype.$getUserInfo = getUserInfo;
@@ -47,6 +50,20 @@ const token = getAuthToken();
 if (token) {
   setAuthToken(token);
 }
+
+const lang = localStorage.Lang;
+if(localStorage.Lang == null){
+  localStorage.Lang = "id";
+  this.lang              = "id";
+}
+
+const i18n = new VueI18n({
+    locale: lang,
+    fallbackLocale: 'en',
+    localeDir: 'locales',
+    enableInSFC: true,
+    messages,
+});
 
 new Vue({
   router,
