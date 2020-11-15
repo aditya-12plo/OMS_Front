@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="ProductsBundle"></menu-component>
+      <menu-component classMenu="ProductLocations"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,14 +16,14 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-header chart-grid__header">
-              <i class="fas fa-barcode"></i> {{$t('bundleProducts')}}
+              <i class="fas fa-search-location"></i> {{$t('locationProducts')}}
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-header bg-white p-0" id="headingOne">
-                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('createProducts')}} </button>
-                    <button class="btn btn-success m-1" @click.prevent="uploadData"><i class="fa fa-upload"></i> {{$t('uploadProducts')}} </button>
+                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('createLocations')}} </button>
+                    <button class="btn btn-success m-1" @click.prevent="uploadData"><i class="fa fa-upload"></i> {{$t('uploadLocation')}} </button>
                     <button class="btn btn-warning m-1" @click.prevent="downloadData"><i class="fa fa-file-excel-o"></i> Download Data </button>
                   
                   </div>
@@ -33,7 +33,7 @@
                      
                      
 <vue-good-table
-    title="bundle-products"
+    title="product-locations"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -48,19 +48,6 @@
   :rows="rows"
   :columns="columns">      
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'stocks_available'">
-          <table class="table">
-            <tr>
-              <th scope="row">Fulfillment</th>
-              <td>Stock Available</td>
-            </tr>
-            <tr v-for="invt in props.row.inventory" :key="invt.inventory_id">
-              <th scope="row">{{invt.fulfillment.name}}<br> ( {{invt.fulfillment.code}} )</th>
-              <td>{{invt.stock_available}}</td>
-            </tr>
-          </table>
-        </span>
-
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
@@ -104,7 +91,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import menuComponent from '@/views/Menu/Index'
 
 export default {
-  name: 'ProductsBundle',
+  name: 'ProductLocations',
   components: {
     'menu-component':menuComponent,
   },
@@ -116,6 +103,7 @@ export default {
       closeBtn: true,  
       errors: [],
       langs: ['id', 'en'],
+      userDatas:[],
       totalRecords: 0,
       serverParams: {
           columnFilters: {},
@@ -139,54 +127,19 @@ export default {
           }
         },
         {
-          label: 'Product Code',
-          field: 'product_code',
+          label: 'Fulfillment Name',
+          field: 'fulfillment.name',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Product Code", // placeholder for filter input
+            placeholder: "Filter By Fulfillment Name", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
         {
-          label: 'Product Name',
-          field: 'product_description',
-          filterOptions: {
-            enabled: true, // enable filter for this column
-            placeholder: "Filter By Product Name", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
-        {
-            label: 'Currency',
-            field: 'currency',
-            filterOptions: {
-                enabled: false, // enable filter for this column
-                placeholder: "Filter By Currency", // placeholder for filter input
-                filterValue: "", // initial populated value for this filter
-                filterDropdownItems: [], // dropdown (with selected values) instead of text input
-                trigger: "enter", //only trigger on enter not on keyup
-            }
-        },
-        {
-          label: 'Product Price',
-          field: 'price',
-          filterOptions: {
-            enabled: true, // enable filter for this column
-            placeholder: "Filter By Price", // placeholder for filter input
-            filterValue: ">=0", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          },
-            formatFn: this.formatMoney
-        },
-        {
-          label: 'Stock Available',
-          field: 'stocks_available',
-          sortable: false,
+          label: 'Locations Total',
+          field: this.ttlLocations
         },
         {
           label: 'Action',
@@ -201,14 +154,20 @@ export default {
 
     },
     methods: {
+        ttlLocations(rowObj){
+            return rowObj.fulfillment.locations.length;
+        },
+
         downloadData(){
+            var params  = this.serverParams.columnFilters;
             this.fade(true);
-            var baseURI     =  this.$settings.endPoint+'/products/bundle/download';
+            var baseURI     =  this.$settings.endPoint+'/locations/download';
             var CurrentDate = this.$moment().format('DD_MM_YYYY_HH_mm_ss');
             var sendData    = {
-                  company_id:this.serverParams.columnFilters.company_id,
-                  product_code:this.serverParams.columnFilters.product_code,
-                  product_description:this.serverParams.columnFilters.product_description,
+                  company_id:params['product.company_id'],
+                  product_code:params['product.product_code'],
+                  product_description:params['product.product_description'],
+                  status:this.serverParams.columnFilters.status,
                   file_name:'download_'+CurrentDate+'.xlsx'
                 };	
             this.$http({
@@ -256,31 +215,31 @@ export default {
         },
 
       uploadData(){
-          window.location.href = '/products/bundle/upload';    
+          window.location.href = '/locations/upload';    
       },
 
       createData(){
-          window.location.href = '/products/bundle/create';
-          // this.$router.push({name:'ProductNormalCreate'});       
+          window.location.href = '/locations/create';       
       },
 
       detailData(index , row){
-        var params  = this.$onRandom(row.product_id);
-        window.location.href = '/products/bundle/detail/'+params;      
+        var params  = this.$onRandom(row.products_demage_id);
+        window.location.href = '/locations/detail/'+params;      
       },
-
+      
       editData(index , row){
-          var params  = this.$onRandom(row.product_id);
-          window.location.href = '/products/bundle/edit/'+params;     
+          var params  = this.$onRandom(row.products_demage_id);
+          window.location.href = '/locations/edit/'+params;     
       },
 
       // load items is what brings back the rows from server
         loadItems() {
-            const baseURI  =  this.$settings.endPoint+"/products/bundle/index";
-            
-            return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&product_code=${this.serverParams.columnFilters.product_code}&product_description=${this.serverParams.columnFilters.product_description}&price=${this.serverParams.columnFilters.price}`).then((response) => {
-            this.rows = response.data.data
-            this.totalRecords  = response.data.total
+            var params  = this.serverParams.columnFilters;
+            const baseURI  =  this.$settings.endPoint+"/locations/company-fulfillments";
+                
+            return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${params['company_id']}&fulfillment_name=${params['fulfillment.name']}`).then((response) => {
+                this.rows = response.data.data
+                this.totalRecords  = response.data.total
             })
         },
 
@@ -369,9 +328,10 @@ export default {
         }, 1000); // hide the message after 3 seconds
       },
 
+
       fetchIt() {
-        const userDatas = this.$getUserInfo();
-        this.name = userDatas.sub.name;
+        const datasUser = this.$getUserInfo();
+        this.userDatas = datasUser.sub;
         
       },
 
@@ -384,6 +344,7 @@ export default {
     },
 	mounted() {
       document.body.classList.add("sidebar-menu-collapsed");
+      this.fetchIt();
     }
 
 }

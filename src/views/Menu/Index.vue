@@ -35,9 +35,10 @@
           <a href="#"><i class="fas fa-barcode"></i>
             <span>Products <i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
-            <li><a href="/products/normal">Normal</a> </li>
-            <li><a href="/products/bundle">Bundle / Kit</a></li>
-            <li><a href="/products/damage">Damage</a></li>
+            <li><a href="/products/normal">{{$t('normalProducts')}}</a> </li>
+            <li><a href="/products/bundle">{{$t('bundleProducts')}}</a></li>
+            <li><a href="/products/damage"> {{$t('damageProducts')}}</a></li>
+            <li><a href="locations/index"> {{$t('locationProducts')}}</a></li>
           </ul>
         </li>
         <li class="menu-list">
@@ -60,14 +61,17 @@
             <li><a href="/marketplace/sync-products">Sync Products</a></li>
           </ul>
         </li>
-        <li class="">
-          <a href="/fulfillment-center/list"><i class="fas fa-warehouse"></i>
-            <span>Fulfillment Center</span></a>
+
+        <li class="menu-list">
+          <a href="#"><i class="fas fa-building"></i>
+            <span>Administrator<i class="lnr lnr-chevron-right"></i></span></a>
+          <ul class="sub-menu-list">
+            <li><a href="/fulfillment-center/list">{{$t('fulfillmentCenter')}}</a></li>
+            <li><a href="/company/list">{{$t('companyCenter')}}</a></li>
+          </ul>
         </li>
-        <li class="">
-          <a href="/company/list"><i class="fas fa-building"></i>
-            <span>Company</span></a>
-        </li>
+        
+        
         <li class="menu-list">
           <a href="#"><i class="fas fa-language"></i>
             <span>Language / Bahasa<i class="lnr lnr-chevron-right"></i></span></a>

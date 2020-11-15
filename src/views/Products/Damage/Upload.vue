@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="ProductBundleUpload"></menu-component>
+      <menu-component classMenu="ProductDamageUpload"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-barcode"></i> {{$t('uploadProducts')}}</h3>
+            <h3><i class="fas fa-barcode"></i> {{$t('uploadDamageProducts')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">
@@ -19,7 +19,7 @@
             <div class="card-body py-3 p-0">
                 <div class="row">
                 <div class="col-lg-6">
-                    <h3 class="block__title mb-lg-4">Form</h3>
+                    <h3 class="block__title mb-lg-4">Hold Form</h3>
 
                         <div class="form-group col-md-12">
                             <label for="companyName" class="input__label">{{$t('companyName')}}</label>
@@ -38,7 +38,45 @@
                                 <div class="invalid-feedback" v-for="error in errors.company" :key="error">{{error}}</div>
                             </div>
                         </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="fulfillmentName" class="input__label">{{$t('fulfillmentName')}}</label>
+                            <v-select :options="optionsFulfillment" label="name" placeholder="Choose a Fulfillment" v-model="forms.fulfillment_center_id" @search="searchFulfillment" :reduce="fulfillment => `${fulfillment.fulfillment_center_id}`" autocomplete>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.fulfillment_center_id"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+                            
+                            <div v-if="errors.fulfillment_center_id">
+                                <div class="invalid-feedback" v-for="error in errors.fulfillment_center_id" :key="error">{{error}}</div>
+                            </div>
+                        </div>
                     
+                        <div class="form-group col-md-12">
+                            <label for="sku" class="input__label">{{$t('locationCode')}}</label>
+                             <v-select :options="optionsLocation" label="location_code" :reduce="location => `${location.location_id}`" placeholder="Choose a Location Id" v-model="forms.location_id" @search="searchLocation" autocomplete>
+                                        <template #search="{attributes, events}">
+                                            <input
+                                            class="vs__search"
+                                            :required="!forms.location_id"
+                                            v-bind="attributes"
+                                            v-on="events"
+                                            />
+                                        </template>
+                                        <template slot="option" slot-scope="option">
+                                        {{ option.location_code}} - {{option.location_descriptions}}
+                                        </template>
+                                </v-select>
+                            <div v-if="errors.location_id">
+                                <div class="invalid-feedback" v-for="error in errors.location_id" :key="error">{{error}}</div>
+                            </div>
+                        </div>
+
                         <div class="form-group col-md-12">
                             <label for="file" class="input__label">File (max. 2 MB)</label>
                             <input type="file" ref="file" @change="uploadFile" class="form-control input-style" required="">
@@ -62,27 +100,14 @@
 
                 </div>
                 <div class="col-lg-6">
-                    <h3 class="block__title mb-lg-4">{{$t('downloadTemplateBundleProducts')}}</h3>
+                    <h3 class="block__title mb-lg-4">{{$t('downloadTemplateDamageProducts')}}</h3>
 
                         <div class="form-group col-md-12">
                             <label for="xlsx" class="input__label"><button type="button" @click="downloadTemplate('xlsx')" class="btn btn-primary btn-style mt-4" style="margin-right:15px;">XLSX</button></label>
                             <label for="csv" class="input__label"><button type="button" @click="downloadTemplate('csv')" class="btn btn-success btn-style mt-4">CSV</button></label>
                             
                         </div>
-                    <h3 class="block__title mb-lg-4">{{$t('uom')}}</h3>
-                        <div class="form-group col-md-12">
-                            <ol>
-                                <li v-for="(uom,index) in optionsUom" :key="index">{{uom.uom_code}} ({{uom.uom_description}})</li>
-                            </ol>
-                        </div>
-                    <h3 class="block__title mb-lg-4">{{$t('time_to_live')}}</h3>
-                        <div class="form-group col-md-12">
-                            <ol>
-                                <li>0 is false</li>
-                                <li>1 is true</li>
-                            </ol>
-                        </div>
-
+                   
                 </div>
                 
 
@@ -119,7 +144,7 @@ import menuComponent from '@/views/Menu/Index'
 import 'vue-select/dist/vue-select.css'
 
 export default {
-    name: 'ProductsBundleUpload',
+    name: 'ProductDamageUpload',
     props: {},
     components: {
         'menu-component':menuComponent,
@@ -134,9 +159,11 @@ export default {
             closeBtn: true,  
             errors: [],
             datasSuccess: [],
-            forms: {company:'', files: '' },
+            forms: {company:'', fulfillment_center_id:'',location_id:'', files: '' },
             options: [],
             optionsUom: [],
+            optionsLocation:[],
+            optionsFulfillment: [],
             money: {
                 decimal: ',',
                 thousands: '.',
@@ -158,7 +185,7 @@ export default {
 
         downloadTemplate(type){
             this.loading();
-            const baseURI  =  this.$settings.endPoint+"/products/bundle/template/"+type;
+            const baseURI  =  this.$settings.endPoint+"/products/damage/template/"+type;
 
             this.$http({
                 url: baseURI,
@@ -169,9 +196,9 @@ export default {
                 var filename    = '';
                 var type        = response.headers["content-type"];
                 if(type === "application/vnd.ms-excel"){
-                    filename    = "bundle_products_template.xlsx";
+                    filename    = "damage_products_template.xlsx";
                 }else{
-                    filename    = "bundle_products_template.csv";
+                    filename    = "damage_products_template.csv";
                 }
 
                 var fileURL = window.URL.createObjectURL(new Blob([response.data]));
@@ -211,9 +238,11 @@ export default {
                     let formData = new FormData();
                     formData.append("files", this.forms.files);
                     formData.append("company", this.forms.company);
+                    formData.append("fulfillment_center_id", this.forms.fulfillment_center_id);
+                    formData.append("location_id", this.forms.location_id);
 
                         
-                    const baseURI  =  this.$settings.endPoint+"/products/bundle/upload";
+                    const baseURI  =  this.$settings.endPoint+"/products/damage/upload";
                         
                     this.$http.post(baseURI,formData)
                         .then((response) => {
@@ -224,6 +253,8 @@ export default {
                                 this.success(response.data.datas.message);
                                 this.forms.company  = '';
                                 this.forms.files    = '';
+                                this.forms.fulfillment_center_id    = '';
+                                this.forms.location_id    = '';
                                 this.$refs.file.value   = '';
                                 this.file           = '';
 
@@ -302,7 +333,7 @@ export default {
         },
 
         backLink() {
-            window.location.href = '/products/bundle';
+            window.location.href = '/products/damage';
         } ,
 
         resultError(data) {  
@@ -363,10 +394,26 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
-        getUom(){
-            const baseURI  =  this.$settings.endPoint+"/uom/index?per_page=100";
+
+        getFulfillment(){
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
             return this.$http.get(baseURI).then((response) => {
-                this.optionsUom = response.data.data
+                this.optionsFulfillment = response.data.data
+            })
+        },
+        
+
+        searchFulfillment(val){
+            const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
+            return this.$http.get(baseURI+`?name=${val}`).then((response) => {
+                this.optionsFulfillment = response.data.data
+            })
+        },
+
+        searchLocation(val){
+            const baseURI  =  this.$settings.endPoint+"/locations/index";
+            return this.$http.get(baseURI+`?fulfillment_center_id=${this.forms.fulfillment_center_id}&location_code=${val}`).then((response) => {
+                this.optionsLocation = response.data.data
             })
         },
 
@@ -381,7 +428,7 @@ export default {
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
         this.getCompany();
-        this.getUom();
+        this.getFulfillment();
     }
 
 }

@@ -204,12 +204,12 @@ export default {
         downloadData(){
             this.fade(true);
             var baseURI     =  this.$settings.endPoint+'/products/normal/download';
-            // var CurrentDate = this.$moment().format('DD_MM_YYYY_HH_mm_ss');
+            var CurrentDate = this.$moment().format('DD_MM_YYYY_HH_mm_ss');
             var sendData    = {
                   company_id:this.serverParams.columnFilters.company_id,
                   product_code:this.serverParams.columnFilters.product_code,
                   product_description:this.serverParams.columnFilters.product_description,
-                  file_name:'download_25_10_2020_00_26_47.xlsx'
+                  file_name:'download_'+CurrentDate+'.xlsx'
                 };	
             this.$http({
                 url: baseURI,

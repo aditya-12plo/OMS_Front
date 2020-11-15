@@ -24,6 +24,12 @@ import ProductBundleDetail from "@/views/Products/Bundle/Detail.vue";
 import ProductBundleEdit from "@/views/Products/Bundle/Edit.vue";
 import ProductBundleCreate from "@/views/Products/Bundle/Create.vue";
 import ProductBundleUpload from "@/views/Products/Bundle/Upload.vue";
+import ProductsDamage from "@/views/Products/Damage/Index.vue";
+import ProductsDamageDetail from "@/views/Products/Damage/Detail.vue";
+import ProductDamageCreate from "@/views/Products/Damage/Create.vue";
+import ProductDamageEdit from "@/views/Products/Damage/Edit.vue";
+import ProductDamageUpload from "@/views/Products/Damage/Upload.vue";
+import ProductLocations from "@/views/Locations/Index.vue";
 
 Vue.use(VueRouter);
 
@@ -149,7 +155,19 @@ const routes = [
     props: true
   }, 
 
+  
+  /**
+   * Locations
+   */
 
+  {
+    path:'/locations/index', 
+    meta: {
+      title: "Product Locations | JualPraktis"
+    },
+    name: "ProductLocations",
+    component: ProductLocations
+  }, 
   
   /**
    * Products
@@ -243,6 +261,49 @@ const routes = [
   }, 
 
 
+  {
+    path:'/products/damage', 
+    meta: {
+      title: "Damage Products | JualPraktis"
+    },
+    name: "ProductsDamage",
+    component: ProductsDamage
+  }, 
+  {
+    path:'/products/damage/detail/:id', 
+    meta: {
+      title: "Product Damage Detail | JualPraktis"
+    },
+    name: "ProductsDamageDetail",
+    component: ProductsDamageDetail,
+    props: false
+  },  
+  {
+    path:'/products/damage/create', 
+    meta: {
+      title: "Product Damage Create | JualPraktis"
+    },
+    name: "ProductDamageCreate",
+    component: ProductDamageCreate
+  }, 
+  {
+    path:'/products/damage/edit/:id', 
+    meta: {
+      title: "Product Damage Edit | JualPraktis"
+    },
+    name: "ProductDamageEdit",
+    component: ProductDamageEdit,
+    props: false
+  },  
+  {
+    path:'/products/damage/upload', 
+    meta: {
+      title: "Product Damage Upload | JualPraktis"
+    },
+    name: "ProductDamageUpload",
+    component: ProductDamageUpload
+  }, 
+  
 
   {
     path: "/about",

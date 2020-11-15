@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="ProductsBundle"></menu-component>
+      <menu-component classMenu="ProductsDamage"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,7 +16,7 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-header chart-grid__header">
-              <i class="fas fa-barcode"></i> {{$t('bundleProducts')}}
+              <i class="fas fa-barcode"></i> {{$t('damageProducts')}}
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
@@ -33,7 +33,7 @@
                      
                      
 <vue-good-table
-    title="bundle-products"
+    title="damage-products"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -48,22 +48,11 @@
   :rows="rows"
   :columns="columns">      
       <template slot="table-row" slot-scope="props">
-        <span v-if="props.column.field == 'stocks_available'">
-          <table class="table">
-            <tr>
-              <th scope="row">Fulfillment</th>
-              <td>Stock Available</td>
-            </tr>
-            <tr v-for="invt in props.row.inventory" :key="invt.inventory_id">
-              <th scope="row">{{invt.fulfillment.name}}<br> ( {{invt.fulfillment.code}} )</th>
-              <td>{{invt.stock_available}}</td>
-            </tr>
-          </table>
-        </span>
-
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
           <button class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
+          <button class="btn btn-danger" v-if="props.row.status === 'HOLD' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" style="margin-right: 5px;" @click.prevent="updateStatusData(props.index , props.row , 'SALE')">Sale</button>
+          <button class="btn btn-danger" v-if="props.row.status === 'SALE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" style="margin-right: 5px;" @click.prevent="updateStatusData(props.index , props.row, 'HOLD')">Hold</button>
         </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -104,7 +93,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import menuComponent from '@/views/Menu/Index'
 
 export default {
-  name: 'ProductsBundle',
+  name: 'ProductsDamage',
   components: {
     'menu-component':menuComponent,
   },
@@ -116,6 +105,7 @@ export default {
       closeBtn: true,  
       errors: [],
       langs: ['id', 'en'],
+      userDatas:[],
       totalRecords: 0,
       serverParams: {
           columnFilters: {},
@@ -129,7 +119,7 @@ export default {
       columns: [
         {
           label: 'Company Code',
-          field: 'company_id',
+          field: 'product.company_id',
           filterOptions: {
             enabled: true, // enable filter for this column
             placeholder: "Filter By Company Code", // placeholder for filter input
@@ -140,7 +130,7 @@ export default {
         },
         {
           label: 'Product Code',
-          field: 'product_code',
+          field: 'product.product_code',
           filterOptions: {
             enabled: true, // enable filter for this column
             placeholder: "Filter By Product Code", // placeholder for filter input
@@ -151,7 +141,7 @@ export default {
         },
         {
           label: 'Product Name',
-          field: 'product_description',
+          field: 'product.product_description',
           filterOptions: {
             enabled: true, // enable filter for this column
             placeholder: "Filter By Product Name", // placeholder for filter input
@@ -161,32 +151,30 @@ export default {
           }
         },
         {
-            label: 'Currency',
-            field: 'currency',
-            filterOptions: {
-                enabled: false, // enable filter for this column
-                placeholder: "Filter By Currency", // placeholder for filter input
-                filterValue: "", // initial populated value for this filter
-                filterDropdownItems: [], // dropdown (with selected values) instead of text input
-                trigger: "enter", //only trigger on enter not on keyup
-            }
+          label: 'Fulfillment',
+          field: 'fulfillment.name',
+          sortable: false,
         },
         {
-          label: 'Product Price',
-          field: 'price',
+          label: 'Hold date',
+          field: 'hold_date',
+          sortable: false,
+        },
+        {
+          label: 'QTY',
+          field: 'qty',
+          sortable: false,
+        },
+        {
+          label: 'Status',
+          field: 'status',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Price", // placeholder for filter input
-            filterValue: ">=0", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
+            placeholder: "Filter By Status", // placeholder for filter input
+            filterValue: "", // initial populated value for this filter
+            filterDropdownItems: ['HOLD','SALE'], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
-          },
-            formatFn: this.formatMoney
-        },
-        {
-          label: 'Stock Available',
-          field: 'stocks_available',
-          sortable: false,
+          }
         },
         {
           label: 'Action',
@@ -202,13 +190,15 @@ export default {
     },
     methods: {
         downloadData(){
+            var params  = this.serverParams.columnFilters;
             this.fade(true);
-            var baseURI     =  this.$settings.endPoint+'/products/bundle/download';
+            var baseURI     =  this.$settings.endPoint+'/products/damage/download';
             var CurrentDate = this.$moment().format('DD_MM_YYYY_HH_mm_ss');
             var sendData    = {
-                  company_id:this.serverParams.columnFilters.company_id,
-                  product_code:this.serverParams.columnFilters.product_code,
-                  product_description:this.serverParams.columnFilters.product_description,
+                  company_id:params['product.company_id'],
+                  product_code:params['product.product_code'],
+                  product_description:params['product.product_description'],
+                  status:this.serverParams.columnFilters.status,
                   file_name:'download_'+CurrentDate+'.xlsx'
                 };	
             this.$http({
@@ -256,29 +246,76 @@ export default {
         },
 
       uploadData(){
-          window.location.href = '/products/bundle/upload';    
+          window.location.href = '/products/damage/upload';    
       },
 
       createData(){
-          window.location.href = '/products/bundle/create';
-          // this.$router.push({name:'ProductNormalCreate'});       
+          window.location.href = '/products/damage/create';       
       },
 
       detailData(index , row){
-        var params  = this.$onRandom(row.product_id);
-        window.location.href = '/products/bundle/detail/'+params;      
+        var params  = this.$onRandom(row.products_demage_id);
+        window.location.href = '/products/damage/detail/'+params;      
+      },
+      
+      updateStatusData(index , row , status){
+        this.$swal({
+                title: this.$t('areYouSure'),
+                text: this.$t('yourData'),
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.value) {
+                
+                    this.fade(true);
+
+                    let formData = new FormData();
+                    formData.append("products_demage_id", row.products_demage_id);
+                    formData.append("status", status);
+
+                        
+                    const baseURI  =  this.$settings.endPoint+"/products/damage/update-status";
+                        
+                    this.$http.post(baseURI,formData)
+                        .then((response) => {
+                            this.loading();
+                            if(response.data.status === 200) {
+                                this.success(response.data.datas.message);
+                                this.loadItems();
+                            }else{
+                                this.resultError(response.data.errors.message);
+                            }
+                    }).catch(error => {
+                        this.loading();
+                        if (error.response) {
+                            if(error.response.status === 422) {
+                                this.errors = error.response.data.errors.message;
+                                this.resultError(error.response.data.errors.message);
+                            }else if (error.response.status === 500) {
+                                this.$router.push('/server-error');
+                            }else{
+                                this.$router.push('/page-not-found');
+                            }
+                        }
+                    });
+                        
+                }
+            })
       },
 
       editData(index , row){
-          var params  = this.$onRandom(row.product_id);
-          window.location.href = '/products/bundle/edit/'+params;     
+          var params  = this.$onRandom(row.products_demage_id);
+          window.location.href = '/products/damage/edit/'+params;     
       },
 
       // load items is what brings back the rows from server
         loadItems() {
-            const baseURI  =  this.$settings.endPoint+"/products/bundle/index";
+          var params  = this.serverParams.columnFilters;
+          const baseURI  =  this.$settings.endPoint+"/products/damage/index";
             
-            return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&product_code=${this.serverParams.columnFilters.product_code}&product_description=${this.serverParams.columnFilters.product_description}&price=${this.serverParams.columnFilters.price}`).then((response) => {
+            return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${params['product.company_id']}&product_code=${params['product.product_code']}&status=${params.status}&product_description=${params['product.product_description']}`).then((response) => {
             this.rows = response.data.data
             this.totalRecords  = response.data.total
             })
@@ -369,9 +406,10 @@ export default {
         }, 1000); // hide the message after 3 seconds
       },
 
+
       fetchIt() {
-        const userDatas = this.$getUserInfo();
-        this.name = userDatas.sub.name;
+        const datasUser = this.$getUserInfo();
+        this.userDatas = datasUser.sub;
         
       },
 
@@ -384,6 +422,7 @@ export default {
     },
 	mounted() {
       document.body.classList.add("sidebar-menu-collapsed");
+      this.fetchIt();
     }
 
 }

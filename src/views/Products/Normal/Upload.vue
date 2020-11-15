@@ -19,11 +19,11 @@
             <div class="card-body py-3 p-0">
                 <div class="row">
                 <div class="col-lg-6">
-                    <h3 class="block__title mb-lg-4">{{$t('product')}}</h3>
+                    <h3 class="block__title mb-lg-4">Form</h3>
 
                         <div class="form-group col-md-12">
                             <label for="companyName" class="input__label">{{$t('companyName')}}</label>
-                            <v-select :options="options" label="name" placeholder="Choose a Company" v-model="forms.company" @search="searchCompany" autocomplete>
+                            <v-select :options="options" label="name" placeholder="Choose a Company" v-model="forms.company" @search="searchCompany" :reduce="company => `${company.company_id}`" autocomplete>
                             <template #search="{attributes, events}">
                                 <input
                                 class="vs__search"
@@ -72,10 +72,9 @@
                     <h3 class="block__title mb-lg-4">{{$t('uom')}}</h3>
                         <div class="form-group col-md-12">
                             <ol>
-                                <li>EA (UNIT PER PCS)</li>
-                                <li>KG (KILOGRAM)</li>
-                                <li>PLT (UNIT PER PALLET)</li>
-                                <li>RO (UNIT PER ROLL)</li>
+                            <ol>
+                                <li v-for="(uom,index) in optionsUom" :key="index">{{uom.uom_code}} ({{uom.uom_description}})</li>
+                            </ol>
                             </ol>
                         </div>
                     <h3 class="block__title mb-lg-4">{{$t('time_to_live')}}</h3>
@@ -213,7 +212,7 @@ export default {
 
                     let formData = new FormData();
                     formData.append("files", this.forms.files);
-                    formData.append("company", this.forms.company.company_id);
+                    formData.append("company", this.forms.company);
 
                         
                     const baseURI  =  this.$settings.endPoint+"/products/normal/upload";
@@ -364,6 +363,12 @@ export default {
             this.isLoading = false;
             }, 1000); // hide the message after 3 seconds
         },
+        getUom(){
+            const baseURI  =  this.$settings.endPoint+"/uom/index?per_page=100";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsUom = response.data.data
+            })
+        },
 
 
 
@@ -377,6 +382,7 @@ export default {
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
         this.getCompany();
+        this.getUom();
     }
 
 }
