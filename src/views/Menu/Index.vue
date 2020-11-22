@@ -25,10 +25,10 @@
           <a href="#"><i class="fas fa-box"></i>
             <span>Orders <i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
-            <li><a href="/order/all">All Orders</a> </li>
-            <li><a href="/order/hold">Hold Orders</a> </li>
+            <li><a href="/order/all">Orders</a> </li>
             <li><a href="/order/create">Create Orders</a></li>
             <li><a href="/order/upload">Upload Orders</a></li>
+            <li><a href="/order/buyyers">Buyyers</a></li>
           </ul>
         </li>
         <li class="menu-list">
@@ -56,9 +56,19 @@
           <a href="#"><i class="fas fa-shopping-cart"></i>
             <span>Marketplace<i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
+            <li><a href="/marketplace/sync-products">{{$t('integrations')}}</a></li>
             <li><a href="/marketplace/update-stock">Update Stock</a> </li>
             <li><a href="/marketplace/get-orders">Get Orders</a> </li>
             <li><a href="/marketplace/sync-products">Sync Products</a></li>
+          </ul>
+        </li>
+
+        <li class="menu-list">
+          <a href="#"><i class="fas fa-edit"></i>
+            <span>{{$t('contractManagement')}} <i class="lnr lnr-chevron-right"></i></span></a>
+          <ul class="sub-menu-list">
+            <li><a href="/contract/fulfillment-center/list">{{$t('fulfillmentCenter')}}</a> </li>
+            <li><a href="/contract/aplication/list">{{$t('aplication')}}</a> </li>
           </ul>
         </li>
 
@@ -68,6 +78,8 @@
           <ul class="sub-menu-list">
             <li><a href="/fulfillment-center/list">{{$t('fulfillmentCenter')}}</a></li>
             <li><a href="/company/list">{{$t('companyCenter')}}</a></li>
+            <li><a href="/user/list">{{$t('userManagement')}}</a></li>
+            <li><a href="/courier/list">{{$t('courierManagement')}}</a></li>
           </ul>
         </li>
         
