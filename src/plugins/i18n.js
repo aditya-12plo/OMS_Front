@@ -5,8 +5,12 @@
 
 const messages = {
     "en": {
+        forgotPass: "Forgot your password !",
+        forgotMsg: "Forgot your password ! Please insert your email and password reset will send to your email.",
+        fulfillmentType:"Fulfillment Type",
         loginMsg: "Welcome back, login to continue",
         selectOne: "Choose One",
+        sendBtn: "Send",
         loginBtn: "Login Now",
         loginPassword: "Password",
         page404: "Page not found",
@@ -107,8 +111,12 @@ const messages = {
         closeBtn:"Close",
     },
     "id": {
+        forgotPass: "Lupa kata sandi !",
+        forgotMsg: "Lupa kata sandi ! Silahkan masukan email anda dan pengulangan password akan dikirimkan ke email.",
+        fulfillmentType:"Tipe Pemenuhan",
         loginMsg: "Selamat datang kembali, silahkan login terlebih dahulu",
         selectOne: "Pilih Salah Satu",
+        sendBtn: "Kirim",
         loginBtn: "Masuk",
         loginPassword: "Kata Sandi",
         page404: "Halaman Tidak Ditemukan",

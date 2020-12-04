@@ -262,6 +262,16 @@
             <td>:</td>
             <td>{{this.detailFulfillment.remarks}}</td>
         </tr>
+        <tr>
+            <td>Status</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.status}}</td>
+        </tr>
+        <tr>
+            <td>{{$t('fulfillmentType')}}</td>
+            <td>:</td>
+            <td>{{this.detailFulfillment.fulfillment_center_type_id}}</td>
+        </tr>
     </tbody>
 </table>
 

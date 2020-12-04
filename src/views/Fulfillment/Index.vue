@@ -113,6 +113,7 @@ export default {
         page: 1, 
         per_page: 10
       },
+      optionsFulfillmentType:[],
       columns: [
         {
           label: 'Fulfillment Code',
@@ -133,6 +134,17 @@ export default {
             placeholder: "Filter By Fulfillment Name", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
+            trigger: "enter" //only trigger on enter not on keyup
+          }
+        },
+        {
+          label: 'Fulfillment Type',
+          field: 'fulfillment_center_type_id',
+          filterOptions: {
+            enabled: true, // enable filter for this column
+            placeholder: "Filter By Fulfillment Type", // placeholder for filter input
+            filterValue: "", // initial populated value for this filter
+            filterDropdownItems: this.filterType(), // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
@@ -160,7 +172,17 @@ export default {
 
     },
     methods: {
- 
+      searchFulfillmentType(){
+        const baseURI  =  this.$settings.endPoint+"/fulfillment-type/get-all";
+          return this.$http.get(baseURI).then((response) => {
+            this.optionsFulfillmentType = response.data.data
+        })
+      },
+
+      filterType(){
+        return this.optionsFulfillmentType;
+      },
+
       deleteData(index , row, status){
         var formData = {status  : status}
         const baseURI  =  this.$settings.endPoint+"/fulfillment/update-status/"+row.fulfillment_center_id;
@@ -208,7 +230,7 @@ export default {
       loadItems() {
         const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
         
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&status=${this.serverParams.columnFilters.status}`).then((response) => {
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&fulfillment_center_type_id=${this.serverParams.columnFilters.fulfillment_center_type_id}&status=${this.serverParams.columnFilters.status}`).then((response) => {
           this.rows = response.data.data
           this.totalRecords  = response.data.total
         })
@@ -314,6 +336,7 @@ export default {
 	mounted() {
       document.body.classList.add("sidebar-menu-collapsed");
       this.fetchIt();
+      this.searchFulfillmentType();
     }
 
 }

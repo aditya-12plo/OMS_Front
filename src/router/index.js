@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import { isLoggedIn } from '@/config/auth'
 
 import Login from "@/views/Login.vue";
+import ForgotPassword from "@/views/ForgotPassword.vue";
 import PageNotFound from "@/views/Page404.vue";
 import ServerErrorPage from "@/views/Page500.vue";
 import Dashboard from "@/views/Dashboard.vue";
@@ -42,6 +43,15 @@ const routes = [
     },
     name: "Login",
     component: Login
+  },
+  {
+    path: "/forgot-password",
+    meta: {
+      title: "Order Management System | JualPraktis",
+      allowAnonymous: true
+    },
+    name: "ForgotPassword",
+    component: ForgotPassword
   },
   {
     path:'/server-error', 

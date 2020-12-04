@@ -93,6 +93,12 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-sm-4 col-form-label input__label">{{$t('fulfillmentType')}}</label>
+                        <div class="col-sm-8">
+                            <b>{{this.datasFulfillmentDetail.fulfillment_center_type_id}}</b>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">Status</label>
                         <div class="col-sm-8">
                             <b>{{this.datasFulfillmentDetail.status}}</b>

@@ -46,15 +46,20 @@ Vue.prototype.$onRandom = onRandom;
 Vue.prototype.$onBehind = onBehind;
 
 
+import '@trevoreyre/autocomplete-vue/dist/style.css'
+import 'vue-select/dist/vue-select.css'
+
+
 const token = getAuthToken();
 if (token) {
   setAuthToken(token);
 }
 
+
 const lang = localStorage.Lang;
 if(localStorage.Lang == null){
   localStorage.Lang = "id";
-  this.lang              = "id";
+  this.lang          = "id";
 }
 
 const i18n = new VueI18n({
