@@ -11,13 +11,12 @@
         <section class="login-form py-md-5 py-3">
             <div class="card card_border p-md-4">
                 <div class="card-body">
-    
-
+                  
                     <!-- form -->
                     <form @submit.prevent="submitData" method="POST">
                         <div class="login__header text-center mb-lg-5 mb-4">
                             <h3 class="login__title mb-2"> TokoPusat <br> Order Management System (OMS)</h3>
-                            <p>{{ $t('forgotMsg') }}</p>
+                            <p>{{ $t('resetMsg') }}</p>
                         </div>
                         <div class="form-group">
                             <label for="Language" class="input__label">Language / Bahasa</label>
@@ -35,6 +34,14 @@
                             <label for="Email" class="input__label">Email</label>
                             <input type="email" class="form-control login_text_field_bg input-style" v-model="forms.email" aria-describedby="emailHelp" placeholder="" required=""
                                 autofocus>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword" class="input__label">{{ $t('loginPassword') }}</label>
+                            <input type="password" class="form-control login_text_field_bg input-style" v-model="forms.password" placeholder="" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword" class="input__label">{{ $t('confirmPassword') }}</label>
+                            <input type="password" class="form-control login_text_field_bg input-style" v-model="forms.password_confirmation" placeholder="" required>
                         </div>
                         <div class="form-check check-remember check-me-out">
                             <input type="checkbox" class="form-check-input checkbox" id="Captcha">
@@ -63,20 +70,21 @@
 <script>
 
 export default {
-  name: 'ForgotPassword',
+  name: 'ResetPassword',
   components: {
 
   },
   data () {
     return {
         locale:'',
+        token:'',
         maxToasts: 100,
         position: 'up right',
         closeBtn: true,  
         isLoading: false,  
         errors: [],
         langs: ['id', 'en'],
-        forms: {company_id:'', email:''},
+        forms: {company_id:'', email:'', password:'', password_confirmation:''},
     }
   },
    watch: { 
@@ -97,34 +105,43 @@ export default {
           this.fade(true);
           
           if (this.forms.email.trim() && this.forms.company_id.trim()) {
-            let formData = new FormData();
-            formData.append("company_id", this.forms.company_id.trim());
-            formData.append("email", this.forms.email.trim());
-            
-            const baseURI  =  this.$settings.endPoint+"/password/email";
-            
-            this.$http.post(baseURI,formData)
-              .then((response) => {
+
+            if(this.forms.password === this.forms.password_confirmation){
+
+              let formData = new FormData();
+              formData.append("company_id", this.forms.company_id.trim());
+              formData.append("email", this.forms.email.trim());
+              formData.append("password", this.forms.password);
+              formData.append("password_confirmation", this.forms.password_confirmation);
+              
+              const baseURI  =  this.$settings.endPoint+"/password/reset/"+this.$route.params.token;
+              
+              this.$http.post(baseURI,formData)
+                .then((response) => {
+                  this.loading();
+                  if(response.data.status === 200) {
+                  this.success(response.data.datas.message);
+                  this.$router.push('/');
+                  }else{
+                    this.error(response.data.errors.message);
+                  }
+              }).catch(error => {
                 this.loading();
-                if(response.data.status === 200) {
-                 this.success(response.data.datas.message);
-                 this.forms.company_id  = ''
-                 this.forms.email       = ''
-                }else{
-                  this.error(response.data.errors.message);
+                if (error.response) {
+                  if(error.response.status === 422) {
+                    this.error(error.response.data.errors.message);
+                  }else if (error.response.status === 500) {
+                    this.$router.push('/server-error');
+                  }else{
+                    this.$router.push('/page-not-found');
+                  }
                 }
-            }).catch(error => {
-              this.loading();
-              if (error.response) {
-                if(error.response.status === 422) {
-                  this.error(error.response.data.errors.message);
-                }else if (error.response.status === 500) {
-                  this.$router.push('/server-error');
-                }else{
-                  this.$router.push('/page-not-found');
-                }
-              }
-            });
+              });
+
+            }else{
+              this.fade(false);
+              this.error('password confirmation not match');
+            }
           }
         }
       })            
@@ -198,7 +215,7 @@ export default {
     },
 
     fetchIt() {
-
+      
     },
 
   },

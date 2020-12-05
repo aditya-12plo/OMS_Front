@@ -4,6 +4,7 @@ import { isLoggedIn } from '@/config/auth'
 
 import Login from "@/views/Login.vue";
 import ForgotPassword from "@/views/ForgotPassword.vue";
+import ResetPassword from "@/views/ResetUserPassword.vue";
 import PageNotFound from "@/views/Page404.vue";
 import ServerErrorPage from "@/views/Page500.vue";
 import Dashboard from "@/views/Dashboard.vue";
@@ -43,6 +44,16 @@ const routes = [
     },
     name: "Login",
     component: Login
+  },
+  {
+    path: "/reset-password/:token",
+    meta: {
+      title: "Order Management System | JualPraktis",
+      allowAnonymous: true
+    },
+    name: "ResetPassword",
+    component: ResetPassword,
+    props: true
   },
   {
     path: "/forgot-password",

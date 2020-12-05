@@ -5,6 +5,8 @@
 
 const messages = {
     "en": {
+        rememberPass: 'Remember your password !',
+        resetMsg: "Reset your password.",
         forgotPass: "Forgot your password !",
         forgotMsg: "Forgot your password ! Please insert your email and password reset will send to your email.",
         fulfillmentType:"Fulfillment Type",
@@ -12,6 +14,7 @@ const messages = {
         selectOne: "Choose One",
         sendBtn: "Send",
         loginBtn: "Login Now",
+        confirmPassword: "Password Confirmation",
         loginPassword: "Password",
         page404: "Page not found",
         page500: "Internal Server Error",
@@ -111,6 +114,8 @@ const messages = {
         closeBtn:"Close",
     },
     "id": {
+        rememberPass: 'Ingat kata sandi !',
+        resetMsg: "Atur ulang kata sandi anda.",
         forgotPass: "Lupa kata sandi !",
         forgotMsg: "Lupa kata sandi ! Silahkan masukan email anda dan pengulangan password akan dikirimkan ke email.",
         fulfillmentType:"Tipe Pemenuhan",
@@ -118,6 +123,7 @@ const messages = {
         selectOne: "Pilih Salah Satu",
         sendBtn: "Kirim",
         loginBtn: "Masuk",
+        confirmPassword: "Konfirmasi Kata Sandi",
         loginPassword: "Kata Sandi",
         page404: "Halaman Tidak Ditemukan",
         page500: "Masalah Pada Server Kami",
