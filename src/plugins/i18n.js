@@ -5,6 +5,10 @@
 
 const messages = {
     "en": {
+        userRole: 'User Role',
+        userAccess: 'User Access',
+        captchaCode: 'Captcha Code',
+        refreshCaptchaCode: 'Refresh Captcha Code !',
         rememberPass: 'Remember your password !',
         resetMsg: "Reset your password.",
         forgotPass: "Forgot your password !",
@@ -43,6 +47,7 @@ const messages = {
         fulfillmentCreate:"Create New Fulfillment",
         fulfillmentEdit:"Edit Fulfillment",
         companyCreate:"Create New Company",
+        userCreate:"Create New User",
         companyEdit:"Edit Company",
         createDamageProducts:"Create Damage Product",
         detailDamageProducts:"Detail Damage Product",
@@ -114,6 +119,10 @@ const messages = {
         closeBtn:"Close",
     },
     "id": {
+        userRole: 'Role User',
+        userAccess: 'Akses User',
+        captchaCode: 'Kode Captcha',
+        refreshCaptchaCode: 'Ulangi Kode Captcha !',
         rememberPass: 'Ingat kata sandi !',
         resetMsg: "Atur ulang kata sandi anda.",
         forgotPass: "Lupa kata sandi !",
@@ -151,7 +160,8 @@ const messages = {
         fulfillmentAddress2:"Alamat Fulfillment 2",
         fulfillmentCreate:"Buat Baru Fulfillment",
         fulfillmentEdit:"Rubah Fulfillment",
-        companyCreate:"Buat Baru Perusahaan",
+        companyCreate:"Buat Perusahaan Baru",
+        userCreate:"Buat User Baru",
         companyEdit:"Rubah Perusahaan",
         createDamageProducts:"Buat Baru Produk Rusak",
         detailDamageProducts:"Detail Produk Rusak",

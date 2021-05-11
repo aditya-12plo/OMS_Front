@@ -11,17 +11,16 @@
         <section class="login-form py-md-5 py-3">
             <div class="card card_border p-md-4">
                 <div class="card-body">
-    
+
 
                     <!-- form -->
                     <form @submit.prevent="submitData" method="POST">
                         <div class="login__header text-center mb-lg-5 mb-4">
-                            <h3 class="login__title mb-2"> TokoPusat <br> Order Management System (OMS)</h3>
+                            <h3 class="login__title mb-2"> JualPraktis <br> Order Management System (OMS)</h3>
                             <p>{{ $t('loginMsg') }}</p>
                         </div>
                         <div class="form-group">
                             <label for="Language" class="input__label">Language / Bahasa</label>
-                            
                               <select v-model="locale" @change="langChanged($i18n.locale)" class="form-control input-style">
                                 <option>Language / Bahasa</option>
                                 <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
@@ -41,9 +40,28 @@
                             <input type="password" class="form-control login_text_field_bg input-style" v-model="forms.password" placeholder="" required>
                         </div>
                         <div class="form-check check-remember check-me-out">
-                            <input type="checkbox" class="form-check-input checkbox" id="Captcha">
-                            <label class="form-check-label checkmark" for="Captcha"> For Google Captcha</label>
+                          <div class="row">
+                            <div class="col">
+                                <vue-captcha 
+                                    ref="captcha" 
+                                    :captcha.sync="code"
+                                    @on-change="handleChange">
+                                  </vue-captcha>
+                            </div>
+                            <div class="col">
+<button @click="refreshCaptchaCode"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                            </div>
+
+                               
+
+                          </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="captchaCode" class="input__label">{{ $t('captchaCode') }}</label>
+                            <input type="text" class="form-control login_text_field_bg input-style" v-model="forms.captchaCode" placeholder="" required>
+                        </div>
+
                         <div class="d-flex align-items-center flex-wrap justify-content-between">
                           <div class="form-row">
                               <button type="submit" class="btn btn-primary btn-style mt-6">{{ $t('loginBtn') }}</button>
@@ -66,14 +84,16 @@
 
 <script>
 import { setAuthToken } from '@/config/auth'
+import VueCaptcha from 'vue-captcha-code';
 
 export default {
   name: 'Login',
   components: {
-
+    VueCaptcha
   },
   data () {
     return {
+        code: '',
         locale:'',
         maxToasts: 100,
         position: 'up right',
@@ -81,13 +101,20 @@ export default {
         isLoading: false,  
         errors: [],
         langs: ['id', 'en'],
-        forms: {company_id:'', email:'', password: ''},
+        forms: {company_id:'', email:'', password: '', captchaCode:''},
     }
   },
    watch: { 
 
   },
   methods: { 
+    handleChange(code) {
+      this.code = code;
+    },
+    refreshCaptchaCode() {
+      this.$refs.captcha.refreshCaptcha();
+    },
+    
     submitData() {
       this.$swal({
         title: this.$t('areYouSure'),
@@ -99,39 +126,49 @@ export default {
       }).then((result) => {
         if (result.value) {
           
-          this.fade(true);
+          if (this.forms.captchaCode == this.code) {
+            this.fade(true);
           
-          if (this.forms.email.trim() && this.forms.password.trim() && this.forms.company_id.trim()) {
-            let formData = new FormData();
-            formData.append("company_id", this.forms.company_id.trim());
-            formData.append("email", this.forms.email.trim());
-            formData.append("password", this.forms.password);
-            
-            const baseURI  =  this.$settings.endPoint+"/login";
-            
-            this.$http.post(baseURI,formData)
-              .then((response) => {
+            if (this.forms.email.trim() && this.forms.company_id.trim()) {
+              let formData = new FormData();
+              formData.append("company_id", this.forms.company_id.trim());
+              formData.append("email", this.forms.email.trim());
+              formData.append("password", this.forms.password);
+              
+              const baseURI  =  this.$settings.endPoint+"/login";
+              
+              this.$http.post(baseURI,formData)
+                .then((response) => {
+                  this.loading();
+                  if(response.data.status === 200) {
+                    setAuthToken(response.data.datas.token);
+                    // this.$router.push('/dashboard');
+                    window.location.href = '/dashboard';
+                  }else{
+                    this.error(response.data.errors.message);
+                  }
+              }).catch(error => {
                 this.loading();
-                if(response.data.status === 200) {
-                  setAuthToken(response.data.datas.token);
-                  // this.$router.push('/dashboard');
-                  window.location.href = '/dashboard';
-                }else{
-                  this.error(response.data.errors.message);
+                if (error.response) {
+                  if(error.response.status === 422) {
+                    this.error(error.response.data.errors.message);
+                  }else if (error.response.status === 500) {
+                    this.$router.push('/server-error');
+                  }else{
+                    this.$router.push('/page-not-found');
+                  }
                 }
-            }).catch(error => {
-              this.loading();
-              if (error.response) {
-                if(error.response.status === 422) {
-                  this.error(error.response.data.errors.message);
-                }else if (error.response.status === 500) {
-                  this.$router.push('/server-error');
-                }else{
-                  this.$router.push('/page-not-found');
-                }
-              }
-            });
+              });
+            }else{
+              this.error("email / company_id required");
+            }
+          }else{
+            this.refreshCaptchaCode();
+            this.error("wrong Captcha Code");
           }
+
+
+          
         }
       })            
     },

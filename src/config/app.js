@@ -1,5 +1,5 @@
 const settings = {
-    endPoint: 'http://localhost:8000',
+    endPoint: process.env.VUE_APP_ENPOINT_BACKEND,
   }
 
 export default settings;

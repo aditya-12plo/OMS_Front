@@ -32,6 +32,8 @@ import ProductDamageCreate from "@/views/Products/Damage/Create.vue";
 import ProductDamageEdit from "@/views/Products/Damage/Edit.vue";
 import ProductDamageUpload from "@/views/Products/Damage/Upload.vue";
 import ProductLocations from "@/views/Locations/Index.vue";
+import UserList from "@/views/Users/Index.vue";
+import UserCreate from "@/views/Users/Create.vue";
 
 Vue.use(VueRouter);
 
@@ -137,6 +139,27 @@ const routes = [
     props: true
   }, 
 
+
+  
+  /**
+   * User
+   */
+  {
+    path:'/user/list', 
+    meta: {
+      title: "User | JualPraktis"
+    },
+    name: "UserList",
+    component: UserList
+  }, 
+  {
+    path:'/user/create', 
+    meta: {
+      title: "User Create | JualPraktis"
+    },
+    name: "UserCreate",
+    component: UserCreate
+  }, 
   
   /**
    * Company

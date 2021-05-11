@@ -58,8 +58,8 @@ if (token) {
 
 const lang = localStorage.Lang;
 if(localStorage.Lang == null){
-  localStorage.Lang = "id";
-  this.lang          = "id";
+  localStorage.Lang   = "id";
+  this.lang           = "id";
 }
 
 const i18n = new VueI18n({

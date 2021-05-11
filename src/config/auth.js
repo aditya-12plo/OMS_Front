@@ -1,7 +1,7 @@
 import decode from 'jwt-decode';
 import axios from 'axios';
 
-const AUTH_TOKEN_KEY = 'K3vL3RB3rD4R4H'
+const AUTH_TOKEN_KEY = process.env.VUE_APP_AUTH_TOKEN_KEY
 
 export function logoutUser() {
     clearAuthToken()
