@@ -191,7 +191,7 @@ export default {
 
       deleteData(index , row, status){
         var formData = {status  : status}
-        const baseURI  =  this.$settings.endPoint+"/company/update-status/"+row.company_id;
+        const baseURI  =  this.$settings.endPoint+"/user/update-status/"+row.user_id;
         this.$http.put(baseURI,formData).then((response) => {
           this.loading();
           if(response.data.status === 200) {
@@ -220,12 +220,12 @@ export default {
       },
 
       detailData(index , row){
-        var params  = row.user_id;
+        var params  = this.$onRandom(row.user_id);
         window.location.href = '/user/detail/'+params;     
       },
 
       editData(index , row){
-        var params  = row.user_id;
+        var params  = this.$onRandom(row.user_id);
         window.location.href = '/user/edit/'+params;     
       },
 

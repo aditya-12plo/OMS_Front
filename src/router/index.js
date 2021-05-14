@@ -34,6 +34,8 @@ import ProductDamageUpload from "@/views/Products/Damage/Upload.vue";
 import ProductLocations from "@/views/Locations/Index.vue";
 import UserList from "@/views/Users/Index.vue";
 import UserCreate from "@/views/Users/Create.vue";
+import UserDetail from "@/views/Users/Detail.vue";
+import UserEdit from "@/views/Users/Edit.vue";
 
 Vue.use(VueRouter);
 
@@ -159,6 +161,24 @@ const routes = [
     },
     name: "UserCreate",
     component: UserCreate
+  }, 
+  {
+    path:'/user/detail/:id', 
+    meta: {
+      title: "User Detail | JualPraktis"
+    },
+    name: "UserDetail",
+    component: UserDetail,
+    props: true
+  }, 
+  {
+    path:'/user/edit/:id', 
+    meta: {
+      title: "User Edit | JualPraktis"
+    },
+    name: "UserEdit",
+    component: UserEdit,
+    props: true
   }, 
   
   /**

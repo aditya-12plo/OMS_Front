@@ -49,7 +49,7 @@
                                   </vue-captcha>
                             </div>
                             <div class="col">
-<button @click="refreshCaptchaCode"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+<button type="button" @click="refreshCaptchaCode"><i class="fa fa-refresh" aria-hidden="true"></i></button>
                             </div>
 
                                
@@ -145,11 +145,13 @@ export default {
                     // this.$router.push('/dashboard');
                     window.location.href = '/dashboard';
                   }else{
+                    this.refreshCaptchaCode();
                     this.error(response.data.errors.message);
                   }
               }).catch(error => {
                 this.loading();
                 if (error.response) {
+                  this.refreshCaptchaCode();
                   if(error.response.status === 422) {
                     this.error(error.response.data.errors.message);
                   }else if (error.response.status === 500) {

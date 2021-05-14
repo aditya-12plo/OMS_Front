@@ -24,6 +24,7 @@
                         <div class="form-group col-md-12">
                             <label for="company_id" class="input__label">{{$t('companyCode')}}</label>
                             <autocomplete
+                                ref="ACompanyID" 
                                 :search="searchcompanyCode"
                                 placeholder="Search for a Company ID"
                                 aria-label="Search for a Company ID"
@@ -39,6 +40,7 @@
                         <div class="form-group col-md-12">
                             <label for="user_role_id" class="input__label">{{$t('userRole')}}</label>
                             <autocomplete
+                                ref="ARoleID" 
                                 :search="searchuserRole"
                                 placeholder="Search for a User Role"
                                 aria-label="Search for a User Role"
@@ -236,7 +238,7 @@ export default {
             errors: [],
             langs: ['id', 'en'],
             statuses: ['ACTIVATE','DEACTIVATE'],
-            forms: {company_id:'', user_role_id: '', email: '', password: '', name: ''
+            forms: {user_id:'', company_id:'', user_role_id: '', email: '', password: '', name: ''
                     , phone: '', mobile: '', fax: '', add1: '', add2: '', add3: '', add4: ''
                     , add5: '',status:''
             },
@@ -268,19 +270,19 @@ export default {
                 if (result.value) {
                 
                 this.fade(true);
-                
-                    if (this.forms.company_id.trim() && this.forms.user_role_id.trim()) {
-                        const baseURI  =  this.$settings.endPoint+"/user/add";
-                        
-                        this.$http.post(baseURI,this.forms)
+                 
+                const baseURI  =  this.$settings.endPoint+"/user/update/"+this.forms.user_id;
+
+                    if (this.forms.company_id.trim() && this.forms.user_role_id.trim()) { 
+                        this.$http.put(baseURI,this.forms)
                         .then((response) => {
                             this.loading();
                             if(response.data.status === 200) {
                                 this.success(response.data.datas.message);
                                 window.location.href = '/user/list';
                             }else{
-                                this.errors = response.data.errors.message;
-                                this.resultError(response.data.errors.message);
+                                this.errors = response.data.errors;
+                                this.resultError(response.data.errors);
                             }
                         }).catch(error => {
                         this.loading();
@@ -424,8 +426,47 @@ export default {
             }, 1000); // hide the message after 3 seconds
         },
 
+        fetchIt() {
+            const datasUser = this.$getUserInfo();
+            var userDatas = datasUser.sub;
+            if(userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'){
+                console.log('OMS');
+            }else{
+                this.backLink();
+            }
+        },
 
+        fetchForm(){
+            var id  = this.$onBehind(this.$route.params.id);
+            const baseURI  =  this.$settings.endPoint+"/user/detail/"+id;
+            
+            return this.$http.get(baseURI).then((response) => {
+            this.forms.user_id                  = response.data.datas.user_id
+            this.forms.email                    = response.data.datas.email
+            this.forms.company_id               = response.data.datas.company_id
+            this.forms.name                     = response.data.datas.name
+            this.forms.user_role_id             = response.data.datas.user_role_id
+            this.forms.address2                 = response.data.datas.address2
+            this.forms.phone                    = response.data.datas.phone
+            this.forms.mobile                   = response.data.datas.mobile
+            this.forms.fax                      = response.data.datas.fax
+            this.forms.add1                     = response.data.datas.add1
+            this.forms.add2                     = response.data.datas.add2
+            this.forms.add3                     = response.data.datas.add3
+            this.forms.add4                     = response.data.datas.add4
+            this.forms.add5                     = response.data.datas.add5
+            this.forms.status                   = response.data.datas.status
+            this.setCompanyCodeValue(response.data.datas.company_id)
+            this.setRoleCodeValue(response.data.datas.user_role_id)
+            })
+        },
 
+        setCompanyCodeValue (value) {
+            this.$refs.ACompanyID.setValue({company_id: value})
+        },
+        setRoleCodeValue (value) {
+            this.$refs.ARoleID.setValue({user_role_id: value})
+        },
     },
     events: {
 
@@ -435,6 +476,8 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
+        this.fetchIt();
+        this.fetchForm();
     }
 
 }
