@@ -72,7 +72,7 @@
           </ul>
         </li>
 
-        <li class="menu-list">
+        <li class="menu-list" v-if="company_id == 'OMS' && user_role_id == 'ADMIN'">
           <a href="#"><i class="fas fa-building"></i>
             <span>Administrator<i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
@@ -249,6 +249,7 @@ export default {
       name:"",
       company:"",
       company_id:"",
+      user_role_id:"",
         
     }
   },
@@ -286,6 +287,7 @@ export default {
         this.name = userDatas.sub.name;
         this.company = userDatas.sub.company.name;
         this.company_id = userDatas.sub.company.company_id;
+        this.user_role_id = userDatas.sub.user_role_id;
       },
 
     },

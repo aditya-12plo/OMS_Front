@@ -85,7 +85,6 @@
   </div>
 </template>
 <script>
-import 'vue-good-table/dist/vue-good-table.css'
 import menuComponent from '@/views/Menu/Index'
 
 export default {

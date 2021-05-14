@@ -181,7 +181,7 @@
                         <div class="form-group col-md-12">
                             <label for="fulfillment_center_type" class="input__label">{{$t('fulfillmentType')}}</label>
                             
-                            <v-select :options="optionsFulfillmentType" label="fulfillment_center_type_id" placeholder="Choose a Fulfillment Type" v-model="forms.fulfillment_center_type" @search="searchFulfillmentType" :reduce="fulfillmentType => `${fulfillmentType.fulfillment_center_type_id}`" autocomplete>
+                            <v-select :options="optionsFulfillmentType"  placeholder="Choose a Fulfillment Type" v-model="forms.fulfillment_center_type">
                             <template #search="{attributes, events}">
                                 <input
                                 class="vs__search"
@@ -402,15 +402,15 @@ export default {
                             this.success(response.data.datas.message);
                             window.location.href = '/fulfillment-center/list';
                         }else{
-                            this.errors = response.data.errors.message;
-                            this.resultError(response.data.errors.message);
+                            this.errors = response.data.errors;
+                            this.resultError(response.data.errors);
                         }
                     }).catch(error => {
                     this.loading();
                     if (error.response) {
                         if(error.response.status === 422) {
-                            this.errors = error.response.data.errors.message;
-                            this.resultError(error.response.data.errors.message);
+                            this.errors = error.response.data.errors;
+                            this.resultError(error.response.data.errors);
                         }else if (error.response.status === 500) {
                             this.$router.push('/server-error');
                         }else{
@@ -429,10 +429,10 @@ export default {
             }
         },
 
-        searchFulfillmentType(val){
-            const baseURI  =  this.$settings.endPoint+"/fulfillment-type/index";
-            return this.$http.get(baseURI+`?fulfillment_center_type_description=${val}`).then((response) => {
-                this.optionsFulfillmentType = response.data.data
+        searchFulfillmentType(){
+            const baseURI  =  this.$settings.endPoint+"/fulfillment-type/get-all";
+            return this.$http.get(baseURI).then((response) => {
+                this.optionsFulfillmentType = response.data.datas
             })
         },
 
@@ -660,7 +660,7 @@ export default {
     },
 	mounted() {
         document.body.classList.add("sidebar-menu-collapsed");
-        this.getFulfillmentType();
+        this.searchFulfillmentType();
         this.fetchIt();
     }
 

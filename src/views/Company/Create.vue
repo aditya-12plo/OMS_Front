@@ -380,15 +380,15 @@ export default {
                             this.success(response.data.datas.message);
                             window.location.href = '/company/list';
                         }else{
-                            this.errors = response.data.errors.message;
-                            this.resultError(response.data.errors.message);
+                            this.errors = response.data.errors;
+                            this.resultError(response.data.errors);
                         }
                     }).catch(error => {
                     this.loading();
                     if (error.response) {
                         if(error.response.status === 422) {
-                            this.errors = error.response.data.errors.message;
-                            this.resultError(error.response.data.errors.message);
+                            this.errors = error.response.data.errors;
+                            this.resultError(error.response.data.errors);
                         }else if (error.response.status === 500) {
                             this.$router.push('/server-error');
                         }else{
