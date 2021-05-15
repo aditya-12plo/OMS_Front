@@ -8,6 +8,7 @@ import ResetPassword from "@/views/ResetUserPassword.vue";
 import PageNotFound from "@/views/Page404.vue";
 import ServerErrorPage from "@/views/Page500.vue";
 import Dashboard from "@/views/Dashboard.vue";
+import FulfillmentTypeList from "@/views/FulfillmentType/Index.vue";
 import FulfillmentList from "@/views/Fulfillment/Index.vue";
 import FulfillmentDetail from "@/views/Fulfillment/Detail.vue";
 import FulfillmentCreate from "@/views/Fulfillment/Create.vue";
@@ -139,6 +140,19 @@ const routes = [
     name: "FulfillmentEdit",
     component: FulfillmentEdit,
     props: true
+  }, 
+
+
+  /**
+   * Fulfillment Type Master
+   */
+  {
+    path:'/fulfillment-type-master/list', 
+    meta: {
+      title: "Fulfillment Type Master | JualPraktis"
+    },
+    name: "FulfillmentTypeList",
+    component: FulfillmentTypeList
   }, 
 
 

@@ -5,6 +5,8 @@
 
 const messages = {
     "en": {
+        fulfillmentTypeDesc:'Fulfillment Type Description',
+        cancelled:'Cancel',
         userRole: 'User Role',
         userAccess: 'User Access',
         captchaCode: 'Captcha Code',
@@ -45,6 +47,8 @@ const messages = {
         fulfillmentAddress:"Fulfillment Address",
         fulfillmentAddress2:"Fulfillment Address 2",
         fulfillmentCreate:"Create New Fulfillment",
+        fulfillmentTypeMasterCreate:"Create New Type Fulfillment",
+        fulfillmentTypeMasterEdit:"Edit Type Fulfillment",
         fulfillmentEdit:"Edit Fulfillment",
         download:"Download",
         companyCreate:"Create New Company",
@@ -75,6 +79,7 @@ const messages = {
         phone:"Phone",
         handphone:"Handphone",
         fulfillmentCenter:"Fulfillment Center",
+        fulfillmentTypeMaster:"Fulfillment Center Type Master",
         companyCenter:"Customer / Company",
         damageProducts:"Damage Products",
         locationsProducts:"Product Locations",
@@ -122,6 +127,8 @@ const messages = {
         closeBtn:"Close",
     },
     "id": {
+        fulfillmentTypeDesc:'Deskripsi Fulfillment Type',
+        cancelled:'Batal',
         userRole: 'Role User',
         userAccess: 'Akses User',
         captchaCode: 'Kode Captcha',
@@ -162,6 +169,8 @@ const messages = {
         fulfillmentAddress:"Alamat Fulfillment",
         fulfillmentAddress2:"Alamat Fulfillment 2",
         fulfillmentCreate:"Buat Baru Fulfillment",
+        fulfillmentTypeMasterCreate:"Buat Baru Tipe Fulfillment",
+        fulfillmentTypeMasterEdit:"Rubah Type Fulfillment",
         fulfillmentEdit:"Rubah Fulfillment",
         download:"Unduh",
         companyCreate:"Buat Perusahaan Baru",
@@ -192,6 +201,7 @@ const messages = {
         phone:"Telepon",
         handphone:"Telepon Seluler",
         fulfillmentCenter:"Pusat Pemenuhan",
+        fulfillmentTypeMaster:"Tipe Pusat Pemenuhan",
         companyCenter:"Perusahaan / Pelanggan",
         damageProducts:"Produk Rusak",
         locationsProducts:"Lokasi Produk",

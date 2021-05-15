@@ -77,6 +77,8 @@
             <span>Administrator<i class="lnr lnr-chevron-right"></i></span></a>
           <ul class="sub-menu-list">
             <li><a href="/fulfillment-center/list">{{$t('fulfillmentCenter')}}</a></li>
+            <li><a href="/fulfillment-type-master/list">{{$t('fulfillmentTypeMaster')}}</a></li>
+
             <li><a href="/company/list">{{$t('companyCenter')}}</a></li>
             <li><a href="/user/list">{{$t('userManagement')}}</a></li>
             <li><a href="/courier/list">{{$t('courierManagement')}}</a></li>
