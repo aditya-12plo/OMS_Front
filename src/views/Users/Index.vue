@@ -23,7 +23,33 @@
                 <div class="card">
                   <div class="card-header bg-white p-0" id="headingOne">
                     <button class="btn btn-primary m-1" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('userCreate')}} </button>
+                    <button class="btn btn-warning m-1" @click.prevent="downloadData"><i class="fa fa-download"></i> {{$t('download')}} .xlsx</button>
                   </div>
+
+ <br>
+ <br>
+ <div class="form-group row">
+    <div class="col-sm-8">
+         <date-range-picker
+            ref="picker"
+            opens="opens"
+            :locale-data="localedateRange"
+            :timePicker24Hour="false"
+            :timePicker="false"
+            v-model="dateRange"
+            @update="updateValues"
+    >
+        <template v-slot:input="picker" ref="Apicker">
+            {{ picker.startDate }} - {{ picker.endDate }}
+        </template>
+
+    </date-range-picker>
+    </div>
+    <div class="col-sm-2">
+     <button class="btn btn-danger m-1" @click="clearDateRange">&times; Clear Date</button>
+    </div>
+  </div>
+
 
                   <div class="collapse show">
                     <div class="card-body para__style">
@@ -85,15 +111,34 @@
   </div>
 </template>
 <script>
+import DateRangePicker from 'vue2-daterange-picker';
 import menuComponent from '@/views/Menu/Index'
+import moment from 'moment';
 
 export default {
   name: 'CompanyList',
   components: {
     'menu-component':menuComponent,
+    DateRangePicker,
   },
   data () {
     return {
+      dateRange: {
+          startDate: '',
+          endDate: '',
+        },
+      localedateRange: {
+        direction: 'ltr', //direction of text
+        format: 'yyyy-mm-dd',
+        separator: ' - ', //separator between the two ranges
+        applyLabel: 'Apply',
+        cancelLabel: 'Cancel',
+        weekLabel: 'W',
+        customRangeLabel: 'Custom Range',
+        daysOfWeek: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        firstDay: 0
+      },
       userDatas:[],  
       maxToasts: 100,
       isLoading: false,  
@@ -157,6 +202,18 @@ export default {
           }
         },
         {
+          label: "Created At",
+          field: "created_at",
+          filterable: false,
+          type: "date",
+          dateInputFormat: "yyyy-MM-dd HH:mm:s",
+          dateOutputFormat: "yyyy-MM-dd HH:mm:s",
+          filterOptions: {
+            enabled: false,
+            placeholder: "Filter Created At"
+          }
+        },
+        {
           label: 'Status',
           field: 'status',
           filterOptions: {
@@ -180,6 +237,61 @@ export default {
 
     },
     methods: {
+      clearDateRange(){
+        this.dateRange.startDate = null
+        this.dateRange.endDate = null
+            this.loadItems();
+      },
+      updateValues(){
+            this.loadItems();
+        // console.log(this.dateRange);
+      },
+      
+      dateFormat (value, fmt = 'YYYY-MM-DD') {
+        return value ? moment(value).format("YYYY-MM-DD") : "";
+      },
+
+      
+      downloadData(){
+        const endDate   = this.dateFormat(this.dateRange.endDate);
+        const startDate = this.dateFormat(this.dateRange.startDate);
+
+        const columnFilters                     = this.serverParams;
+        columnFilters.startDate                 = startDate
+        columnFilters.endDate                   = endDate
+        
+        let formData = new FormData();
+        formData.append("columnFilters", JSON.stringify(columnFilters));
+
+        const baseURI  =  this.$settings.endPoint+"/user/download";
+        this.$http.post(baseURI,formData,{responseType: 'blob'})
+          .then((response) => {
+              this.loading();
+            var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+
+            var fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+
+            fileLink.setAttribute('download', 'users-datas.xls');
+
+            document.body.appendChild(fileLink);
+            fileLink.click();
+
+          }).catch(error => {
+            this.loading();
+            if (error.response) {
+              if(error.response.status === 422) {
+                this.errors = error.response.data.errors;
+                this.resultError(error.response.data.errors);
+              }else if (error.response.status === 500) {
+                this.$router.push('/server-error');
+              }else{
+                this.$router.push('/page-not-found');
+              }
+            }
+          });
+      },
+
       columnRoleFilterFn(field){
         console.log(field)
         // const baseURI  =  this.$settings.endPoint+"/role/search/index";
@@ -231,8 +343,10 @@ export default {
       // load items is what brings back the rows from server
       loadItems() {
         const baseURI  =  this.$settings.endPoint+"/user/index";
+        const endDate   = this.dateFormat(this.dateRange.endDate);
+        const startDate = this.dateFormat(this.dateRange.startDate);
         
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&name=${this.serverParams.columnFilters.name}&email=${this.serverParams.columnFilters.email}&user_role_id=${this.serverParams.columnFilters.user_role_id}&status=${this.serverParams.columnFilters.status}`).then((response) => {
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&name=${this.serverParams.columnFilters.name}&email=${this.serverParams.columnFilters.email}&user_role_id=${this.serverParams.columnFilters.user_role_id}&status=${this.serverParams.columnFilters.status}&endDate=${endDate}&startDate=${startDate}`).then((response) => {
           this.rows = response.data.datas.data
           this.totalRecords  = response.data.datas.total
         })
