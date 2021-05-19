@@ -570,7 +570,7 @@ export default {
         getFulfillment(){
             const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
             return this.$http.get(baseURI).then((response) => {
-                this.optionsFulfillment = response.data.data
+                this.optionsFulfillment = response.data.datas.data
             })
         },
         
@@ -578,7 +578,7 @@ export default {
         searchFulfillment(val){
             const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
             return this.$http.get(baseURI+`?name=${val}`).then((response) => {
-                this.optionsFulfillment = response.data.data
+                this.optionsFulfillment = response.data.datas.data
             })
         },
  

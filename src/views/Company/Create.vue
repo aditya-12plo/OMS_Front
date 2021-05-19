@@ -411,7 +411,7 @@ export default {
         searchFulfillmentType(val){
             const baseURI  =  this.$settings.endPoint+"/fulfillment-type/index";
             return this.$http.get(baseURI+`?fulfillment_center_type_description=${val}`).then((response) => {
-                this.optionsFulfillmentType = response.data.data
+                this.optionsFulfillmentType = response.data.datas.data
             })
         },
 
@@ -559,7 +559,7 @@ export default {
         getFulfillment(){
             const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
             return this.$http.get(baseURI).then((response) => {
-                this.optionsFulfillment = response.data.data
+                this.optionsFulfillment = response.data.datas.data
             })
         },
         
@@ -567,7 +567,7 @@ export default {
         searchFulfillment(val){
             const baseURI  =  this.$settings.endPoint+"/fulfillment/index";
             return this.$http.get(baseURI+`?name=${val}`).then((response) => {
-                this.optionsFulfillment = response.data.data
+                this.optionsFulfillment = response.data.datas.data
             })
         },
 

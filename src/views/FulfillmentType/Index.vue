@@ -51,7 +51,7 @@
           <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'actions'">
           <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
-          <button class="btn btn-danger" @click.prevent="deleteData(props.index , props.row)">Delete</button>
+          <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row)">Delete</button>
         </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -85,7 +85,7 @@
     </section>
 
 
-    <modal name="create-new-fulfillmentType" @before-close="beforeCloseModal">
+    <modal name="create-new-fulfillmentType" @before-close="beforeCloseModal" height="auto">
         <h4 style="text-align: center;font-weight: bold;">{{$t('fulfillmentTypeMasterCreate')}}</h4>
 
  
@@ -120,7 +120,7 @@
 
 
 
-    <modal name="edit-fulfillmentType" @before-close="beforeCloseModal">
+    <modal name="edit-fulfillmentType" @before-close="beforeCloseModal" height="auto">
         <h4 style="text-align: center;font-weight: bold;">{{$t('fulfillmentTypeMasterEdit')}}</h4>
 
  
@@ -417,6 +417,7 @@ export default {
 
       hide () {
         this.beforeCloseModal();
+        this.errors = [];
         this.$modal.hide('create-new-fulfillmentType');
         this.$modal.hide('edit-fulfillmentType');
       },

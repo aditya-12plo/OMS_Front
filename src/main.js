@@ -47,10 +47,6 @@ Vue.prototype.$onRandom = onRandom;
 Vue.prototype.$onBehind = onBehind;
 
 
-import '@trevoreyre/autocomplete-vue/dist/style.css'
-import 'vue-select/dist/vue-select.css'
-
-
 const token = getAuthToken();
 if (token) {
   setAuthToken(token);

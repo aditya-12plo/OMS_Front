@@ -37,6 +37,9 @@ import UserList from "@/views/Users/Index.vue";
 import UserCreate from "@/views/Users/Create.vue";
 import UserDetail from "@/views/Users/Detail.vue";
 import UserEdit from "@/views/Users/Edit.vue";
+import UserRoleList from "@/views/UserRole/Index.vue";
+import CourierDashboard from "@/views/Courier/Index.vue";
+import CourierHeader from "@/views/Courier/Header.vue";
 
 Vue.use(VueRouter);
 
@@ -193,6 +196,18 @@ const routes = [
     name: "UserEdit",
     component: UserEdit,
     props: true
+  }, 
+
+  /**
+   * User Role
+   */
+  {
+    path:'/user-role/list', 
+    meta: {
+      title: "User Role Master | JualPraktis"
+    },
+    name: "UserRoleList",
+    component: UserRoleList
   }, 
   
   /**
@@ -381,6 +396,27 @@ const routes = [
     name: "ProductDamageUpload",
     component: ProductDamageUpload
   }, 
+  
+
+  /**
+   * Courier
+   */
+   {
+    path:'/courier/dashboard', 
+    meta: {
+      title: "Courier Management | JualPraktis"
+    },
+    name: "CourierDashboard",
+    component: CourierDashboard
+  }, 
+  {
+   path:'/courier/header', 
+   meta: {
+     title: "Courier Header | JualPraktis"
+   },
+   name: "CourierHeader",
+   component: CourierHeader
+ }, 
   
 
   {
