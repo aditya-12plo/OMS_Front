@@ -344,7 +344,7 @@ import menuComponent from '@/views/Menu/Index'
 import moment from 'moment';
 
 export default {
-  name: 'FulfillmentList',
+  name: 'CourierHeader',
   components: {
     'menu-component':menuComponent,
     DateRangePicker,

@@ -42,7 +42,7 @@
             </div>
 
             <div class="col-sm-6 pl-sm-2 statistics-grid">
-<a href="/courier/Service">
+<a href="/courier/service">
               <div class="card card_border border-primary-top p-4">
                 <h3 class="text-secondary number">Courier Service</h3>
                 <p class="stat-text">Courier Service / Product name</p>
