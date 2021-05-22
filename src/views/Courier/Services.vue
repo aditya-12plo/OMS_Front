@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="CourierService"></menu-component>
+      <menu-component classMenu="CourierServices"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -52,6 +52,17 @@
         <span v-if="props.column.field == 'actions'">
           <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
         </span>
+        <span v-else-if="props.column.field == 'cod'">
+              <div v-if="props.row.cod == '0'">
+                ALL
+              </div>
+              <div v-else-if="props.row.cod == '1'">
+                COD
+              </div>
+              <div v-else>
+                NON COD
+              </div>
+          </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
         </span>
@@ -92,14 +103,21 @@
   
                         <div class="form-group col-md-12">
                             <label for="courier_id" class="input__label">{{$t('CourierHeaderId')}}</label>
-                             
-                            <autocomplete
-                                :search="searchCourierHeader"
-                                placeholder="Search for a courier header"
-                                aria-label="Search for a courier header"
-                                @submit="submitCourierHeader"
-                                :get-result-value="getCourierHeader"
-                            ></autocomplete>
+                            
+                            <v-select :options="optionsCourierHeader" label="name" placeholder="Choose a Courier Header" v-model="forms.courier_id" @search="onSearchCourierHeader">
+                            <slot name="spinner">
+                                <div class="spinner">Loading...</div>
+                            </slot>
+                            <template #search="{attributes, events}">
+                                <input
+                                class="vs__search"
+                                :required="!forms.courier_id"
+                                v-bind="attributes"
+                                v-on="events"
+                                />
+                            </template>
+                            </v-select>
+  
 
                             <div v-if="errors.courier_id">
                                 <div class="invalid-feedback" v-for="error in errors.courier_id" :key="error">{{error}}</div>
@@ -228,14 +246,7 @@
                                 />
                             </template>
                             </v-select>
-                            <!-- <autocomplete
-                                :search="searchCourierHeader"
-                                ref="Acourier_id" 
-                                placeholder="Search for a courier header"
-                                aria-label="Search for a courier header"
-                                @submit="submitCourierHeader"
-                                :get-result-value="getCourierHeader"
-                            ></autocomplete> -->
+  
 
                             <div v-if="errors.courier_id">
                                 <div class="invalid-feedback" v-for="error in errors.courier_id" :key="error">{{error}}</div>
@@ -377,11 +388,7 @@ export default {
         firstDay: 0
       },
       optionsType:['CASHLESS','NON CASHLESS'],
-      optionscod:[
-                { code: '0', label: 'ALL' },  
-                { code: '1', label: 'COD' },  
-                { code: '2', label: 'NON COD' }  
-            ],
+      optionscod:['ALL' , 'COD' , 'NON COD'],
       userDatas:[],
       courier_service_id:'',
       maxToasts: 100,
@@ -455,11 +462,7 @@ export default {
             enabled: true, // enable filter for this column
             placeholder: "Filter By COD Status", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [
-  { value: '0', text: 'ALL' },  
-  { value: '1', text: 'COD' },  
-  { value: '2', text: 'NON COD' }  
-            ], // dropdown (with selected values) instead of text input
+            filterDropdownItems: ['ALL' , 'COD' , 'NON COD'], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
@@ -516,7 +519,7 @@ export default {
             return this.$http.get(baseURI+`?name=${val}`).then((response) => {
                 var datas   = response.data.datas.data
                 if(datas.length <= 0){
-                    this.optionsCourierHeader =  [{"courier_id":val , "name" : val}]
+                    this.optionsCourierHeader =  []
                 }else{
                     this.optionsCourierHeader = datas
                 }
@@ -594,7 +597,7 @@ export default {
             this.fade(true);
               let formData = new FormData();
               formData.append("courier_service_id", this.forms.courier_service_id.trim());
-              formData.append("courier_id", this.forms.courier_id.trim());
+              formData.append("courier_id", this.forms.courier_id.courier_id.trim());
               formData.append("courier_service_code", this.forms.courier_service_code.trim());
               formData.append("courier_service_name", this.forms.courier_service_name);
               formData.append("cod", this.forms.cod.code);

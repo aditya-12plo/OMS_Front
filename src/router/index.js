@@ -41,6 +41,7 @@ import UserRoleList from "@/views/UserRole/Index.vue";
 import CourierDashboard from "@/views/Courier/Index.vue";
 import CourierHeader from "@/views/Courier/Header.vue";
 import CourierServices from "@/views/Courier/Services.vue";
+import CourierChannel from "@/views/Courier/Channel.vue";
 
 Vue.use(VueRouter);
 
@@ -425,6 +426,14 @@ const routes = [
   },
   name: "CourierServices",
   component: CourierServices
+}, 
+{
+ path:'/courier/channel', 
+ meta: {
+   title: "Courier Channel | JualPraktis"
+ },
+ name: "CourierChannel",
+ component: CourierChannel
 }, 
  
 

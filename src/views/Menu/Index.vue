@@ -83,6 +83,7 @@
             <li><a href="/user/list">{{$t('userManagement')}}</a></li>
             <li><a href="/user-role/list">{{$t('userRole')}}</a></li>
             <li><a href="/courier/dashboard">{{$t('courierManagement')}}</a></li>
+            <li><a href="/marketplace/dashboard">{{$t('marketplaceManagement')}}</a></li>
           </ul>
         </li>
         

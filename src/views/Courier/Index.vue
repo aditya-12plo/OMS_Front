@@ -58,9 +58,9 @@
           <div class="row">
 
             <div class="col-sm-6 pr-sm-2 statistics-grid">
-<a href="/courier/api">
+<a href="/courier/channel">
               <div class="card card_border border-primary-top p-4">
-                <h3 class="text-success number">Courier API</h3>
+                <h3 class="text-success number">Courier API Channel</h3>
                 <p class="stat-text">Courier API Credential</p>
               </div>
 </a>
