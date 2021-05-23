@@ -5,6 +5,8 @@
 
 const messages = {
     "en": {
+        MarketplaceCourier:"Marketplace Courier Mapping",
+        MarketplaceCourierCreate:"Create New Marketplace Courier Mapping",
         usernameAPI:'Username API',
         passwordAPI:'Password API',
         keyAPI:'Key API',
@@ -166,8 +168,16 @@ const messages = {
         stock_booked:"Stock Booked",
         updated_at:"Updated Time",
         closeBtn:"Close",
+        marketplace_id:"Marketplace ID",
+        marketplace_courier_id:"Marketplace Courier ID",
+        marketplace_courier_code:"Marketplace Courier Name",
+        url_tracking:"Marketplace Courier Website",
+        marketplace_name:"Marketplace Name",
+        MarketplaceCourierEdit:"Update Marketplace Courier",
     },
     "id": {
+        MarketplaceCourier:"Marketplace Courier Mapping",
+        MarketplaceCourierCreate:"Buat Baru Marketplace Kurir Mapping",
         usernameAPI:'Username API',
         passwordAPI:'Password API',
         keyAPI:'Key API',
@@ -329,6 +339,12 @@ const messages = {
         stock_booked:"Stok Terjual",
         updated_at:"Diperbarui Pada",
         closeBtn:"Tutup",
+        marketplace_id:"ID Marketplace",
+        marketplace_courier_id:"ID Kurir Marketplace",
+        marketplace_courier_code:"Nama Kurir Marketplace",
+        url_tracking:"Website Kurir Marketplace",
+        marketplace_name:"Nama Marketplace",
+        MarketplaceCourierEdit:"Rubah Kurir Marketplace",
     }
 };
 

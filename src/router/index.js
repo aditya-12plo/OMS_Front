@@ -42,6 +42,7 @@ import CourierDashboard from "@/views/Courier/Index.vue";
 import CourierHeader from "@/views/Courier/Header.vue";
 import CourierServices from "@/views/Courier/Services.vue";
 import CourierChannel from "@/views/Courier/Channel.vue";
+import MarketplaceCourier from "@/views/Courier/MarketplaceCourier.vue";
 
 Vue.use(VueRouter);
 
@@ -435,7 +436,15 @@ const routes = [
  name: "CourierChannel",
  component: CourierChannel
 }, 
- 
+{
+ path:'/courier/marketplace', 
+ meta: {
+   title: "Marketplace Courier | JualPraktis"
+ },
+ name: "MarketplaceCourier",
+ component: MarketplaceCourier
+}, 
+
 
   {
     path: "/about",

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="CourierChannel"></menu-component>
+      <menu-component classMenu="MarketplaceCourier"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,13 +16,13 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-service chart-grid__header">
-              <i class="fas fa-warehouse"></i> {{$t('CourierChannel')}}
+              <i class="fas fa-warehouse"></i> {{$t('MarketplaceCourier')}}
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-service bg-white p-0" id="headingOne" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'">
-                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('CourierChannelCreate')}} </button>
+                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('MarketplaceCourierCreate')}} </button>
                     <button class="btn btn-warning m-1" @click.prevent="downloadData"><i class="fa fa-download"></i> {{$t('download')}} .xlsx</button>
                     
                   </div>
@@ -34,7 +34,7 @@
                      
                      
 <vue-good-table
-    title="courier-channel"
+    title="courier-mapping"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -97,8 +97,8 @@
     </section>
 
 
-    <modal name="create-new-CourierChannel" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('CourierChannelCreate')}}</h4>
+    <modal name="create-new-MarketplaceCourier" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
+        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierCreate')}}</h4>
 
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;">  
  
@@ -149,85 +149,57 @@
                                 <div class="invalid-feedback" v-for="error in errors.company_id" :key="error">{{error}}</div>
                             </div>
                         </div>  
-
+      
+  
                         <div class="form-group col-md-12">
-                            <label for="username" class="input__label">{{$t('usernameAPI')}}</label>
-                            <input type="text" v-model="forms.username" class="form-control input-style" id="username" placeholder="Username API" maxlength="255">
-                        
-                            <div v-if="errors.username">
-                                <div class="invalid-feedback" v-for="error in errors.username" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="password" class="input__label">{{$t('passwordAPI')}}</label>
-                            <input type="text" v-model="forms.password" class="form-control input-style" id="password" placeholder="Password API" maxlength="255">
-                        
-                            <div v-if="errors.password">
-                                <div class="invalid-feedback" v-for="error in errors.password" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="key" class="input__label">{{$t('keyAPI')}}</label>
-                            <input type="text" v-model="forms.key" class="form-control input-style" id="key" placeholder="Key API" maxlength="255">
-                        
-                            <div v-if="errors.key">
-                                <div class="invalid-feedback" v-for="error in errors.key" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-12">
-                            <label for="partnercode" class="input__label">{{$t('partnercodeAPI')}}</label>
-                            <input type="text" v-model="forms.partnercode" class="form-control input-style" id="partnercode" placeholder="Partner Code API" maxlength="255">
-                        
-                            <div v-if="errors.partnercode">
-                                <div class="invalid-feedback" v-for="error in errors.partnercode" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="cod" class="input__label">{{$t('CourierChannelCod')}}</label>
-                          
-                            <v-select :options="optionscod"  placeholder="Choose a COD Type" v-model="forms.cod">
+                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
+                             
+                            <v-select :options="optionsMarketplace" label="name" placeholder="Choose a Marketplace" v-model="forms.marketplace_id" @search="onSearchMarketplace">
+                            <slot name="spinner">
+                                <div class="spinner">Loading...</div>
+                            </slot>
                             <template #search="{attributes, events}">
                                 <input
                                 class="vs__search"
-                                :required="!forms.cod"
+                                :required="!forms.marketplace_id"
                                 v-bind="attributes"
                                 v-on="events"
                                 />
                             </template>
                             </v-select>
 
-
-                            <div v-if="errors.cod">
-                                <div class="invalid-feedback" v-for="error in errors.cod" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_id">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_id" :key="error">{{error}}</div>
                             </div>
-                        </div>
-  
-  
+                        </div>  
 
                         <div class="form-group col-md-12">
-                            <label for="access_token" class="input__label">{{$t('access_tokenAPI')}}</label>
-                            <input type="text" v-model="forms.access_token" class="form-control input-style" id="access_token" placeholder="Access Token API" maxlength="255">
+                            <label for="marketplace_courier_id" class="input__label">{{$t('marketplace_courier_id')}}</label>
+                            <input type="text" v-model="forms.marketplace_courier_id" class="form-control input-style" id="marketplace_courier_id" placeholder="Marketplace Courier ID" maxlength="255" required="">
                         
-                            <div v-if="errors.access_token">
-                                <div class="invalid-feedback" v-for="error in errors.access_token" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_courier_id">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_courier_id" :key="error">{{error}}</div>
                             </div>
                         </div>
-  
 
                         <div class="form-group col-md-12">
-                            <label for="refresh_token" class="input__label">{{$t('refresh_tokenAPI')}}</label>
-                            <input type="text" v-model="forms.refresh_token" class="form-control input-style" id="refresh_token" placeholder="Refresh Token API" maxlength="255">
+                            <label for="marketplace_courier_code" class="input__label">{{$t('marketplace_courier_code')}}</label>
+                            <input type="text" v-model="forms.marketplace_courier_code" class="form-control input-style" id="marketplace_courier_code" placeholder="Marketplace Courier Name" maxlength="255">
                         
-                            <div v-if="errors.refresh_token">
-                                <div class="invalid-feedback" v-for="error in errors.refresh_token" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_courier_code">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_courier_code" :key="error">{{error}}</div>
                             </div>
                         </div>
 
+                        <div class="form-group col-md-12">
+                            <label for="url_tracking" class="input__label">{{$t('url_tracking')}}</label>
+                            <input type="text" v-model="forms.url_tracking" class="form-control input-style" id="url_tracking" placeholder="Marketplace Courier URL Tracking" maxlength="255">
+                        
+                            <div v-if="errors.url_tracking">
+                                <div class="invalid-feedback" v-for="error in errors.url_tracking" :key="error">{{error}}</div>
+                            </div>
+                        </div>
+      
                         <div class="form-group col-md-12">
                             <label for="add1" class="input__label">{{$t('add1')}}</label>
                             <input type="text" v-model="forms.add1" class="form-control input-style" id="add1" placeholder="Addtional String" maxlength="255">
@@ -296,12 +268,11 @@
 
 
 
-
-    <modal name="detailCourierChannel" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('CourierChannelCreate')}}</h4>
+    <modal name="detailCourierMarketplace" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
+        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierCreate')}}</h4>
 
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;">  
-  
+      
      
                         <div class="form-group col-md-12">
                             <label for="courier_service_id" class="input__label">{{$t('courierServiceId')}}</label>
@@ -314,7 +285,9 @@
                               <br>
                             <label for="courier_service_name" class="input__label">{{this.forms.courier_service_id.courier_service_name}}</label>
                         </div>  
-     
+  
+      
+  
                         <div class="form-group col-md-12">
                             <label for="companyCode" class="input__label">{{$t('companyCode')}}</label>
                               <br>
@@ -326,49 +299,43 @@
                               <br>
                             <label for="companyName" class="input__label">{{this.forms.company_id.name}}</label>
                         </div>  
-     
+       
+
                         <div class="form-group col-md-12">
-                            <label for="usernameAPI" class="input__label">{{$t('usernameAPI')}}</label>
+                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
+                             
                               <br>
-                            <label for="usernameAPI" class="input__label">{{this.forms.username}}</label>
+                            <label for="marketplace_id" class="input__label">{{this.forms.marketplace_id.marketplace_id}}</label>
                         </div>  
-     
+                        
                         <div class="form-group col-md-12">
-                            <label for="passwordAPI" class="input__label">{{$t('passwordAPI')}}</label>
+                            <label for="marketplace_name" class="input__label">{{$t('marketplace_name')}}</label>
+                             
                               <br>
-                            <label for="passwordAPI" class="input__label">{{this.forms.password}}</label>
+                            <label for="marketplace_name" class="input__label">{{this.forms.marketplace_id.name}}</label>
                         </div>  
-     
+
                         <div class="form-group col-md-12">
-                            <label for="keyAPI" class="input__label">{{$t('keyAPI')}}</label>
+                            <label for="marketplace_courier_id" class="input__label">{{$t('marketplace_courier_id')}}</label>
+                            
                               <br>
-                            <label for="keyAPI" class="input__label">{{this.forms.key}}</label>
-                        </div>  
-     
+                            <label for="marketplace_courier_id" class="input__label">{{this.forms.marketplace_courier_id}}</label>
+                        </div>
+
                         <div class="form-group col-md-12">
-                            <label for="partnercodeAPI" class="input__label">{{$t('partnercodeAPI')}}</label>
+                            <label for="marketplace_courier_code" class="input__label">{{$t('marketplace_courier_code')}}</label>
+                            
                               <br>
-                            <label for="partnercodeAPI" class="input__label">{{this.forms.partnercode}}</label>
-                        </div>  
-     
+                            <label for="marketplace_courier_code" class="input__label">{{this.forms.marketplace_courier_code}}</label>
+                        </div>
+
                         <div class="form-group col-md-12">
-                            <label for="CourierChannelCod" class="input__label">{{$t('CourierChannelCod')}}</label>
+                            <label for="url_tracking" class="input__label">{{$t('url_tracking')}}</label>
+                            
                               <br>
-                            <label for="CourierChannelCod" class="input__label">{{this.forms.cod}}</label>
-                        </div>  
-     
-                        <div class="form-group col-md-12">
-                            <label for="access_tokenAPI" class="input__label">{{$t('access_tokenAPI')}}</label>
-                              <br>
-                            <label for="access_tokenAPI" class="input__label">{{this.forms.access_token}}</label>
-                        </div>  
-     
-                        <div class="form-group col-md-12">
-                            <label for="refresh_tokenAPI" class="input__label">{{$t('refresh_tokenAPI')}}</label>
-                              <br>
-                            <label for="refresh_tokenAPI" class="input__label">{{this.forms.refresh_token}}</label>
-                        </div>  
-     
+                            <label for="url_tracking" class="input__label">{{this.forms.url_tracking}}</label>
+                        </div>
+      
                         <div class="form-group col-md-12">
                             <label for="add1" class="input__label">{{$t('add1')}}</label>
                               <br>
@@ -403,22 +370,20 @@
                               <br>
                             <label for="add5" class="input__label">{{this.forms.add5}}</label>
                         </div>  
-      
-      
-      
 
                         
                         <div class="form-group col-md-12">
                           <button type="button" @click="hide()" class="btn btn-primary btn-style mt-4" style="margin-right:15px;">{{$t('closeBtn')}}</button>
                            
+                        </div>
 
-                        </div> 
+
 </div>
     </modal>
 
 
-    <modal name="editCourierChannel" @before-close="beforeCloseModal" height="auto" width="100%" :adaptive="true" :scrollable="true">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('CourierChannelEdit')}}</h4>
+    <modal name="editMarketplaceCourier" @before-close="beforeCloseModal" height="auto" width="100%" :adaptive="true" :scrollable="true">
+        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierEdit')}}</h4>
 
  
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;"> 
@@ -426,6 +391,7 @@
            
            
            
+                       
                         <div class="form-group col-md-12">
                             <label for="courier_service_id" class="input__label">{{$t('courierServiceId')}}</label>
                              
@@ -471,85 +437,57 @@
                                 <div class="invalid-feedback" v-for="error in errors.company_id" :key="error">{{error}}</div>
                             </div>
                         </div>  
-
+      
+  
                         <div class="form-group col-md-12">
-                            <label for="username" class="input__label">{{$t('usernameAPI')}}</label>
-                            <input type="text" v-model="forms.username" class="form-control input-style" id="username" placeholder="Username API" maxlength="255">
-                        
-                            <div v-if="errors.username">
-                                <div class="invalid-feedback" v-for="error in errors.username" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="password" class="input__label">{{$t('passwordAPI')}}</label>
-                            <input type="text" v-model="forms.password" class="form-control input-style" id="password" placeholder="Password API" maxlength="255">
-                        
-                            <div v-if="errors.password">
-                                <div class="invalid-feedback" v-for="error in errors.password" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="key" class="input__label">{{$t('keyAPI')}}</label>
-                            <input type="text" v-model="forms.key" class="form-control input-style" id="key" placeholder="Key API" maxlength="255">
-                        
-                            <div v-if="errors.key">
-                                <div class="invalid-feedback" v-for="error in errors.key" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-12">
-                            <label for="partnercode" class="input__label">{{$t('partnercodeAPI')}}</label>
-                            <input type="text" v-model="forms.partnercode" class="form-control input-style" id="partnercode" placeholder="Partner Code API" maxlength="255">
-                        
-                            <div v-if="errors.partnercode">
-                                <div class="invalid-feedback" v-for="error in errors.partnercode" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="cod" class="input__label">{{$t('CourierChannelCod')}}</label>
-                          
-                            <v-select :options="optionscod"  placeholder="Choose a COD Type" v-model="forms.cod">
+                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
+                             
+                            <v-select :options="optionsMarketplace" label="name" placeholder="Choose a Marketplace" v-model="forms.marketplace_id" @search="onSearchMarketplace">
+                            <slot name="spinner">
+                                <div class="spinner">Loading...</div>
+                            </slot>
                             <template #search="{attributes, events}">
                                 <input
                                 class="vs__search"
-                                :required="!forms.cod"
+                                :required="!forms.marketplace_id"
                                 v-bind="attributes"
                                 v-on="events"
                                 />
                             </template>
                             </v-select>
 
-
-                            <div v-if="errors.cod">
-                                <div class="invalid-feedback" v-for="error in errors.cod" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_id">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_id" :key="error">{{error}}</div>
                             </div>
-                        </div>
-  
-  
+                        </div>  
 
                         <div class="form-group col-md-12">
-                            <label for="access_token" class="input__label">{{$t('access_tokenAPI')}}</label>
-                            <input type="text" v-model="forms.access_token" class="form-control input-style" id="access_token" placeholder="Access Token API" maxlength="255">
+                            <label for="marketplace_courier_id" class="input__label">{{$t('marketplace_courier_id')}}</label>
+                            <input type="text" v-model="forms.marketplace_courier_id" class="form-control input-style" id="marketplace_courier_id" placeholder="Marketplace Courier ID" maxlength="255" required="">
                         
-                            <div v-if="errors.access_token">
-                                <div class="invalid-feedback" v-for="error in errors.access_token" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_courier_id">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_courier_id" :key="error">{{error}}</div>
                             </div>
                         </div>
-  
 
                         <div class="form-group col-md-12">
-                            <label for="refresh_token" class="input__label">{{$t('refresh_tokenAPI')}}</label>
-                            <input type="text" v-model="forms.refresh_token" class="form-control input-style" id="refresh_token" placeholder="Refresh Token API" maxlength="255">
+                            <label for="marketplace_courier_code" class="input__label">{{$t('marketplace_courier_code')}}</label>
+                            <input type="text" v-model="forms.marketplace_courier_code" class="form-control input-style" id="marketplace_courier_code" placeholder="Marketplace Courier Name" maxlength="255">
                         
-                            <div v-if="errors.refresh_token">
-                                <div class="invalid-feedback" v-for="error in errors.refresh_token" :key="error">{{error}}</div>
+                            <div v-if="errors.marketplace_courier_code">
+                                <div class="invalid-feedback" v-for="error in errors.marketplace_courier_code" :key="error">{{error}}</div>
                             </div>
                         </div>
 
+                        <div class="form-group col-md-12">
+                            <label for="url_tracking" class="input__label">{{$t('url_tracking')}}</label>
+                            <input type="text" v-model="forms.url_tracking" class="form-control input-style" id="url_tracking" placeholder="Marketplace Courier URL Tracking" maxlength="255">
+                        
+                            <div v-if="errors.url_tracking">
+                                <div class="invalid-feedback" v-for="error in errors.url_tracking" :key="error">{{error}}</div>
+                            </div>
+                        </div>
+      
                         <div class="form-group col-md-12">
                             <label for="add1" class="input__label">{{$t('add1')}}</label>
                             <input type="text" v-model="forms.add1" class="form-control input-style" id="add1" placeholder="Addtional String" maxlength="255">
@@ -627,7 +565,7 @@ import vSelect from 'vue-select'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 export default {
-  name: 'CourierChannel',
+  name: 'MarketplaceCourier',
   components: {
     'menu-component':menuComponent,
     DateRangePicker,
@@ -638,6 +576,7 @@ export default {
     return {
         optionsCourierService:[],
         optionsCompany:[],
+        optionsMarketplace:[],
       dateRange: {
           startDate: '',
           endDate: '',
@@ -665,7 +604,7 @@ export default {
       errors: [],
       services:[],
       courier_desc:[],
-      forms: {courier_channel_id:'',courier_service_id:'', company_id:'' , username:'', password:'' , key:'', partnercode:'', cod:'', access_token:'', refresh_token:'', endpoint:'',add1:'',add2:'',add3:'',add4:'',add5:''},
+      forms: {courier_marketplace_id:'',courier_service_id:'', company_id:'' , marketplace_id:'', marketplace_courier_id:'' , marketplace_courier_code:'', url_tracking:'',add1:'',add2:'',add3:'',add4:'',add5:''},
       langs: ['id', 'en'],
       statuses: ['ACTIVATE','DEACTIVATE'],
       totalRecords: 0,
@@ -702,13 +641,35 @@ export default {
           }
         },
         {
-          label: 'COD Status',
-          field: 'cod',
+          label: 'Marketplace Code',
+          field: 'marketplace_id',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By COD Status", // placeholder for filter input
+            placeholder: "Filter By Marketplace Code", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
-            filterDropdownItems: ['ALL' , 'COD' , 'NON COD'], // dropdown (with selected values) instead of text input
+            filterDropdownItems: [], // dropdown (with selected values) instead of text input
+            trigger: "enter" //only trigger on enter not on keyup
+          }
+        },
+        {
+          label: 'Marketplace Courier Code',
+          field: 'marketplace_courier_id',
+          filterOptions: {
+            enabled: true, // enable filter for this column
+            placeholder: "Filter By Marketplace Courier Code", // placeholder for filter input
+            filterValue: "", // initial populated value for this filter
+            filterDropdownItems: [], // dropdown (with selected values) instead of text input
+            trigger: "enter" //only trigger on enter not on keyup
+          }
+        },
+        {
+          label: 'Marketplace Courier Name',
+          field: 'marketplace_courier_code',
+          filterOptions: {
+            enabled: true, // enable filter for this column
+            placeholder: "Filter By Marketplace Courier Name", // placeholder for filter input
+            filterValue: "", // initial populated value for this filter
+            filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
@@ -729,6 +690,63 @@ export default {
     },
     methods: {
       
+      deleteData(index , row){
+
+        this.$swal({
+          title: this.$t('areYouSure'),
+          text: this.$t('yourData'),
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes!'
+        }).then((result) => {
+          if (result.value) {
+            this.fade(true);
+              
+              const baseURI  =  this.$settings.endPoint+"/courier-marketplace/delete/"+row.courier_marketplace_id;
+                    
+              this.$http.delete(baseURI)
+                .then((response) => {
+                  if(response.data.status === 200) {
+                    this.hide();
+                    this.loadItems();
+                    this.success(response.data.datas.message);
+                  }else{
+                    this.errors = response.data.errors;
+                  }
+              }).catch(error => {
+                if (error.response) {
+                  if(error.response.status === 422) {
+                    this.errors = error.response.data.errors;
+                  }else if (error.response.status === 500) {
+                    this.$router.push('/server-error');
+                  }else{
+                    this.$router.push('/page-not-found');
+                  }
+                }
+            });
+
+          }
+        })   
+      },
+
+        detailData(index , row){
+            
+            this.forms.courier_marketplace_id   = row.courier_marketplace_id
+            this.forms.courier_service_id       = row.courier_dec 
+            this.forms.company_id               = row.company_desc
+            this.forms.marketplace_id           = row.marketplace_desc
+            this.forms.marketplace_courier_id   = row.marketplace_courier_id
+            this.forms.marketplace_courier_code = row.marketplace_courier_code
+            this.forms.url_tracking             = row.url_tracking
+            this.forms.add1                     = row.add1
+            this.forms.add2                     = row.add2
+            this.forms.add3                     = row.add3
+            this.forms.add4                     = row.add4
+            this.forms.add5                     = row.add5
+            this.$modal.show('detailCourierMarketplace');
+        },
+
         onSearchCompany(search, loading) {
             if(search.length > 1) {
                 loading(true);
@@ -745,6 +763,27 @@ export default {
                         this.optionsCompany =  []
                     }else{
                         this.optionsCompany = datas
+                    }
+                    loading(false);
+                })
+        },
+
+        onSearchMarketplace(search, loading) {
+            if(search.length > 1) {
+                loading(true);
+                 this.searchMarketplace(search,loading);        
+            }
+        }, 
+
+        searchMarketplace(val,loading){
+
+                const baseURI  =  this.$settings.endPoint+"/marketplace-master/index";
+                return this.$http.get(baseURI+`?name=${val}`).then((response) => {
+                    var datas   = response.data.datas.data
+                    if(datas.length <= 0){
+                        this.optionsMarketplace =  []
+                    }else{
+                        this.optionsMarketplace = datas
                     }
                     loading(false);
                 })
@@ -774,47 +813,6 @@ export default {
         },
 
 
-      deleteData(index , row){
-
-        this.$swal({
-          title: this.$t('areYouSure'),
-          text: this.$t('yourData'),
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes!'
-        }).then((result) => {
-          if (result.value) {
-            this.fade(true);
-              
-              const baseURI  =  this.$settings.endPoint+"/courier-channel/delete/"+row.courier_channel_id;
-                    
-              this.$http.delete(baseURI)
-                .then((response) => {
-                  if(response.data.status === 200) {
-                    this.hide();
-                    this.loadItems();
-                    this.success(response.data.datas.message);
-                  }else{
-                    this.errors = response.data.errors;
-                  }
-              }).catch(error => {
-                if (error.response) {
-                  if(error.response.status === 422) {
-                    this.errors = error.response.data.errors;
-                  }else if (error.response.status === 500) {
-                    this.$router.push('/server-error');
-                  }else{
-                    this.$router.push('/page-not-found');
-                  }
-                }
-            });
-
-          }
-        })   
-      },
-
-
       submitEditData(){
 
         this.$swal({
@@ -828,24 +826,20 @@ export default {
           if (result.value) {
             this.fade(true);
               var formData = {
-                  courier_service_id    : this.forms.courier_service_id.courier_service_id,
-                  company_id            : this.forms.company_id.company_id,
-                  username              : this.forms.username,
-                  password              : this.forms.password,
-                  key                   : this.forms.key,
-                  partnercode           : this.forms.partnercode,
-                  cod                   : this.forms.cod,
-                  access_token          : this.forms.access_token,
-                  refresh_token         : this.forms.refresh_token,
-                  endpoint              : this.forms.endpoint,
-                  add1                  : this.forms.add1,
-                  add2                  : this.forms.add2,
-                  add3                  : this.forms.add3,
-                  add4                  : this.forms.add4,
-                  add5                  : this.forms.add5
+                  courier_service_id        : this.forms.courier_service_id.courier_service_id,
+                  company_id                : this.forms.company_id.company_id,
+                  marketplace_id            : this.forms.marketplace_id.marketplace_id,
+                  marketplace_courier_id    : this.forms.marketplace_courier_id,
+                  marketplace_courier_code  : this.forms.marketplace_courier_code,
+                  url_tracking              : this.forms.url_tracking,
+                  add1                      : this.forms.add1,
+                  add2                      : this.forms.add2,
+                  add3                      : this.forms.add3,
+                  add4                      : this.forms.add4,
+                  add5                      : this.forms.add5
                 };
 
-              const baseURI  =  this.$settings.endPoint+"/courier-channel/update/"+this.forms.courier_channel_id;
+              const baseURI  =  this.$settings.endPoint+"/courier-marketplace/update/"+this.forms.courier_marketplace_id;
                     
               this.$http.put(baseURI,formData)
                 .then((response) => {
@@ -885,21 +879,17 @@ export default {
               let formData = new FormData();
               formData.append("courier_service_id", this.forms.courier_service_id.courier_service_id);
               formData.append("company_id", this.forms.company_id.company_id);
-              formData.append("username", this.forms.username);
-              formData.append("password", this.forms.password);
-              formData.append("cod", this.forms.cod);
-              formData.append("key", this.forms.key);
-              formData.append("partnercode", this.forms.partnercode);
-              formData.append("access_token", this.forms.access_token);
-              formData.append("refresh_token", this.forms.refresh_token);
+              formData.append("marketplace_id", this.forms.marketplace_id.marketplace_id);
+              formData.append("marketplace_courier_id", this.forms.marketplace_courier_id);
+              formData.append("marketplace_courier_code", this.forms.marketplace_courier_code);
+              formData.append("url_tracking", this.forms.url_tracking);
               formData.append("add1", this.forms.add1);
               formData.append("add2", this.forms.add2);
               formData.append("add3", this.forms.add3);
               formData.append("add4", this.forms.add4);
               formData.append("add5", this.forms.add5);
-              formData.append("endpoint", this.forms.endpoint);
                     
-              const baseURI  =  this.$settings.endPoint+"/courier-channel/add";
+              const baseURI  =  this.$settings.endPoint+"/courier-marketplace/add";
                     
               this.$http.post(baseURI,formData)
                 .then((response) => {
@@ -937,7 +927,7 @@ export default {
         let formData = new FormData();
         formData.append("columnFilters", JSON.stringify(columnFilters));
 
-        const baseURI  =  this.$settings.endPoint+"/courier-channel/download";
+        const baseURI  =  this.$settings.endPoint+"/courier-marketplace/download";
         this.$http.post(baseURI,formData,{responseType: 'blob'})
           .then((response) => {
               this.loading();
@@ -946,7 +936,7 @@ export default {
             var fileLink = document.createElement('a');
             fileLink.href = fileURL;
 
-            fileLink.setAttribute('download', 'courier-channel-datas.xls');
+            fileLink.setAttribute('download', 'courier-marketplace-datas.xls');
 
             document.body.appendChild(fileLink);
             fileLink.click();
@@ -967,98 +957,57 @@ export default {
       },
 
       createData(){
-        this.$modal.show('create-new-CourierChannel');
+        this.$modal.show('create-new-MarketplaceCourier');
       },
 
       hide() {
         this.beforeCloseModal();
         this.errors     = [];
         this.services   = [];
-        this.$modal.hide('create-new-CourierChannel');
-        this.$modal.hide('editCourierChannel');
-        this.$modal.hide('detailCourierChannel');
+        this.$modal.hide('create-new-MarketplaceCourier');
+        this.$modal.hide('editMarketplaceCourier');
+        this.$modal.hide('detailCourierMarketplace');
       },
 
       beforeCloseModal(){
-        this.forms.courier_channel_id   = ''
-        this.forms.courier_service_id   = ''
-        this.forms.company_id           = ''
-        this.forms.username             = ''
-        this.forms.password             = ''
-        this.forms.key                  = ''
-        this.forms.partnercode          = ''
-        this.forms.cod                  = ''
-        this.forms.access_token         = ''
-        this.forms.refresh_token        = ''
-        this.forms.endpoint             = ''
-        this.forms.add1                 = ''
-        this.forms.add2                 = ''
-        this.forms.add3                 = ''
-        this.forms.add4                 = ''
-        this.forms.add5                 = ''
+        this.forms.courier_marketplace_id   = ''
+        this.forms.courier_service_id       = ''
+        this.forms.company_id               = ''
+        this.forms.marketplace_id           = ''
+        this.forms.marketplace_courier_id   = ''
+        this.forms.marketplace_courier_code = ''
+        this.forms.url_tracking             = ''
+        this.forms.add1                     = ''
+        this.forms.add2                     = ''
+        this.forms.add3                     = ''
+        this.forms.add4                     = ''
+        this.forms.add5                     = ''
       },
       
 
-      detailData(index , row){
-        if(row.cod == 0){
-            this.forms.cod                = 'ALL'
-        }else if(row.cod == 1){
-            this.forms.cod                = 'COD' 
-        }else{
-            this.forms.cod                = 'NON COD' 
-        }
-        
-        this.forms.courier_channel_id   = row.courier_channel_id
-        this.forms.courier_service_id   = row.courier_dec 
-        this.forms.company_id           = row.company_desc
-        this.forms.username             = row.username
-        this.forms.password             = row.password
-        this.forms.key                  = row.key
-        this.forms.partnercode          = row.partnercode
-        this.forms.access_token         = row.access_token
-        this.forms.refresh_token        = row.refresh_token
-        this.forms.endpoint             = row.endpoint
-        this.forms.add1                 = row.add1
-        this.forms.add2                 = row.add2
-        this.forms.add3                 = row.add3
-        this.forms.add4                 = row.add4
-        this.forms.add5                 = row.add5
-        this.$modal.show('detailCourierChannel');
-      },
-
       editData(index , row){
-        if(row.cod == 0){
-            this.forms.cod                = 'ALL'
-        }else if(row.cod == 1){
-            this.forms.cod                = 'COD' 
-        }else{
-            this.forms.cod                = 'NON COD' 
-        }
         
-        this.forms.courier_channel_id   = row.courier_channel_id
-        this.forms.courier_service_id   = row.courier_dec 
-        this.forms.company_id           = row.company_desc
-        this.forms.username             = row.username
-        this.forms.password             = row.password
-        this.forms.key                  = row.key
-        this.forms.partnercode          = row.partnercode
-        this.forms.access_token         = row.access_token
-        this.forms.refresh_token        = row.refresh_token
-        this.forms.endpoint             = row.endpoint
-        this.forms.add1                 = row.add1
-        this.forms.add2                 = row.add2
-        this.forms.add3                 = row.add3
-        this.forms.add4                 = row.add4
-        this.forms.add5                 = row.add5
-        this.$modal.show('editCourierChannel');
+        this.forms.courier_marketplace_id   = row.courier_marketplace_id
+        this.forms.courier_service_id       = row.courier_dec 
+        this.forms.company_id               = row.company_desc
+        this.forms.marketplace_id           = row.marketplace_desc
+        this.forms.marketplace_courier_id   = row.marketplace_courier_id
+        this.forms.marketplace_courier_code = row.marketplace_courier_code
+        this.forms.url_tracking             = row.url_tracking
+        this.forms.add1                     = row.add1
+        this.forms.add2                     = row.add2
+        this.forms.add3                     = row.add3
+        this.forms.add4                     = row.add4
+        this.forms.add5                     = row.add5
+        this.$modal.show('editMarketplaceCourier');
       },
       
 
 
       // load items is what brings back the rows from server
       loadItems() {
-        const baseURI   =  this.$settings.endPoint+"/courier-channel/index";
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&courier_service_id=${this.serverParams.columnFilters.courier_service_id}&company_id=${this.serverParams.columnFilters.company_id}&cod=${this.serverParams.columnFilters.cod}`).then((response) => {
+        const baseURI   =  this.$settings.endPoint+"/courier-marketplace/index";
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&courier_service_id=${this.serverParams.columnFilters.courier_service_id}&company_id=${this.serverParams.columnFilters.company_id}&marketplace_id=${this.serverParams.columnFilters.marketplace_id}&marketplace_courier_id=${this.serverParams.columnFilters.marketplace_courier_id}&marketplace_courier_code=${this.serverParams.columnFilters.marketplace_courier_code}`).then((response) => {
           this.rows = response.data.datas.data
           this.totalRecords  = response.data.datas.data.total
         })
