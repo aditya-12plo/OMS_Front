@@ -32,20 +32,20 @@
           <div class="row">
 
             <div class="col-sm-6 pr-sm-2 statistics-grid">
-<a href="/courier/header">
+<a href="/marketplace/master">
               <div class="card card_border border-primary-top p-4">
                  
-                <h5 class="text-primary number">Courier Header</h5>
-                <p class="stat-text">Company Courier</p>
+                <h5 class="text-primary number">Marketplace Code</h5>
+                <p class="stat-text">Marketplace Master Data</p>
               </div>
 </a>
             </div>
 
             <div class="col-sm-6 pl-sm-2 statistics-grid">
-<a href="/courier/service">
+<a href="/marketplace/channel">
               <div class="card card_border border-primary-top p-4">
-                <h5 class="text-secondary number">Courier Service</h5>
-                <p class="stat-text">Courier Service / Product name</p>
+                <h5 class="text-secondary number">Marketplace Channel</h5>
+                <p class="stat-text">Marketplace Master Channel</p>
               </div>
 </a>
             </div>
@@ -56,24 +56,7 @@
 
         <div class="col-xl-6 pl-xl-2">
           <div class="row">
-
-            <div class="col-sm-6 pr-sm-2 statistics-grid">
-<a href="/courier/channel">
-              <div class="card card_border border-primary-top p-4">
-                <h5 class="text-success number">Courier API Channel</h5>
-                <p class="stat-text">Courier API Credential</p>
-              </div>
-</a>
-            </div>
-
-            <div class="col-sm-6 pl-sm-2 statistics-grid">
-<a href="/courier/marketplace">
-              <div class="card card_border border-primary-top p-4">
-                <h5 class="text-danger number">Marketplace Courier</h5>
-                <p class="stat-text">Marketplace courier Mapping</p>
-              </div>
-</a>
-            </div>
+ 
 
           </div>
         </div>

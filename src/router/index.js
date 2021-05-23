@@ -43,6 +43,8 @@ import CourierHeader from "@/views/Courier/Header.vue";
 import CourierServices from "@/views/Courier/Services.vue";
 import CourierChannel from "@/views/Courier/Channel.vue";
 import MarketplaceCourier from "@/views/Courier/MarketplaceCourier.vue";
+import MarketplaceDashboard from "@/views/Marketplace/Index.vue";
+import MarketplaceMaster from "@/views/Marketplace/Master.vue";
 
 Vue.use(VueRouter);
 
@@ -444,6 +446,28 @@ const routes = [
  name: "MarketplaceCourier",
  component: MarketplaceCourier
 }, 
+
+  /**
+   * Marketplace
+   */
+   {
+    path:'/marketplace/dashboard', 
+    meta: {
+      title: "Marketplace Management | JualPraktis"
+    },
+    name: "MarketplaceDashboard",
+    component: MarketplaceDashboard
+  }, 
+  {
+   path:'/marketplace/master', 
+   meta: {
+     title: "Marketplace Master Data | JualPraktis"
+   },
+   name: "MarketplaceMaster",
+   component: MarketplaceMaster
+ }, 
+
+
 
 
   {

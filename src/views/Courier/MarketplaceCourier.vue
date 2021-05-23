@@ -243,16 +243,7 @@
                             <div v-if="errors.add5">
                                 <div class="invalid-feedback" v-for="error in errors.add5" :key="error">{{error}}</div>
                             </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="endpoint" class="input__label">{{$t('endpointAPI')}}</label>
-                            <input type="text" v-model="forms.endpoint" class="form-control input-style" id="endpoint" placeholder="Endpoint API" maxlength="255">
-                        
-                            <div v-if="errors.endpoint">
-                                <div class="invalid-feedback" v-for="error in errors.endpoint" :key="error">{{error}}</div>
-                            </div>
-                        </div>
+                        </div> 
 
                         
                         <div class="form-group col-md-12">
@@ -269,7 +260,7 @@
 
 
     <modal name="detailCourierMarketplace" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierCreate')}}</h4>
+        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierDetail')}}</h4>
 
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;">  
       
@@ -382,7 +373,7 @@
     </modal>
 
 
-    <modal name="editMarketplaceCourier" @before-close="beforeCloseModal" height="auto" width="100%" :adaptive="true" :scrollable="true">
+    <modal name="editMarketplaceCourier" @before-close="beforeCloseModal" height="auto" width="70%" :adaptive="true" :scrollable="true">
         <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceCourierEdit')}}</h4>
 
  
@@ -530,15 +521,6 @@
                         
                             <div v-if="errors.add5">
                                 <div class="invalid-feedback" v-for="error in errors.add5" :key="error">{{error}}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label for="endpoint" class="input__label">{{$t('endpointAPI')}}</label>
-                            <input type="text" v-model="forms.endpoint" class="form-control input-style" id="endpoint" placeholder="Endpoint API" maxlength="255">
-                        
-                            <div v-if="errors.endpoint">
-                                <div class="invalid-feedback" v-for="error in errors.endpoint" :key="error">{{error}}</div>
                             </div>
                         </div>
   
