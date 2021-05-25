@@ -178,8 +178,12 @@ const messages = {
         MarketplaceMaster:"Marketplace Master Data ",
         MarketplaceCourierEdit:"Update Marketplace Courier",
         MarketplaceMasterEdit:"Update Marketplace Master",
-        MarketplaceMasterCreate:"Buat Baru Marketplace Master",
+        MarketplaceMasterCreate:"Create Marketplace Master",
         MarketplaceMasterDetail:"Detail Marketplace Master",
+        MarketplaceChannelMaster:"Marketplace Channel Master",
+        MarketplaceChannelMasterCreate:"Create Marketplace Channel Master",
+        MarketplaceChannelMasterEdit:"Update Marketplace Channel Master",
+        MarketplaceChannelMasterDetail:"Detail Marketplace Channel Master",
     },
     "id": {
         MarketplaceCourier:"Marketplace Courier Mapping",
@@ -355,8 +359,12 @@ const messages = {
         MarketplaceMaster:"Master Data Marketplace",
         MarketplaceCourierEdit:"Rubah Kurir Marketplace",
         MarketplaceMasterEdit:"Rubah Marketplace Master",
-        MarketplaceMasterCreate:"Create Marketplace Master",
+        MarketplaceMasterCreate:"Buat Baru Marketplace Master",
         MarketplaceMasterDetail:"Detail Marketplace Master",
+        MarketplaceChannelMaster:"Marketplace Channel Master",
+        MarketplaceChannelMasterCreate:"Buat Baru Marketplace Channel Master",
+        MarketplaceChannelMasterEdit:"Rubah Marketplace Channel Master",
+        MarketplaceChannelMasterDetail:"Detail Marketplace Channel Master",
     }
 };
 

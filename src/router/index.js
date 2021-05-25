@@ -45,6 +45,7 @@ import CourierChannel from "@/views/Courier/Channel.vue";
 import MarketplaceCourier from "@/views/Courier/MarketplaceCourier.vue";
 import MarketplaceDashboard from "@/views/Marketplace/Index.vue";
 import MarketplaceMaster from "@/views/Marketplace/Master.vue";
+import MarketplaceChannelMaster from "@/views/Marketplace/Channel.vue";
 
 Vue.use(VueRouter);
 
@@ -466,8 +467,17 @@ const routes = [
    name: "MarketplaceMaster",
    component: MarketplaceMaster
  }, 
+ {
+  path:'/marketplace/channel', 
+  meta: {
+    title: "Marketplace Channel Master Data | JualPraktis"
+  },
+  name: "MarketplaceChannelMaster",
+  component: MarketplaceChannelMaster
+}, 
 
 
+ 
 
 
   {
