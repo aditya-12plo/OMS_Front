@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="MarketplaceMaster"></menu-component>
+      <menu-component classMenu="AsnManagementOrderTypeMaster"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,13 +16,13 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-service chart-grid__header">
-              <i class="fas fa-warehouse"></i> {{$t('MarketplaceMaster')}}
+              <i class="fas fa-warehouse"></i> {{$t('AsnManagementOrderTypeMaster')}}
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
                   <div class="card-service bg-white p-0" id="headingOne" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'">
-                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('MarketplaceMasterCreate')}} </button>
+                    <button class="btn btn-primary m-1" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('AsnManagementOrderTypeMasterCreate')}} </button>
                     <button class="btn btn-warning m-1" @click.prevent="downloadData"><i class="fa fa-download"></i> {{$t('download')}} .xlsx</button>
                     
                   </div>
@@ -34,7 +34,7 @@
                      
                      
 <vue-good-table
-    title="marketplace-master"
+    title="asn-type-master"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -50,7 +50,6 @@
   :columns="columns">
            <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'actions'">
-          <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">Detail</button>
           <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-warning" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
           <button v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-danger" style="margin-right: 5px;" @click.prevent="deleteData(props.index , props.row)">Delete</button>
         </span>
@@ -87,8 +86,8 @@
     </section>
 
 
-    <modal name="create-new-MarketplaceMaster" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceMasterCreate')}}</h4>
+    <modal name="create-new-AsnManagementOrderTypeMaster" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
+        <h4 style="text-align: center;font-weight: bold;">{{$t('AsnManagementOrderTypeMasterCreate')}}</h4>
 
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;">  
  
@@ -97,20 +96,20 @@
                        
 
                         <div class="form-group col-md-12">
-                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
-                            <input type="text" v-model="forms.marketplace_id" class="form-control input-style" id="marketplace_id" placeholder="Marketplace ID" maxlength="255" required="" @input="forms.marketplace_id = $event.target.value.toUpperCase()" @keydown.space.prevent>
+                            <label for="po_type_id" class="input__label">{{$t('po_type_id')}}</label>
+                            <input type="text" v-model="forms.po_type_id" class="form-control input-style" id="po_type_id" placeholder="Order Type Code" required=""  maxlength="100" @input="forms.po_type_id = $event.target.value.toUpperCase()" @keydown.space.prevent>
                         
-                            <div v-if="errors.marketplace_id">
-                                <div class="invalid-feedback" v-for="error in errors.marketplace_id" :key="error">{{error}}</div>
+                            <div v-if="errors.po_type_id">
+                                <div class="invalid-feedback" v-for="error in errors.po_type_id" :key="error">{{error}}</div>
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="name" class="input__label">{{$t('marketplace_name')}}</label>
-                            <input type="text" v-model="forms.name" class="form-control input-style" id="name" placeholder="Marketplace Name" maxlength="255" required="">
+                            <label for="po_type_description" class="input__label">{{$t('po_type_description')}}</label>
+                            <input type="text" v-model="forms.po_type_description" class="form-control input-style" id="po_type_description" placeholder="Order Type Description" maxlength="255" required="">
                         
-                            <div v-if="errors.name">
-                                <div class="invalid-feedback" v-for="error in errors.name" :key="error">{{error}}</div>
+                            <div v-if="errors.po_type_description">
+                                <div class="invalid-feedback" v-for="error in errors.po_type_description" :key="error">{{error}}</div>
                             </div>
                         </div>
 
@@ -128,49 +127,9 @@
 
 
 
-    <modal name="detailMarketplaceMaster" @before-close="beforeCloseModal" height="auto" width="70%" :resizable="false" :adaptive="false" :scrollable="false">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceMasterDetail')}}</h4>
 
-<div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;">  
-      
-     
-                        <div class="form-group col-md-12">
-                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
-                              <br>
-                            <label for="marketplace_id" class="input__label">{{this.forms.marketplace_id}}</label>
-                        </div>  
-     
-                        <div class="form-group col-md-12">
-                            <label for="name" class="input__label">{{$t('marketplace_name')}}</label>
-                              <br>
-                            <label for="name" class="input__label">{{this.forms.name}}</label>
-                        </div>  
-     
-                        <div class="form-group col-md-12">
-                            <label for="created_at" class="input__label">{{$t('created_at')}}</label>
-                              <br>
-                            <label for="created_at" class="input__label">{{this.forms.created_at}}</label>
-                        </div>  
-     
-                        <div class="form-group col-md-12">
-                            <label for="updated_at" class="input__label">{{$t('updated_at')}}</label>
-                              <br>
-                            <label for="updated_at" class="input__label">{{this.forms.updated_at}}</label>
-                        </div>  
-
-                        
-                        <div class="form-group col-md-12">
-                          <button type="button" @click="hide()" class="btn btn-primary btn-style mt-4" style="margin-right:15px;">{{$t('closeBtn')}}</button>
-                           
-                        </div>
-
-
-</div>
-    </modal>
-
-
-    <modal name="editMarketplaceMaster" @before-close="beforeCloseModal" height="auto" width="70%" :adaptive="true" :scrollable="true">
-        <h4 style="text-align: center;font-weight: bold;">{{$t('MarketplaceMasterEdit')}}</h4>
+    <modal name="editAsnManagementOrderTypeMaster" @before-close="beforeCloseModal" height="auto" width="70%" :adaptive="true" :scrollable="true">
+        <h4 style="text-align: center;font-weight: bold;">{{$t('AsnManagementOrderTypeMasterEdit')}}</h4>
 
  
 <div style="margin: 20px 0;max-height: calc(100vh - 210px);overflow-y: auto;"> 
@@ -178,20 +137,20 @@
            
 
                         <div class="form-group col-md-12">
-                            <label for="marketplace_id" class="input__label">{{$t('marketplace_id')}}</label>
-                            <input type="text" v-model="forms.marketplace_id" class="form-control input-style" id="marketplace_id" placeholder="Marketplace ID" maxlength="255" required="" @input="forms.marketplace_id = $event.target.value.toUpperCase()" @keydown.space.prevent>
+                            <label for="po_type_id" class="input__label">{{$t('po_type_id')}}</label>
+                            <input type="text" v-model="forms.po_type_id" class="form-control input-style" id="po_type_id" maxlength="100" placeholder="Order Type Code" required="" @input="forms.po_type_id = $event.target.value.toUpperCase()" @keydown.space.prevent>
                         
-                            <div v-if="errors.marketplace_id">
-                                <div class="invalid-feedback" v-for="error in errors.marketplace_id" :key="error">{{error}}</div>
+                            <div v-if="errors.po_type_id">
+                                <div class="invalid-feedback" v-for="error in errors.po_type_id" :key="error">{{error}}</div>
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label for="name" class="input__label">{{$t('marketplace_name')}}</label>
-                            <input type="text" v-model="forms.name" class="form-control input-style" id="name" placeholder="Marketplace Name" maxlength="255" required="">
+                            <label for="po_type_description" class="input__label">{{$t('po_type_description')}}</label>
+                            <input type="text" v-model="forms.po_type_description" class="form-control input-style" id="po_type_description" placeholder="Order Type Description" maxlength="255" required="">
                         
-                            <div v-if="errors.name">
-                                <div class="invalid-feedback" v-for="error in errors.name" :key="error">{{error}}</div>
+                            <div v-if="errors.po_type_description">
+                                <div class="invalid-feedback" v-for="error in errors.po_type_description" :key="error">{{error}}</div>
                             </div>
                         </div>
   
@@ -218,7 +177,7 @@ import vSelect from 'vue-select'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 
 export default {
-  name: 'MarketplaceMaster',
+  name: 'AsnManagementOrderTypeMaster',
   components: {
     'menu-component':menuComponent,
     DateRangePicker,
@@ -252,8 +211,8 @@ export default {
       closeBtn: true,  
       errors: [],
       services:[],
-      courier_desc:[],
-      forms: {marketplace_id:'',name:'', created_at:'', updated_at:''},
+      po_type_id:"",
+      forms: {po_type_id:'',po_type_description:'', created_at:'', updated_at:''},
       langs: ['id', 'en'],
       statuses: ['ACTIVATE','DEACTIVATE'],
       totalRecords: 0,
@@ -268,22 +227,22 @@ export default {
       },
       columns: [
         {
-          label: 'Marketplace Code',
-          field: 'marketplace_id',
+          label: 'ASN Type Code',
+          field: 'po_type_id',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Marketplace Code", // placeholder for filter input
+            placeholder: "Filter By ASN Type Code", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
         {
-          label: 'Marketplace Name',
-          field: 'name',
+          label: 'ASN Type Description',
+          field: 'po_type_description',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Marketplace Name", // placeholder for filter input
+            placeholder: "Filter By ASN Type Description", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
@@ -319,7 +278,7 @@ export default {
           if (result.value) {
             this.fade(true);
               
-              const baseURI  =  this.$settings.endPoint+"/marketplace-master/delete/"+row.marketplace_id;
+              const baseURI  =  this.$settings.endPoint+"/asn-type-master/delete/"+row.po_type_id;
                     
               this.$http.delete(baseURI)
                 .then((response) => {
@@ -344,17 +303,7 @@ export default {
 
           }
         })   
-      },
-
-        detailData(index , row){
-            
-            this.forms.marketplace_id           = row.marketplace_id
-            this.forms.name                     = row.name 
-            this.forms.created_at               = row.created_at
-            this.forms.updated_at               = row.updated_at
-            this.$modal.show('detailMarketplaceMaster');
-        },
- 
+      }, 
 
 
       submitEditData(){
@@ -370,11 +319,11 @@ export default {
           if (result.value) {
             this.fade(true);
               var formData = {
-                  courier_service_id        : this.forms.marketplace_id,
-                  name                      : this.forms.name
+                  po_type_id             : this.forms.po_type_id,
+                  po_type_description    : this.forms.po_type_description
                 };
 
-              const baseURI  =  this.$settings.endPoint+"/marketplace-master/update/"+this.forms.marketplace_id;
+              const baseURI  =  this.$settings.endPoint+"/asn-type-master/update/"+this.po_type_id;
                     
               this.$http.put(baseURI,formData)
                 .then((response) => {
@@ -412,10 +361,10 @@ export default {
           if (result.value) {
             this.fade(true);
               let formData = new FormData();
-              formData.append("marketplace_id", this.forms.marketplace_id);
-              formData.append("name", this.forms.name);
+              formData.append("po_type_id", this.forms.po_type_id);
+              formData.append("po_type_description", this.forms.po_type_description);
                     
-              const baseURI  =  this.$settings.endPoint+"/marketplace-master/add";
+              const baseURI  =  this.$settings.endPoint+"/asn-type-master/add";
                     
               this.$http.post(baseURI,formData)
                 .then((response) => {
@@ -453,7 +402,7 @@ export default {
         let formData = new FormData();
         formData.append("columnFilters", JSON.stringify(columnFilters));
 
-        const baseURI  =  this.$settings.endPoint+"/marketplace-master/download";
+        const baseURI  =  this.$settings.endPoint+"/asn-type-master/download";
         this.$http.post(baseURI,formData,{responseType: 'blob'})
           .then((response) => {
               this.loading();
@@ -462,7 +411,7 @@ export default {
             var fileLink = document.createElement('a');
             fileLink.href = fileURL;
 
-            fileLink.setAttribute('download', 'marketplace-master-datas.xls');
+            fileLink.setAttribute('download', 'asn-type-master-datas.xls');
 
             document.body.appendChild(fileLink);
             fileLink.click();
@@ -483,40 +432,40 @@ export default {
       },
 
       createData(){
-        this.$modal.show('create-new-MarketplaceMaster');
+        this.$modal.show('create-new-AsnManagementOrderTypeMaster');
       },
 
       hide() {
         this.beforeCloseModal();
         this.errors     = [];
-        this.$modal.hide('create-new-MarketplaceMaster');
-        this.$modal.hide('editMarketplaceMaster');
-        this.$modal.hide('detailMarketplaceMaster');
+        this.$modal.hide('create-new-AsnManagementOrderTypeMaster');
+        this.$modal.hide('editAsnManagementOrderTypeMaster');
       },
 
       beforeCloseModal(){
-        this.forms.marketplace_id           = ''
-        this.forms.name                     = ''
+        this.po_type_id                  = ''
+        this.forms.po_type_id            = ''
+        this.forms.po_type_description   = ''
         this.forms.created_at               = ''
         this.forms.updated_at               = ''
       },
       
 
       editData(index , row){
-        
-        this.forms.marketplace_id           = row.marketplace_id
-        this.forms.name                     = row.name 
+        this.po_type_id                  = row.po_type_id     
+        this.forms.po_type_id            = row.po_type_id
+        this.forms.po_type_description   = row.po_type_description 
         this.forms.created_at               = row.created_at
         this.forms.updated_at               = row.updated_at
-        this.$modal.show('editMarketplaceMaster');
+        this.$modal.show('editAsnManagementOrderTypeMaster');
       },
       
 
 
       // load items is what brings back the rows from server
       loadItems() {
-        const baseURI   =  this.$settings.endPoint+"/marketplace-master/index";
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&marketplace_id=${this.serverParams.columnFilters.marketplace_id}&name=${this.serverParams.columnFilters.name}`).then((response) => {
+        const baseURI   =  this.$settings.endPoint+"/asn-type-master/index";
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&po_type_id=${this.serverParams.columnFilters.po_type_id}&po_type_description=${this.serverParams.columnFilters.po_type_description}`).then((response) => {
           this.rows = response.data.datas.data
           this.totalRecords  = response.data.datas.data.total
         })

@@ -46,6 +46,12 @@ import MarketplaceCourier from "@/views/Courier/MarketplaceCourier.vue";
 import MarketplaceDashboard from "@/views/Marketplace/Index.vue";
 import MarketplaceMaster from "@/views/Marketplace/Master.vue";
 import MarketplaceChannelMaster from "@/views/Marketplace/Channel.vue";
+import OrderManagementDashboard from "@/views/OrderManagement/Index.vue";
+import OrderManagementOrderTypeMaster from "@/views/OrderManagement/OrderTypeMaster.vue";
+import OrderManagementOrderPaymentTypeMaster from "@/views/OrderManagement/OrderPaymentTypeMaster.vue";
+import AsnManagementDashboard from "@/views/AsnManagement/Index.vue";
+import AsnManagementTypeMaster from "@/views/AsnManagement/AsnTypeMaster.vue";
+import AsnManagementStatusMaster from "@/views/AsnManagement/AsnStatusMaster.vue";
 
 Vue.use(VueRouter);
 
@@ -477,8 +483,63 @@ const routes = [
 }, 
 
 
+  /**
+   * order management
+   */
+  {
+    path:'/order-management/dashboard', 
+    meta: {
+      title: "Order Management | JualPraktis"
+    },
+    name: "OrderManagementDashboard",
+    component: OrderManagementDashboard
+  }, 
+  {
+   path:'/order-management/order-type', 
+   meta: {
+     title: "Order Type Master | JualPraktis"
+   },
+   name: "OrderManagementOrderTypeMaster",
+   component: OrderManagementOrderTypeMaster
+ }, 
+ {
+  path:'/order-management/payment-type', 
+  meta: {
+    title: "Order Payment Type Master | JualPraktis"
+  },
+  name: "OrderManagementOrderPaymentTypeMaster",
+  component: OrderManagementOrderPaymentTypeMaster
+}, 
  
 
+  /**
+   * order management
+   */
+   {
+    path:'/asn-management/dashboard', 
+    meta: {
+      title: "PO / ASN Management | JualPraktis"
+    },
+    name: "AsnManagementDashboard",
+    component: AsnManagementDashboard
+  }, 
+  {
+   path:'/asn-management/asn-type-master', 
+   meta: {
+     title: "PO / ASN Type Master | JualPraktis"
+   },
+   name: "AsnManagementTypeMaster",
+   component: AsnManagementTypeMaster
+ }, 
+ {
+  path:'/asn-management/asn-status-master', 
+  meta: {
+    title: "PO / ASN Status Master | JualPraktis"
+  },
+  name: "AsnManagementStatusMaster",
+  component: AsnManagementStatusMaster
+}, 
+  
 
   {
     path: "/about",

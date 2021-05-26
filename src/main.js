@@ -9,7 +9,6 @@ import moment from 'moment';
 import money from 'v-money';
 import VModal from 'vue-js-modal';
 
-
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
