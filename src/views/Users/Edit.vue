@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-building"></i> {{$t('userCreate')}}</h3>
+            <h3><i class="fas fa-user"></i> {{$t('userCreate')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">

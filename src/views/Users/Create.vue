@@ -10,7 +10,7 @@
 
         
         <div class="cards__heading">
-            <h3><i class="fas fa-building"></i> {{$t('userCreate')}}</h3>
+            <h3><i class="fas fa-user"></i> {{$t('userCreate')}}</h3>
         </div>
 
 <form @submit.prevent="submitData" method="POST">
@@ -71,7 +71,7 @@
 
                         <div class="form-group col-md-12">
                             <label for="Password" class="input__label">{{$t('loginPassword')}}</label>
-                            <input type="password" v-model="forms.password" class="form-control input-style" id="Password" placeholder="Password" maxlength="255">
+                            <input type="password" v-model="forms.password" class="form-control input-style" id="Password" placeholder="Password" maxlength="255" required="">
                         
                             <div v-if="errors.password">
                                 <div class="invalid-feedback" v-for="error in errors.password" :key="error">{{error}}</div>

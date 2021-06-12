@@ -1,8 +1,11 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="User"></menu-component>
+      <menu-component classMenu="UserProfile"></menu-component>
       
+
+<form @submit.prevent="submitData" method="POST">
+
         <!-- main content start -->
         <div class="main-content">
             
@@ -13,8 +16,7 @@
             <h3><i class="fas fa-user"></i> Detail User</h3>
         </div>
 
-
-        <div class="card card_border p-lg-5 p-3 mb-4">
+   <div class="card card_border p-lg-5 p-3 mb-4">
             <div class="card-body py-3 p-0">
                 <div class="row">
                 <div class="col-lg-6">
@@ -62,37 +64,13 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">Add 1</label>
+                        <label class="col-sm-4 col-form-label input__label">{{$t('loginPassword')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.add1}}</b>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">Add 2</label>
-                        <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.add2}}</b>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">Add 3</label>
-                        <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.add3}}</b>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">Add 4</label>
-                        <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.add4}}</b>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label input__label">Add 5</label>
-                        <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.add5}}</b>
+                            <input type="password" v-model="new_password" class="form-control input-style" id="Password" placeholder="Password" maxlength="255" required="">
+                        
+                            <div v-if="errors.password">
+                                <div class="invalid-feedback" v-for="error in errors.password" :key="error">{{error}}</div>
+                            </div>
                         </div>
                     </div>
 
@@ -116,94 +94,91 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('companyName')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.name}}</b>
+                            <b>{{this.datasUserCompany.name}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('companyAddress')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.address}}</b>
+                            <b>{{this.datasUserCompany.address}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('companyAddress2')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.address2}}</b>
+                            <b>{{this.datasUserCompany.address2}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('country')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.country}}</b>
+                            <b>{{this.datasUserCompany.country}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('province')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.province}}</b>
+                            <b>{{this.datasUserCompany.province}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('city')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.city}}</b>
+                            <b>{{this.datasUserCompany.city}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('area')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.area}}</b>
+                            <b>{{this.datasUserCompany.area}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('sub_area')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.sub_area}}</b>
+                            <b>{{this.datasUserCompany.sub_area}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('village')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.village}}</b>
+                            <b>{{this.datasUserCompany.village}}</b>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label input__label">{{$t('postalCode')}}</label>
                         <div class="col-sm-8">
-                            <b>{{this.datasUserDetail.company.postal_code}}</b>
+                            <b>{{this.datasUserCompany.postal_code}}</b>
                         </div>
                     </div>
 
 
                 </div>
-               
-                <button type="button" @click="backLink()" class="btn btn-primary btn-style mt-4">{{$t('backMsg')}}</button>
+           
+ 
+                <button type="submit" class="btn btn-primary btn-style mt-4">Submit</button>
+
 
                 </div>
             </div>
             </div>
 
-
-          
-          
-          
-          
            
 
             </div>
  
         </div>
         <!-- main content end-->
-
+</form>
 
     </section>
 
@@ -211,33 +186,87 @@
   </div>
 </template>
 <script>
-import menuComponent from '@/views/Menu/Index'
+import menuComponent from './Menu/Index'
 
 export default {
-  name: 'UserDetail',
-    props: {},
-    components: {
-        'menu-component':menuComponent,
-    },
-    data () {
-        return {
-        datasUserDetail:[],
+  name: 'UserProfile',
+  components: {
+    'menu-component':menuComponent,
+  },
+  data () {
+    return {  
         maxToasts: 100,
         isLoading: false,  
         position: 'up right',
         closeBtn: true,  
+        datasUserDetail:[],
+        datasUserCompany:[],
+        maxToasts: 100,
+        position: 'up right',
+        closeBtn: true,  
         errors: [],
         langs: ['id', 'en'],
-        }
-    },
+        new_password:'',
+    }
+  },
     watch: { 
 
     },
-    methods: {
-  
-        backLink() {
-            window.location.href = '/user/list';
-        } ,
+    methods: { 	
+
+        loading(){
+            setTimeout(() => {
+            this.isLoading = false;
+            }, 1000); // hide the message after 3 seconds
+        },
+        fade(sType){  	
+            this.isLoading = sType;
+        },
+        submitData() {
+            this.$swal({
+                title: this.$t('areYouSure'),
+                text: this.$t('yourData'),
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.value) {
+                
+                this.fade(true);
+                
+                const baseURI  =  this.$settings.endPoint+"/user/change-password/"+this.datasUserDetail.user_id;
+                        
+              let formData = new FormData();
+              formData.append("password", this.new_password);
+
+                this.$http.post(baseURI,formData)
+                        .then((response) => {
+                            this.loading();
+                            if(response.data.status === 200) {
+                                this.success(response.data.datas.message);
+                                this.new_password = ""
+                            }else{
+                                this.errors = response.data.errors.message;
+                                this.resultError(response.data.errors.message);
+                            }
+                        }).catch(error => {
+                        this.loading();
+                            if (error.response) {
+                                if(error.response.status === 422) {
+                                    this.errors = error.response.data.errors;
+                                    this.resultError(error.response.data.errors);
+                                }else if (error.response.status === 500) {
+                                    this.$router.push('/server-error');
+                                }else{
+                                    this.$router.push('/page-not-found');
+                                }
+                            }
+                        });
+                }
+            })
+        },
+
 
         resultError(data) {  
             var count = Object.keys(data).length;
@@ -286,36 +315,29 @@ export default {
             })
         
         },
-    
-        fade(sType){  	
-            this.isLoading = sType;
-        },
+      fetchIt() {
+        const userDatas         = this.$getUserInfo();
+        this.datasUserDetail    = userDatas.sub;
+        this.datasUserCompany   = userDatas.sub.company;
+        
+      },
 
-        loading(){
-            setTimeout(() => {
-            this.isLoading = false;
-            }, 1000); // hide the message after 3 seconds
-        },
-
-        fetchIt(){
-            var id  = this.$onBehind(this.$route.params.id);
-            const baseURI  =  this.$settings.endPoint+"/user/detail/"+id;
-            
-            return this.$http.get(baseURI).then((response) => {
-                this.datasUserDetail = response.data.datas
-            })
-        }
+      logout(){
+        this.$logoutUser();
+        this.$router.push('/');
+      },
 
     },
     events: {
 
     },
     created: function() { 
- 
+
+     
     },
 	mounted() {
-        document.body.classList.add("sidebar-menu-collapsed");
-        this.fetchIt();
+      document.body.classList.add("sidebar-menu-collapsed");
+      this.fetchIt();
     }
 
 }

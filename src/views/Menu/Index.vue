@@ -63,14 +63,9 @@
           </ul>
         </li>
 
-        <li class="menu-list">
-          <a href="#"><i class="fas fa-edit"></i>
-            <span>{{$t('contractManagement')}} <i class="lnr lnr-chevron-right"></i></span></a>
-          <ul class="sub-menu-list">
-            <li><a href="/contract/fulfillment-center/list">{{$t('fulfillmentCenter')}}</a> </li>
-            <li><a href="/contract/aplication/list">{{$t('aplication')}}</a> </li>
-          </ul>
+        <li class=""><a href="/company-fulfillment/list"><i class="fas fa-warehouse"></i><span> {{$t('fulfillmentCenter')}}</span></a>
         </li>
+        
 
         <li class="menu-list" v-if="company_id == 'OMS' && user_role_id == 'ADMIN'">
           <a href="#"><i class="fas fa-building"></i>

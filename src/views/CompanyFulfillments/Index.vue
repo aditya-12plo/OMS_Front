@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <menu-component classMenu="Users"></menu-component>
+      <menu-component classMenu="CompanyFulfillment"></menu-component>
       
         <!-- main content start -->
         <div class="main-content">
@@ -16,46 +16,19 @@
         <div class="col-lg-12 mb-4">
           <div class="card card_border">
             <div class="card-header chart-grid__header">
-              <i class="fas fa-user"></i> {{$t('userManagement')}}
+              <i class="fas fa-warehouse"></i> {{$t('fulfillmentCenter')}}
             </div>
             <div class="card-body">
               <div class="accordion" id="accordionExample">
                 <div class="card">
-                  <div class="card-header bg-white p-0" id="headingOne">
-                    <button class="btn btn-primary m-1" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" @click.prevent="createData"><i class="fa fa-plus"></i> {{$t('userCreate')}} </button>
-                    <button class="btn btn-warning m-1" @click.prevent="downloadData"><i class="fa fa-download"></i> {{$t('download')}} .xlsx</button>
-                  </div>
-
- <br>
- <br>
- <div class="form-group row">
-    <div class="col-sm-8">
-         <date-range-picker
-            ref="picker"
-            opens="opens"
-            :locale-data="localedateRange"
-            :timePicker24Hour="false"
-            :timePicker="false"
-            v-model="dateRange"
-            @update="updateValues"
-    >
-        <template v-slot:input="picker" ref="Apicker">
-            {{ picker.startDate }} - {{ picker.endDate }}
-        </template>
-
-    </date-range-picker>
-    </div>
-    <div class="col-sm-2">
-     <button class="btn btn-danger m-1" @click="clearDateRange">&times; Clear Date</button>
-    </div>
-  </div>
-
+ 
 
                   <div class="collapse show">
                     <div class="card-body para__style">
                      
+                     
 <vue-good-table
-    title="User-center"
+    title="fulfillment-center"
     mode="remote"
     @on-page-change="onPageChange"
     @on-sort-change="onSortChange"
@@ -72,9 +45,6 @@
           <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'actions'">
           <button class="btn btn-primary" style="margin-right: 5px;" @click.prevent="detailData(props.index , props.row)">detail</button>
-          <button class="btn btn-warning" v-if="userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" style="margin-right: 5px;" @click.prevent="editData(props.index , props.row)">Edit</button>
-          <button v-if="props.row.status === 'DEACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-success" @click.prevent="deleteData(props.index , props.row, 'ACTIVATE')">Activate</button>
-          <button v-if="props.row.status === 'ACTIVATE' && userDatas.company_id === 'OMS' && userDatas.user_role_id === 'ADMIN'" class="btn btn-danger" @click.prevent="deleteData(props.index , props.row, 'DEACTIVATE')">Deactivate</button>
         </span>
         <span v-else>
             {{props.formattedRow[props.column.field]}}
@@ -116,7 +86,7 @@ import menuComponent from '@/views/Menu/Index'
 import moment from 'moment';
 
 export default {
-  name: 'CompanyList',
+  name: 'CompanyFulfillment',
   components: {
     'menu-component':menuComponent,
     DateRangePicker,
@@ -139,7 +109,7 @@ export default {
         monthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         firstDay: 0
       },
-      userDatas:[],  
+      userDatas:[],
       maxToasts: 100,
       isLoading: false,  
       position: 'up right',
@@ -156,48 +126,38 @@ export default {
         page: 1, 
         per_page: 10
       },
+      optionsFulfillmentType:[],
       columns: [
         {
-          label: 'Company Code',
-          field: 'company_id',
+          label: 'Fulfillment Code',
+          field: 'code',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Company Code", // placeholder for filter input
+            placeholder: "Filter By Fulfillment Code", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
         {
-          label: 'Email',
-          field: 'email',
-          filterOptions: {
-            enabled: true, // enable filter for this column
-            placeholder: "Filter By Email", // placeholder for filter input
-            filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
-            trigger: "enter" //only trigger on enter not on keyup
-          }
-        },
-        {
-          label: 'Name',
+          label: 'Fulfillment Name',
           field: 'name',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By Company Name", // placeholder for filter input
+            placeholder: "Filter By Fulfillment Name", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
             filterDropdownItems: [], // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
         {
-          label: 'User Role',
-          field: 'user_role_id',
+          label: 'Fulfillment Type',
+          field: 'fulfillment_center_type_id',
           filterOptions: {
             enabled: true, // enable filter for this column
-            placeholder: "Filter By User Role", // placeholder for filter input
+            placeholder: "Filter By Fulfillment Type", // placeholder for filter input
             filterValue: "", // initial populated value for this filter
-            filterDropdownItems: [], // dropdown (with selected values) instead of text input
+            filterDropdownItems: this.filterTypeCoba(), // dropdown (with selected values) instead of text input
             trigger: "enter" //only trigger on enter not on keyup
           }
         },
@@ -236,22 +196,67 @@ export default {
     watch: { 
 
     },
+    filters: {
+
+    },
     methods: {
-      clearDateRange(){
-        this.dateRange.startDate = null
-        this.dateRange.endDate = null
-            this.loadItems();
-      },
+      
       updateValues(){
             this.loadItems();
         // console.log(this.dateRange);
       },
-      
+
       dateFormat (value, fmt = 'YYYY-MM-DD') {
         return value ? moment(value).format("YYYY-MM-DD") : "";
       },
+      async searchFulfillmentType(){
+        const baseURI  = this.$settings.endPoint+"/fulfillment-type/get-all";
+        let response  = await this.$http.get(baseURI).then((response) => { return response.data});
+        return response;
+      },
 
-      
+       filterTypeCoba(){
+          let coba  = this.searchFulfillmentType();
+          console.log(coba)
+          return ["ASD","ASSSS"];
+       },
+
+       filterType(){
+         this.searchFulfillmentType();
+         console.log(this.optionsFulfillmentType)
+         return this.optionsFulfillmentType;
+        //  const baseURI  =  this.$settings.endPoint+"/fulfillment-type/get-all";
+        //   let response  = await this.$http.get(baseURI);
+        // console.log(response.data.datas)
+        // return response.data.datas;
+      },
+
+      deleteData(index , row, status){
+        var formData = {status  : status}
+        const baseURI  =  this.$settings.endPoint+"/fulfillment/update-status/"+row.fulfillment_center_id;
+        this.$http.put(baseURI,formData).then((response) => {
+          this.loading();
+          if(response.data.status === 200) {
+            this.success(response.data.datas.message);
+            this.loadItems();
+          }else{
+            this.resultError(response.data.errors);
+          }
+        }).catch(error => {
+          this.loading();
+          if (error.response) {
+            if(error.response.status === 422) {
+              this.errors = error.response.data.errors.message;
+              this.resultError(error.response.data.errors);
+            }else if (error.response.status === 500) {
+              this.$router.push('/server-error');
+            }else{
+              this.$router.push('/page-not-found');
+            }
+          }
+        });     
+      },
+
       downloadData(){
         const endDate   = this.dateFormat(this.dateRange.endDate);
         const startDate = this.dateFormat(this.dateRange.startDate);
@@ -263,7 +268,7 @@ export default {
         let formData = new FormData();
         formData.append("columnFilters", JSON.stringify(columnFilters));
 
-        const baseURI  =  this.$settings.endPoint+"/user/download";
+        const baseURI  =  this.$settings.endPoint+"/fulfillment/download";
         this.$http.post(baseURI,formData,{responseType: 'blob'})
           .then((response) => {
               this.loading();
@@ -272,7 +277,7 @@ export default {
             var fileLink = document.createElement('a');
             fileLink.href = fileURL;
 
-            fileLink.setAttribute('download', 'users-datas.xls');
+            fileLink.setAttribute('download', 'Fulfillment-datas.xls');
 
             document.body.appendChild(fileLink);
             fileLink.click();
@@ -292,63 +297,28 @@ export default {
           });
       },
 
-      columnRoleFilterFn(field){
-        console.log(field)
-        // const baseURI  =  this.$settings.endPoint+"/role/search/index";
-        // return this.$http.get(baseURI).then((response) => {
-        //   response.data.datas
-        // })
-      },
-
-      deleteData(index , row, status){
-        var formData = {status  : status}
-        const baseURI  =  this.$settings.endPoint+"/user/update-status/"+row.user_id;
-        this.$http.put(baseURI,formData).then((response) => {
-          this.loading();
-          if(response.data.status === 200) {
-            this.success(response.data.datas.message);
-            this.loadItems();
-          }else{
-            this.resultError(response.data.errors.message);
-          }
-        }).catch(error => {
-          this.loading();
-          if (error.response) {
-            if(error.response.status === 422) {
-              this.errors = error.response.data.errors.message;
-              this.resultError(error.response.data.errors.message);
-            }else if (error.response.status === 500) {
-              this.$router.push('/server-error');
-            }else{
-              this.$router.push('/page-not-found');
-            }
-          }
-        });     
-      },
-
       createData(){
-          window.location.href = '/user/create';      
+          window.location.href = '/fulfillment-center/create';
       },
 
       detailData(index , row){
-        var params  = this.$onRandom(row.user_id);
-        window.location.href = '/user/detail/'+params;     
+        var params  = this.$onRandom(row.fulfillment_center_id);
+        window.location.href = '/fulfillment-center/detail/'+params;
       },
 
       editData(index , row){
-        var params  = this.$onRandom(row.user_id);
-        window.location.href = '/user/edit/'+params;     
+          var params  = this.$onRandom(row.fulfillment_center_id);
+          window.location.href = '/fulfillment-center/edit/'+params;
       },
 
       // load items is what brings back the rows from server
       loadItems() {
-        const baseURI  =  this.$settings.endPoint+"/user/index";
+        const baseURI   =  this.$settings.endPoint+"/fulfillment/index";
         const endDate   = this.dateFormat(this.dateRange.endDate);
         const startDate = this.dateFormat(this.dateRange.startDate);
-        
-        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&company_id=${this.serverParams.columnFilters.company_id}&name=${this.serverParams.columnFilters.name}&email=${this.serverParams.columnFilters.email}&user_role_id=${this.serverParams.columnFilters.user_role_id}&status=${this.serverParams.columnFilters.status}&endDate=${endDate}&startDate=${startDate}`).then((response) => {
+        return this.$http.get(baseURI+`?per_page=${this.serverParams.per_page}&page=${this.serverParams.page}&sort_field=${this.serverParams.sort.field}&sort_type=${this.serverParams.sort.type}&code=${this.serverParams.columnFilters.code}&name=${this.serverParams.columnFilters.name}&fulfillment_center_type_id=${this.serverParams.columnFilters.fulfillment_center_type_id}&status=${this.serverParams.columnFilters.status}&endDate=${endDate}&startDate=${startDate}`).then((response) => {
           this.rows = response.data.datas.data
-          this.totalRecords  = response.data.datas.total
+          this.totalRecords  = response.data.datas.data.total
         })
       },
 
@@ -440,7 +410,6 @@ export default {
       fetchIt() {
         const datasUser = this.$getUserInfo();
         this.userDatas = datasUser.sub;
-        
       },
 
     },
@@ -452,7 +421,6 @@ export default {
     },
 	mounted() {
       document.body.classList.add("sidebar-menu-collapsed");
-      this.fetchIt();
     }
 
 }

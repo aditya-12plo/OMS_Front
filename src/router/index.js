@@ -38,6 +38,7 @@ import UserCreate from "@/views/Users/Create.vue";
 import UserDetail from "@/views/Users/Detail.vue";
 import UserEdit from "@/views/Users/Edit.vue";
 import UserRoleList from "@/views/UserRole/Index.vue";
+import UserProfile from "@/views/Profile.vue";
 import CourierDashboard from "@/views/Courier/Index.vue";
 import CourierHeader from "@/views/Courier/Header.vue";
 import CourierServices from "@/views/Courier/Services.vue";
@@ -52,6 +53,10 @@ import OrderManagementOrderPaymentTypeMaster from "@/views/OrderManagement/Order
 import AsnManagementDashboard from "@/views/AsnManagement/Index.vue";
 import AsnManagementTypeMaster from "@/views/AsnManagement/AsnTypeMaster.vue";
 import AsnManagementStatusMaster from "@/views/AsnManagement/AsnStatusMaster.vue";
+import CompanyFulfillmentList from "@/views/CompanyFulfillments/Index.vue";
+import CompanyFulfillmentDetail from "@/views/CompanyFulfillments/Detail.vue";
+import CompanyFulfillmentCreate from "@/views/CompanyFulfillments/Create.vue";
+import CompanyFulfillmentEdit from "@/views/CompanyFulfillments/Edit.vue";
 
 Vue.use(VueRouter);
 
@@ -159,6 +164,45 @@ const routes = [
 
 
   /**
+   * Company Fulfillment
+   */
+   {
+    path:'/company-fulfillment/detail/:id', 
+    meta: {
+      title: "Company Fulfillment Detail | JualPraktis"
+    },
+    name: "CompanyFulfillmentDetail",
+    component: CompanyFulfillmentDetail,
+    props: true
+  }, 
+  {
+    path:'/company-fulfillment/create', 
+    meta: {
+      title: "Company Fulfillment Create | JualPraktis"
+    },
+    name: "CompanyFulfillmentCreate",
+    component: CompanyFulfillmentCreate
+  }, 
+  {
+    path:'/company-fulfillment/list', 
+    meta: {
+      title: "Company Fulfillment | JualPraktis"
+    },
+    name: "CompanyFulfillmentList",
+    component: CompanyFulfillmentList
+  }, 
+  {
+    path:'/company-fulfillment/edit/:id', 
+    meta: {
+      title: "Company Fulfillment Edit | JualPraktis"
+    },
+    name: "CompanyFulfillmentEdit",
+    component: CompanyFulfillmentEdit,
+    props: true
+  }, 
+
+
+  /**
    * Fulfillment Type Master
    */
   {
@@ -175,6 +219,14 @@ const routes = [
   /**
    * User
    */
+  {
+    path:'/profile', 
+    meta: {
+      title: "User Profile | JualPraktis"
+    },
+    name: "UserProfile",
+    component: UserProfile
+  }, 
   {
     path:'/user/list', 
     meta: {
